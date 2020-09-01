@@ -1,18 +1,19 @@
 import { FastifyPluginAsync } from 'fastify'
-import multipart from 'fastify-multipart'
 import IPFS = require('ipfs-http-client')
 import { ReadableStream } from 'web-streams-polyfill/ponyfill/es2018'
 
 export const routes: FastifyPluginAsync  = async function routes(server, options) {
   const ipfs = IPFS('http://windows:5001')
 
-  server.register(multipart)
+  server.addContentTypeParser('*', (req, payload, done) => {
+    done(null)
+  })
 
   server.put('/files/:hash', async (req, reply) => {
-    const data = await req.file()
-    const stream = toReadableStream(data.file)
+    const stream = toReadableStream(req.raw)
     const { cid } = await ipfs.add(stream)
-    reply.send(cid.multihash)
+    console.log(cid)
+    reply.send('OK')
   })
 }
 
