@@ -3,8 +3,7 @@ import { IPFSStorageAdapter } from '@adapter/ipfs'
 import multipart from 'fastify-multipart'
 import * as crypto from 'crypto'
 import { SplitHashValidator, NotMatchedError } from 'split-hash'
-
-const KiB = 1024
+import { HASH_BLOCK_SIZE } from '@src/config'
 
 interface MultipartFields {
   [x: string]: Multipart | Multipart[]
@@ -86,7 +85,8 @@ export const routes: FastifyPluginAsync  = async function routes(server, options
 }
 
 function createHashValidator(hashList: string[]) {
-  return new SplitHashValidator(hashList, 512 * KiB, createHash)
+  const KiB = 1024
+  return new SplitHashValidator(hashList, HASH_BLOCK_SIZE * KiB, createHash)
 }
 
 function getHashList(fields: MultipartFields): string[] {
