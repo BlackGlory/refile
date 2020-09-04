@@ -3,7 +3,6 @@ import { IPFSStorageAdapter } from '@adapter/ipfs'
 import multipart from 'fastify-multipart'
 import * as crypto from 'crypto'
 import { SplitHashValidator } from 'split-hash'
-import { pipeline } from 'stream'
 
 const KiB = 1024
 
@@ -48,6 +47,7 @@ export const routes: FastifyPluginAsync  = async function routes(server, options
   server.put<{ Params: { hash: string }}>('/files/:hash', async (req, reply) => {
     const hash = req.params.hash
     const data = await req.file()
+
     const hashList = getHashList(data.fields)
     if (hashList.length === 0) {
       reply
@@ -63,16 +63,22 @@ export const routes: FastifyPluginAsync  = async function routes(server, options
         .send('The hash list does not match the URI')
       return
     }
-    const validator = new SplitHashValidator(hashList, 512 * KiB, createHash)
-    const stream = pipeline(data.file, validator, err => {
+
+    const stream = data.file.pipe(createHashValidator(hashList))
+    try {
+      const url = await adapter.save(stream)
+      reply.send(url)
+    } catch (err) {
       reply
         .code(400)
         .header('Connection', 'close')
-        .send(err)
-    })
-    const url = await adapter.save(stream)
-    reply.send(url)
+        .send('The hash list does not match the file')
+    }
   })
+}
+
+function createHashValidator(hashList: string[]) {
+  return new SplitHashValidator(hashList, 512 * KiB, createHash)
 }
 
 function getHashList(fields: MultipartFields): string[] {

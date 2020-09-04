@@ -17,11 +17,11 @@
     "start": "yarn clean && yarn build && node lib/index.js"
   },
   "dependencies": {
+    "extra-promise": "^0.8.3",
     "fastify": "^3.3.0",
     "fastify-multipart": "^3.2.0",
     "ipfs-http-client": "^46.1.0",
-    "split-hash": "^0.1.1",
-    "web-streams-polyfill": "^3.0.0"
+    "split-hash": "^0.1.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^9.1.2",
