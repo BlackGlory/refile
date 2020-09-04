@@ -2,7 +2,10 @@ import IPFS = require('ipfs-http-client')
 import { ReadableStream } from 'web-streams-polyfill/ponyfill/es2018'
 
 export class IPFSStorageAdapter implements StorageAdapter {
-  #ipfs = IPFS('http://windows:5001')
+  #ipfs = IPFS({
+    host: 'windows'
+  , port: 5001
+  })
 
   async save(stream: NodeJS.ReadableStream): Promise<string> {
     const { cid } = await this.#ipfs.add(toReadableStream(stream))

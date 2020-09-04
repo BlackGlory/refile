@@ -10,5 +10,8 @@
     , "@service/*": ["src/service/*"]
     , "@adapter/*": ["src/adapter/*"]
     }
+  , "allowJs": true
+  , "maxNodeModuleJsDepth": 1
+  , "esModuleInterop": true
   }
 }
