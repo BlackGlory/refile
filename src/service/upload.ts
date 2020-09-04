@@ -2,7 +2,7 @@ import { FastifyPluginAsync } from 'fastify'
 import { IPFSStorageAdapter } from '@adapter/ipfs'
 import multipart from 'fastify-multipart'
 import * as crypto from 'crypto'
-import { SplitHashValidator } from 'split-hash'
+import { SplitHashValidator, NotMatchedError } from 'split-hash'
 
 const KiB = 1024
 
@@ -64,15 +64,23 @@ export const routes: FastifyPluginAsync  = async function routes(server, options
       return
     }
 
-    const stream = data.file.pipe(createHashValidator(hashList))
+    let streamError: Error | undefined
+    const stream = data.file
+      .pipe(createHashValidator(hashList))
+      .on('error', err => streamError = err)
     try {
       const url = await adapter.save(stream)
       reply.send(url)
     } catch (err) {
-      reply
-        .code(400)
-        .header('Connection', 'close')
-        .send('The hash list does not match the file')
+      // If adapter.save throws error because of the hash validator
+      if (streamError && streamError instanceof NotMatchedError) {
+        reply
+          .code(400)
+          .header('Connection', 'close')
+          .send('The hash list does not match the file')
+      } else {
+        throw err
+      }
     }
   })
 }
