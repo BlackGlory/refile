@@ -9,8 +9,8 @@
     "test": "jest --config jest.config.js",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
     "coverage": "jest --coverage --config jest.config.js",
-    "dev": "ts-node src/index.ts",
-    "dev:debug": "node --inspect-brk lib/index.js",
+    "dev": "ts-node --files -r tsconfig-paths/register src/index.ts",
+    "dev:debug": "node --inspect-brk --files -r tsconfig-paths/register src/index.ts",
     "prepublishOnly": "yarn clean && yarn build",
     "clean": "rm -rf lib",
     "build": "tsc --project tsconfig.build.json && tscpaths -p tsconfig.build.json -s ./src -o ./lib",
@@ -37,6 +37,7 @@
     "jest": "^26.4.2",
     "ts-jest": "^26.3.0",
     "ts-node": "^9.0.0",
+    "tsconfig-paths": "^3.9.0",
     "tscpaths": "^0.0.9",
     "typescript": "^4.0.2"
   }
