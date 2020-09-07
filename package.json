@@ -20,7 +20,7 @@
     "extra-promise": "^0.8.3",
     "fastify": "^3.3.0",
     "fastify-multipart": "^3.2.0",
-    "ipfs-http-client": "^46.1.0",
+    "ipfs-http-client": "^46.1.1",
     "split-hash": "^0.1.1"
   },
   "devDependencies": {
@@ -36,7 +36,7 @@
     "eslint": "^7.8.1",
     "husky": "^4.2.5",
     "jest": "^26.4.2",
-    "pino-pretty": "^4.2.0",
+    "pino-pretty": "^4.2.1",
     "ts-jest": "^26.3.0",
     "ts-node": "^9.0.0",
     "tsconfig-paths": "^3.9.0",
