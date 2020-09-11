@@ -17,11 +17,10 @@
     "start": "yarn clean && yarn build && node lib/index.js"
   },
   "dependencies": {
+    "apollo-server-fastify": "^3.0.0-alpha.3",
     "extra-promise": "^0.8.3",
     "fastify": "^3.3.0",
-    "fastify-gql": "^5.7.0",
     "fastify-multipart": "^3.2.0",
-    "graphql-tools": "^6.2.1",
     "ipfs-http-client": "^46.1.1",
     "split-hash": "^0.1.1"
   },
