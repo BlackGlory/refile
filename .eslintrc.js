@@ -10,5 +10,8 @@ module.exports = {
   ]
 , rules: {
     'no-constant-condition': 'off'
+  , 'no-async-promise-executor': 'off'
+  , 'no-empty': 'off'
+  , '@typescript-eslint/ban-ts-comment': 'off'
   }
 }

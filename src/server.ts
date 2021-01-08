@@ -1,12 +1,39 @@
 import fastify from 'fastify'
-import { routes as upload } from '@service/upload'
-import { routes as graphql } from '@service/graphql'
-import { HOST, PORT } from '@src/config'
+import cors from 'fastify-cors'
+import { routes as api } from '@services/api'
+import { routes as stats } from '@services/stats'
+import { routes as refile } from '@services/refile'
+import { routes as robots } from '@services/robots'
+import { HTTP2, PAYLOAD_LIMIT, NODE_ENV, NodeEnv } from '@env'
+import { Core } from '@core'
 
-const server = fastify({ logger: true })
-server.register(graphql)
-server.register(upload)
-server.listen(PORT, HOST, (err, address) => {
-  if (err) throw err
-  console.log(`Server listening at ${address}`)
-})
+export async function buildServer() {
+  const server = fastify({
+    logger: getLoggerOptions()
+  , maxParamLength: 600
+    /* @ts-ignore */
+  , http2: HTTP2()
+  , bodyLimit: PAYLOAD_LIMIT()
+  , ajv: {
+      customOptions: {
+        coerceTypes: false
+      }
+    }
+  })
+
+  server.register(cors, { origin: true })
+  server.register(api, { Core })
+  server.register(stats, { Core })
+  server.register(refile, { Core })
+  server.register(robots)
+  return server
+}
+
+function getLoggerOptions() {
+  switch (NODE_ENV()) {
+    case NodeEnv.Test: return false
+    case NodeEnv.Production: return { level: 'error' }
+    case NodeEnv.Development: return { level: 'trace' }
+    default: return false
+  }
+}

@@ -1,0 +1,770 @@
+* Refile
+一个受IPFS启发的Web友好的自托管微服务,
+以 HTTP 为接口, 提供基于内容寻址的资源管理和基于引用计数的垃圾回收功能.
+带有基于token和名单的访问控制策略.
+
+** Quickstart
+#+BEGIN_SRC sh
+docker run --detach --log 8080:8080 blackglory/refile
+#+END_SRC
+
+** Install
+*** 从源代码运行
+可以使用环境变量 =REFILE_HOST= 和 =REFILE_PORT= 决定服务器监听的地址和端口, 默认值为localhost和8080.
+
+#+BEGIN_SRC sh
+git clone https://github.com/BlackGlory/refile
+cd log
+yarn install
+yarn build
+yarn --silent start
+#+END_SRC
+
+*** Docker
+#+BEGIN_SRC sh
+docker run \
+  --detach \
+  --publish 8080:8080 \
+  blackglory/refile
+#+END_SRC
+
+**** 从源代码构建
+#+BEGIN_SRC sh
+git clone https://github.com/BlackGlory/refile
+cd refile
+yarn install
+yarn docker:build
+#+END_SRC
+
+**** Recipes
+***** 公开服务器
+****** docker-compose.yml
+#+BEGIN_SRC yaml
+version: '3.8'
+
+services:
+  refile:
+    image: 'blackglory/refile
+    restart: always
+    volumes:
+      - 'refile-data:/data'
+    ports:
+      - '8080:8080'
+
+volumes:
+  refile-data:
+#+END_SRC
+
+***** 私人服务器
+****** docker-compose.yml
+#+BEGIN_SRC yaml
+version: '3.8'
+
+services:
+  refile:
+    image: 'blackglory/refile'
+    restart: always
+    environment:
+      - REFILE_ADMIN_PASSWORD=password
+      - REFILE_TOKEN_BASED_ACCESS_CONTROL=true
+      - REFILE_WRITE_TOKEN_REQUIRED=true
+      - REFILE_READ_TOKEN_REQUIRED=true
+      - REFILE_DELETE_TOKEN_REQUIRED=true
+    volumes:
+      - 'refile-data:/data'
+    ports:
+      - '8080:8080'
+
+volumes:
+  refile-data:
+#+END_SRC
+
+** API
+所有API中的id都需要满足此正则表达式: =^[a-zA-Z0-9\.\-_]{0,255}$=
+
+*** PubliC
+**** upload file
+=PUT /refile/files/<hash>=
+
+使用 SHA-256 作为 Hash 函数.
+每个文件会以 512 KiB 为切割点计算 hash, 并使用 HashList 的顶部 Hash 作为最终的文件 Hash 值.
+在发送文件前, 会先发送此 HashList 至服务器, 这是为了能在传输早期拒绝错误文件的上传.
+
+FormData 将文件作为表单的一部分, 以 =multipart/form-data= 的类型上传
+
+上传需要提供三项参数:
+- 文件(二进制数据, 通过FormData)
+- 文件的Hash值(通过URL提供)
+- 文件的分段Hash值(hash数组, 通过FormData)
+
+如果相同Hash的文件已经存在, 则上传会立即结束.
+会分段校验hash值, 一旦段落的hash不对, 就会由服务器方断开连接.
+
+文件不存在时, 返回201
+文件已存在时, 返回200
+在Location里包含文件在存储器上的URI(对IPFS来说, 是IPFS地址).
+
+文件hash校验错误时, 返回409
+服务器存储空间不足时, 返回507
+
+*被上传的文件必须先建立引用, 如果文件的引用数为零, 上传会被拒绝.*
+
+**** get file info
+=GET /refile/files/<hash>=
+
+获取与资源相关的信息.
+
+#+BEGIN_SRC ts
+{
+  hash: string
+  location: string | null // 未上传时, location为null
+  references: number
+}
+#+END_SRC
+
+***** Example
+****** curl
+#+BEGIN_SRC sh
+curl "http://localhost:8080/refile/files/$hash"
+#+END_SRC
+
+****** JavaScript
+#+BEGIN_SRC js
+await fetch(`http://localhost:8080/refile/files/${hash}`).then(res => res.json())
+#+END_SRC
+
+**** set reference 设置引用
+=PUT /refile/namespaces/<namespace>/items/<id>/files/<hash>=
+
+设置资源hash与引用的关系, 此操作并不需要相关的文件已被上传.
+
+***** Example
+****** curl
+#+BEGIN_SRC sh
+curl \
+  --request PUT \
+  "http://localhost:8080/refile/namespaces/$namespace/items/$id/files/$hash"
+#+END_SRC
+
+****** JavaScript
+#+BEGIN_SRC js
+await fetch(`http://localhost:8080/refile/namespaces/${namespace}/items/${id}/files/${hash}`)
+#+END_SRC
+
+**** remove reference 移除引用
+=DELETE /refile/namespaces/<namespace>/items/<id>/files/<hash>=
+
+删除资源hash与引用的关系.
+
+***** Example
+****** curl
+#+BEGIN_SRC sh
+curl \
+  --request DELETE \
+  "http://localhost:8080/refile/namespaces/$namespace/items/$id/files/$hash"
+#+END_SRC
+
+****** JavaScript
+#+BEGIN_SRC js
+await fetch(`http://localhost:8080/refile/namespaces/${namespace}/items/${id}/files/${hash}`, {
+  method: 'DELETE'
+})
+#+END_SRC
+
+**** remove references by item 移除项目的全部引用
+=DELETE /refile/namespaces/<namespace>/items/<id>=
+
+删除特定项目的全部引用.
+
+当文件的引用数量降至0时, 文件会被删除.
+
+***** Example
+****** curl
+#+BEGIN_SRC sh
+curl \
+  --request DELETE \
+  "http://localhost:8080/refile/namespaces/$namespace/items/$id"
+#+END_SRC
+
+****** JavaScript
+#+BEGIN_SRC js
+await fetch(`http://localhost:8080/refile/namespaces/${namespace}/items/${id}`, {
+  method: 'DELETE'
+})
+#+END_SRC
+
+**** list namespaces
+=GET /refile/namespaces=
+
+获取所有命名空间.
+
+返回 =Array<string>=.
+
+***** Example
+****** curl
+#+BEGIN_SRC sh
+curl 'http://localhost:8080/refile/namespaces'
+#+END_SRC
+
+****** JavaScript
+#+BEGIN_SRC js
+await fetch('http://localhost:8080/refile/namespaces').then(res => res.json())
+#+END_SRC
+
+**** list items
+=GET /refile/namespaces/<namespace>/items=
+
+获取特定命名空间下的所有项目id列表.
+
+返回id列表 =Array<string>=.
+
+***** Example
+****** curl
+#+BEGIN_SRC sh
+curl "http://localhost:8080/refile/namespaces/$namespace/items"
+#+END_SRC
+
+****** JavaScript
+#+BEGIN_SRC js
+await fetch(`http://localhost:8080/refile/namespaces/${namespace}/items`).then(res => res.json())
+#+END_SRC
+
+**** list files by item
+=GET /refile/namespaces/<namespace>/items/<id>/files=
+
+获取与特定引用相关联的文件hash列表.
+
+返回hash列表 =Array<string>=.
+
+***** Example
+****** curl
+#+BEGIN_SRC sh
+curl "http://localhost:8080/refile/namespaces/$namespace/items/$id/files"
+#+END_SRC
+
+****** JavaScript
+#+BEGIN_SRC js
+await fetch(`http://localhost:8080/refile/namespace/${namespace}/items/${id}/files`).then(res => res.json())
+#+END_SRC
+
+**** list items by file
+=GET /refile/files/<hash>/namespaces/<namespace>/items=
+
+获取特定namespace下与特定文件相关的项目id列表.
+
+返回id列表 =Array<string>=.
+
+***** Example
+****** curl
+#+BEGIN_SRC sh
+curl "http://localhost:8080/refile/files/$hash/namespaces/$namespace/items"
+#+END_SRC
+
+****** JavaScript
+#+BEGIN_SRC js
+await fetch(`http://localhost:8080/refile/files/${hash}/namespaces/${namespace}/items`).then(res => res.json())
+#+END_SRC
+
+**** 统计信息
+=GET /stats=
+
+输出JSON:
+#+BEGIN_SRC ts
+{
+  memoryUsage: NodeJS.MemoryUsage
+  cpuUsage: NodeJS.CpuUsage
+  resourceUsage: NodeJS.ResourceUsage
+}
+#+END_SRC
+
+***** Example
+****** curl
+#+BEGIN_SRC sh
+curl 'http://localhost:8080/stats'
+#+END_SRC
+
+****** JavaScript
+#+BEGIN_SRC js
+await fetch('http://localhost:8080/stats').then(res => res.json())
+#+END_SRC
+
+*** Private
+**** 访问控制
+Refile提供两种可以同时启用的访问控制策略.
+
+所有访问控制API都使用基于口令的Bearer Token Authentication.
+口令需通过环境变量 =REFILE_ADMIN_PASSWORD= 进行设置.
+
+访问控制规则是通过[[https://www.sqlite.org/wal.html][WAL模式]]的SQLite3持久化的, 开启访问控制后,
+服务器的吞吐量和响应速度会受到硬盘性能的影响.
+
+已经打开的连接不会受到新的访问控制规则的影响.
+
+***** 基于名单的访问控制
+通过设置环境变量 =REFILE_LIST_BASED_ACCESS_CONTROL= 开启基于名单的访问控制:
+- =whitelist=
+  启用基于Refile白名单的访问控制, 只有在名单内的Refile允许被访问.
+- =blacklist=
+  启用基于Refile黑名单的访问控制, 只有在名单外的Refile允许被访问.
+
+****** 黑名单
+******* 获取黑名单
+=GET /api/blacklist=
+
+获取位于黑名单中的所有RefileId, 返回JSON表示的字符串数组 =string[]=.
+
+******** Example
+********* curl
+#+BEGIN_SRC sh
+curl \
+  --header "Authorization: Bearer $ADMIN_PASSWORD" \
+  "http://localhost:8080/api/blacklist"
+#+END_SRC
+
+********* fetch
+#+BEGIN_SRC js
+await fetch('http://localhost:8080/api/blacklist', {
+  headers: {
+    'Authorization': `Bearer ${adminPassword}`
+  }
+}).then(res => res.json())
+#+END_SRC
+
+******* 添加黑名单
+=PUT /api/blacklist/<id>=
+
+将特定Refile加入黑名单.
+
+******** Example
+********* curl
+#+BEGIN_SRC sh
+curl \
+  --request PUT \
+  --header "Authorization: Bearer $ADMIN_PASSWORD" \
+  "http://localhost:8080/api/blacklist/$id"
+#+END_SRC
+
+********* fetch
+#+BEGIN_SRC js
+await fetch(`http://localhost:8080/api/blacklist/${id}`, {
+  method: 'PUT'
+, headers: {
+    'Authorization': `Bearer ${adminPassword}`
+  }
+})
+#+END_SRC
+
+******* 移除黑名单
+=DELETE /api/blacklist/<id>=
+
+将特定Refile从黑名单中移除.
+
+******** Example
+********* curl
+#+BEGIN_SRC sh
+curl \
+  --request DELETE \
+  --header "Authorization: Bearer $ADMIN_PASSWORD" \
+  "http://localhost:8080/api/blacklist/$id"
+#+END_SRC
+
+********* fetch
+#+BEGIN_SRC js
+await fetch(`http://localhost:8080/api/blacklist/${id}`, {
+  method: 'DELETE'
+, headers: {
+    'Authorization': `Bearer ${adminPassword}`
+  }
+})
+#+END_SRC
+
+****** 白名单
+******* 获取白名单
+=GET /api/whitelist=
+
+获取位于黑名单中的所有RefileId, 返回JSON表示的字符串数组 =string[]=.
+
+******** Example
+********* curl
+#+BEGIN_SRC sh
+curl \
+  --header "Authorization: Bearer $ADMIM_PASSWORD" \
+  "http://localhost:8080/api/whitelist"
+#+END_SRC
+
+********* fetch
+#+BEGIN_SRC js
+await fetch('http://localhost:8080/api/whitelist', {
+  headers: {
+    'Authorization': `Bearer ${adminPassword}`
+  }
+}).then(res => res.json())
+#+END_SRC
+
+******* 添加白名单
+=PUT /api/whitelist/<id>=
+
+将特定Refile加入白名单.
+
+******** Example
+********* curl
+#+BEGIN_SRC sh
+curl \
+  --request PUT \
+  --header "Authorization: Bearer $ADMIN_PASSWORD" \
+  "http://localhost:8080/api/whitelist/$id"
+#+END_SRC
+
+********* fetch
+#+BEGIN_SRC js
+await fetch(`http://localhost:8080/api/whitelist/${id}`, {
+  method: 'PUT'
+, headers: {
+    'Authorization': `Bearer ${adminPassword}`
+  }
+})
+#+END_SRC
+
+******* 移除白名单
+=DELETE /api/whitelist/<id>=
+
+将特定Refile从白名单中移除.
+
+******** Example
+********* curl
+#+BEGIN_SRC sh
+curl \
+  --request DELETE \
+  --header "Authorization: Bearer $ADMIN_PASSWORD" \
+  "http://localhost:8080/api/whitelist/$id"
+#+END_SRC
+
+********* fetch
+#+BEGIN_SRC js
+await fetch(`http://localhost:8080/api/whitelist/${id}`, {
+  method: 'DELETE'
+, headers: {
+    'Authorization': `Bearer ${adminPassword}`
+  }
+})
+#+END_SRC
+
+***** 基于token的访问控制
+对token的要求: =^[a-zA-Z0-9\.\-_]{1,256}$=
+
+通过设置环境变量 =REFILE_TOKEN_BASED_ACCESS_CONTROL=true= 开启基于token的访问控制.
+
+基于token的访问控制将根据消息队列的token access policy决定其访问规则.
+可通过环境变量 =REFILE_WRITE_TOKEN_REQUIRED=, =REFILE_READ_TOKEN_REQUIRED=,
+=REFILE_DELETE_TOKEN_REQUIRED= 设置相关默认值,
+未设置情况下为 =false=.
+
+一个消息队列可以有多个token, 每个token可以单独设置write和read权限, 不同消息队列的token不共用.
+
+基于token的访问控制作出了以下假设
+- token的传输过程是安全的
+- token难以被猜测
+- token的意外泄露可以被迅速处理
+
+****** 获取所有具有token策略的频道id
+=GET /api/refile-with-token-policies=
+
+获取所有具有token策略的频道id, 返回由JSON表示的字符串数组 =string[]=.
+
+******* Example
+******** curl
+#+BEGIN_SRC sh
+curl \
+  --header "Authorization: Bearer $ADMIN_PASSWORD" \
+  "http://localhost:8080/api/refile-with-token-policies"
+#+END_SRC
+
+******** fetch
+#+BEGIN_SRC js
+await fetch('http://localhost:8080/api/refile-with-token-policies')
+#+END_SRC
+
+****** 获取特定频道的token策略
+=GET /api/refile/<id>/token-policies=
+
+返回JSON:
+#+BEGIN_SRC ts
+{
+  writeTokenRequired: boolean | null
+  readTokenRequired: boolean | null
+  deleteTokenRequired: boolean | null
+}
+#+END_SRC
+=null= 代表沿用相关默认值.
+
+******* Example
+******** curl
+#+BEGIN_SRC sh
+curl \
+  --header "Authorization: Bearer $ADMIN_PASSWORD" \
+  "http://localhost:8080/api/refile/$id/token-policies"
+#+END_SRC
+
+******** fetch
+#+BEGIN_SRC js
+await fethc(`http://localhost:8080/api/refile/${id}/token-policies`, {
+  headers: {
+    'Authorization': `Bearer ${adminPassword}`
+  }
+}).then(res => res.json())
+#+END_SRC
+
+****** 设置token策略
+=PUT /api/refile/<id>/token-policies/write-token-required=
+=PUT /api/refile/<id>/token-policies/read-token-required=
+=PUT /api/refile/<id>/token-policies/delete-token-required=
+
+Payload必须是一个布尔值.
+
+******* Example
+******** curl
+#+BEGIN_SRC sh
+curl \
+  --request PUT \
+  --header "Authorization: Bearer $ADMIN_PASSWORD" \
+  --header "Content-Type: application/json" \
+  --data "$WRITE_TOKEN_REQUIRED" \
+  "http://localhost:8080/api/refile/$id/token-policies/write-token-required"
+#+END_SRC
+
+******** fetch
+#+BEGIN_SRC js
+await fetch(`http://localhost:8080/api/refile/${id}/token-policies/write-token-required`, {
+  method: 'PUT'
+, headers: {
+    'Authorization': `Bearer ${adminPassword}`
+  , 'Content-Type': 'application/json'
+  }
+, body: JSON.stringify(writeTokenRequired)
+})
+#+END_SRC
+
+****** 移除token策略
+=DELETE /api/refile/<id>/token-policies/write-token-required=
+=DELETE /api/refile/<id>/token-policies/read-token-required=
+=DELETE /api/refile/<id>/token-policies/delete-token-required=
+
+******* Example
+******** curl
+#+BEGIN_SRC sh
+curl \
+  --request DELETE \
+  --header "Authorization: Bearer $ADMIN_PASSWORD" \
+  "http://localhost:8080/api/refile/$id/token-policies/write-token-required"
+#+END_SRC
+
+******** fetch
+#+BEGIN_SRC js
+await fetch(`http://localhost:8080/api/refile/${id}/token-policies/write-token-required`, {
+  method: 'DELETE'
+, headers: {
+    'Authorization': `Bearer ${adminPassword}`
+  }
+})
+#+END_SRC
+
+****** 获取所有具有token的RefileId
+=GET /api/refile-with-tokens=
+
+获取所有具有token的RefileId, 返回由JSON表示的字符串数组`string[]`
+
+******* Example
+******** curl
+#+BEGIN_SRC sh
+curl \
+  --header "Authorization: Bearer $ADMIN_PASSWORD" \
+  "http://localhost:8080/api/refile-with-tokens"
+#+END_SRC
+
+******** fetch
+#+BEGIN_SRC js
+await fetch(`http://localhost:8080/api/refile-with-tokens`, {
+  headers: {
+    'Authorization': `Bearer ${adminPassword}`
+  }
+}).then(res => res.json())
+#+END_SRC
+
+****** 获取特定Refile的所有token信息
+=GET /api/refile/<id>/tokens=
+
+获取特定Refile的所有token信息, 返回JSON表示的token信息数组
+=Array<{ token: string, write: boolean, read: boolean, delete: boolean }>=.
+
+******* Example
+******** curl
+#+BEGIN_SRC sh
+curl \
+  --header "Authorization: Bearer $ADMIN_PASSWORD" \
+  "http://localhost:8080/api/refile/$id/tokens"
+#+END_SRC
+
+******** fetch
+#+BEGIN_SRC js
+await fetch(`http://localhost:8080/api/refile/${id}/tokens`, {
+  headers: {
+    'Authorization': `Bearer ${adminPassword}`
+  }
+}).then(res => res.json())
+#+END_SRC
+
+****** 为特定Refile的token设置write权限
+=PUT /api/refile/<id>/tokens/<token>/write=
+
+添加/更新token, 为token设置write权限.
+
+******* Example
+******** curl
+#+BEGIN_SRC sh
+curl \
+  --request PUT \
+  --header "Authorization: Bearer $ADMIN_PASSWORD" \
+  "http://localhost:8080/api/refile/$id/tokens/$token/log"
+#+END_SRC
+
+******** fetch
+#+BEGIN_SRC js
+await fetch(`http://localhost:8080/api/refile/${id}/tokens/$token/log`, {
+  method: 'PUT'
+, headers: {
+    'Authorization': `Bearer ${adminPassword}`
+  }
+})
+#+END_SRC
+
+****** 取消特定Refile的token的write权限
+=DELETE /api/refile/<id>/tokens/<token>/write=
+
+取消token的read权限.
+
+******* Example
+******** curl
+#+BEGIN_SRC sh
+curl \
+  --request DELETE \
+  --header "Authorization: Bearer $ADMIN_PASSWORD" \
+  "http://localhost:8080/api/refile/$id/tokens/$token/write"
+#+END_SRC
+
+******** fetch
+#+BEGIN_SRC js
+await fetch(`http://localhost:8080/api/refile/${id}/tokens/${token}/write`, {
+  method: 'DELETE'
+, headers: {
+    'Authorization': `Bearer ${adminPassword}`
+  }
+})
+#+END_SRC
+
+****** 为特定Refile的token设置read权限
+=PUT /api/refile/<id>/tokens/<token>/read=
+
+添加/更新token, 为token设置read权限.
+
+******* Example
+******** curl
+#+BEGIN_SRC sh
+curl \
+  --request PUT \
+  --header "Authorization: Bearer $ADMIN_PASSWORD" \
+  "http://localhost:8080/api/refile/$id/tokens/$token/read"
+#+END_SRC
+
+******** fetch
+#+BEGIN_SRC js
+await fetch(`http://localhost:8080/api/refile/${id}/tokens/$token/read`, {
+  method: 'PUT'
+, headers: {
+    'Authorization': `Bearer ${adminPassword}`
+  }
+})
+#+END_SRC
+
+****** 取消特定Refile的token的read权限
+=DELETE /api/refile/<id>/tokens/<token>/read=
+
+取消token的read权限.
+
+******* Example
+******** curl
+#+BEGIN_SRC sh
+curl \
+  --request DELETE \
+  --header "Authorization: Bearer $ADMIN_PASSWORD" \
+  "http://localhost:8080/api/refile/$id/tokens/$token/read"
+#+END_SRC
+
+******** fetch
+#+BEGIN_SRC js
+await fetch(`http://localhost:8080/api/refile/${id}/tokens/${token}/read`, {
+  method: 'DELETE'
+, headers: {
+    'Authorization': `Bearer ${adminPassword}`
+  }
+})
+#+END_SRC
+
+****** 为特定Refile的token设置delete权限
+=PUT /api/refile/<id>/tokens/<token>/delete=
+
+添加/更新token, 为token设置delete权限.
+
+******* Example
+******** curl
+#+BEGIN_SRC sh
+curl \
+  --request PUT \
+  --header "Authorization: Bearer $ADMIN_PASSWORD" \
+  "http://localhost:8080/api/refile/$id/tokens/$token/delete"
+#+END_SRC
+
+******** fetch
+#+BEGIN_SRC js
+await fetch(`http://localhost:8080/api/refile/${id}/tokens/$token/delete`, {
+  method: 'PUT'
+, headers: {
+    'Authorization': `Bearer ${adminPassword}`
+  }
+})
+#+END_SRC
+
+****** 取消特定Refile的token的delete权限
+=DELETE /api/refile/<id>/tokens/<token>/delete=
+
+取消token的delete权限.
+
+******* Example
+******** curl
+#+BEGIN_SRC sh
+curl \
+  --request DELETE \
+  --header "Authorization: Bearer $ADMIN_PASSWORD" \
+  "http://localhost:8080/api/refile/$id/tokens/$token/delete"
+#+END_SRC
+
+******** fetch
+#+BEGIN_SRC js
+await fetch(`http://localhost:8080/api/refile/${id}/tokens/${token}/delete`, {
+  method: 'DELETE'
+, headers: {
+    'Authorization': `Bearer ${adminPassword}`
+  }
+})
+#+END_SRC
+
+** HTTP/2
+Refile支持HTTP/2, 以多路复用反向代理时的连接, 可通过设置环境变量 =REFILE_HTTP2=true= 开启.
+
+此HTTP/2支持不提供从HTTP/1.1自动升级的功能, 亦不提供HTTPS.
+因此, 在本地curl里进行测试时, 需要开启 =--http2-prior-knowledge= 选项.
+
+** 限制Payload大小
+设置环境变量 =REFILE_PAYLOAD_LIMIT= 可限制服务接受的单个请求的Payload字节数, 默认值为1048576(1MB).
+
+设置环境变量 =REFILE_SET_PAYLOAD_LIMIT= 可限制set接受的单个请求的Payload字节数,
+默认值继承自 =REFILE_PAYLOAD_LIMIT=.
