@@ -1,8 +1,8 @@
 import { ValueGetter } from 'value-getter'
-import { path as appRoot } from 'app-root-path'
-import { Getter, isNumber, isString } from '@blackglory/types'
+import { Getter, isNumber } from '@blackglory/types'
 import { strict as assert } from 'assert'
 import { getCache } from '@env/cache'
+import { path as appRoot } from 'app-root-path'
 import * as path from 'path'
 
 export enum ListBasedAccessControl {

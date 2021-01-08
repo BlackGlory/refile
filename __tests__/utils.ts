@@ -23,6 +23,7 @@ export async function resetEnvironment() {
   // assigning a property on `process.env` will implicitly convert the value to a string.
   // use `delete` to delete a property from `process.env`.
   // see also: https://nodejs.org/api/process.html#process_process_env
+  delete process.env.REFILE_DATA
   delete process.env.REFILE_ADMIN_PASSWORD
   delete process.env.REFILE_LIST_BASED_ACCESS_CONTROL
   delete process.env.REFILE_TOKEN_BASED_ACCESS_CONTROL
@@ -32,8 +33,6 @@ export async function resetEnvironment() {
   delete process.env.REFILE_JSON_VALIDATION
   delete process.env.REFILE_DEFAULT_JSON_SCHEMA
   delete process.env.REFILE_JSON_PAYLOAD_ONLY
-  delete process.env.REFILE_UPDATE_REVISION_REQUIRED
-  delete process.env.REFILE_DELETE_REVISION_REQUIRED
 
   // reset memoize
   resetCache()
