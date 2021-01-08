@@ -5,7 +5,7 @@
 
 ** Quickstart
 #+BEGIN_SRC sh
-docker run --detach --log 8080:8080 blackglory/refile
+docker run --detach --publish 8080:8080 blackglory/refile
 #+END_SRC
 
 ** Install
