@@ -1,6 +1,5 @@
 import { FastifyPluginAsync } from 'fastify'
 import multipart from 'fastify-multipart'
-import * as fs from 'fs'
 
 // The d.ts of fastify-multipart is too messy, so I have to write my version.
 interface MultipartFields {
@@ -35,10 +34,6 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
     }
   })
 
-  // 只有两种在不完整传输文件的前提下中止上传的方法, 两种方法都不能返回正文:
-  // 1. 断开 fastify-multipart 使用的 busboy 流, 即 req.raw.destroy()
-  // 2. 手动发送响应头 Connection: close
-  // 客户端可能得到 ERR_CONNECTION_RESET 或 ERR_CONNECTION_ABORTED
   server.put<{
     Params: { hash: string }
   }>(

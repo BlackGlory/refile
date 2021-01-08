@@ -1,6 +1,6 @@
-import { path as appRoot } from 'app-root-path'
+import { DATA } from '@env'
 import * as path from 'path'
 
 export function getFilename(location: string): string {
-  return path.join(appRoot, 'data/storage', location)
+  return path.join(DATA(), 'storage', location)
 }

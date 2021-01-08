@@ -11,6 +11,7 @@ import { splitHash, ProgressiveHash } from 'split-hash'
 import { toArrayAsync } from 'iterable-operator'
 import { fetch } from 'extra-fetch'
 import * as fs from 'fs-extra'
+import { dir } from 'tmp-promise'
 /* @ts-ignore */
 import blobFrom = require('fetch-blob/from')
 
@@ -23,9 +24,18 @@ jest.mock('@dao/config-in-sqlite3/database')
 jest.mock('@dao/data-in-sqlite3/database')
 expect.extend(matchers)
 
+let tmpDirPath: string
+
 beforeEach(async () => {
   resetEnvironment()
+  const { path } = await dir()
+  tmpDirPath = path
+  process.env.REFILE_DATA = path
   await resetDatabases()
+})
+
+afterEach(async () => {
+  await fs.remove(tmpDirPath)
 })
 
 const KiB = 1024
