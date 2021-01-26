@@ -2,10 +2,10 @@ import { getDatabase } from '../database'
 
 export function getAllIdsWithTokens(): string[] {
   const result = getDatabase().prepare(`
-    SELECT refile_id
+    SELECT namespace
       FROM refile_token;
   `).all()
-  return result.map(x => x['refile_id'])
+  return result.map(x => x['namespace'])
 }
 
 export function getAllTokens(id: string): Array<{ token: string, write: boolean, read: boolean, delete: boolean }> {
@@ -20,7 +20,7 @@ export function getAllTokens(id: string): Array<{ token: string, write: boolean,
          , read_permission
          , delete_permission
       FROM refile_token
-     WHERE refile_id = $id;
+     WHERE namespace = $id;
   `).all({ id })
   return result.map(x => ({
     token: x['token']
@@ -35,7 +35,7 @@ export function hasWriteTokens(id: string): boolean {
     SELECT EXISTS(
              SELECT *
                FROM refile_token
-              WHERE refile_id = $id
+              WHERE namespace = $id
                 AND write_permission = 1
            ) AS write_tokens_exist
   `).get({ id })
@@ -50,7 +50,7 @@ export function matchWriteToken({ token, id }: {
     SELECT EXISTS(
              SELECT *
                FROM refile_token
-              WHERE refile_id = $id
+              WHERE namespace = $id
                 AND token = $token
                 AND write_permission = 1
            ) AS matched
@@ -60,9 +60,9 @@ export function matchWriteToken({ token, id }: {
 
 export function setWriteToken({ token, id }: { token: string; id: string }) {
   getDatabase().prepare(`
-    INSERT INTO refile_token (token, refile_id, write_permission)
+    INSERT INTO refile_token (token, namespace, write_permission)
     VALUES ($token, $id, 1)
-        ON CONFLICT (token, refile_id)
+        ON CONFLICT (token, namespace)
         DO UPDATE SET write_permission = 1;
   `).run({ token, id })
 }
@@ -74,7 +74,7 @@ export function unsetWriteToken({ token, id }: { token: string; id: string }) {
       UPDATE refile_token
          SET write_permission = 0
        WHERE token = $token
-         AND refile_id = $id;
+         AND namespace = $id;
     `).run({ token, id })
     deleteNoPermissionToken({ token, id })
   })()
@@ -85,7 +85,7 @@ export function hasReadTokens(id: string): boolean {
     SELECT EXISTS(
              SELECT *
                FROM refile_token
-              WHERE refile_id = $id
+              WHERE namespace = $id
                 AND read_permission = 1
            ) AS read_tokens_exist
   `).get({ id })
@@ -100,7 +100,7 @@ export function matchReadToken({ token, id }: {
     SELECT EXISTS(
              SELECT *
                FROM refile_token
-              WHERE refile_id = $id
+              WHERE namespace = $id
                 AND token = $token
                 AND read_permission = 1
            ) AS matched
@@ -110,9 +110,9 @@ export function matchReadToken({ token, id }: {
 
 export function setReadToken({ token, id }: { token: string; id: string }) {
   getDatabase().prepare(`
-    INSERT INTO refile_token (token, refile_id, read_permission)
+    INSERT INTO refile_token (token, namespace, read_permission)
     VALUES ($token, $id, 1)
-        ON CONFLICT (token, refile_id)
+        ON CONFLICT (token, namespace)
         DO UPDATE SET read_permission = 1;
   `).run({ token, id })
 }
@@ -124,7 +124,7 @@ export function unsetReadToken({ token, id }: { token: string; id: string }) {
       UPDATE refile_token
          SET read_permission = 0
        WHERE token = $token
-         AND refile_id = $id;
+         AND namespace = $id;
     `).run({ token, id })
     deleteNoPermissionToken({ token, id })
   })()
@@ -138,7 +138,7 @@ export function matchDeleteToken({ token, id }: {
     SELECT EXISTS(
              SELECT *
                FROM refile_token
-              WHERE refile_id = $id
+              WHERE namespace = $id
                 AND token = $token
                 AND delete_permission = 1
            ) AS matched
@@ -148,9 +148,9 @@ export function matchDeleteToken({ token, id }: {
 
 export function setDeleteToken({ token, id }: { token: string; id: string }) {
   getDatabase().prepare(`
-    INSERT INTO refile_token (token, refile_id, delete_permission)
+    INSERT INTO refile_token (token, namespace, delete_permission)
     VALUES ($token, $id, 1)
-        ON CONFLICT (token, refile_id)
+        ON CONFLICT (token, namespace)
         DO UPDATE SET delete_permission = 1;
   `).run({ token, id })
 }
@@ -162,7 +162,7 @@ export function unsetDeleteToken({ token, id }: { token: string; id: string }) {
       UPDATE refile_token
          SET delete_permission = 0
        WHERE token = $token
-         AND refile_id = $id;
+         AND namespace = $id;
     `).run({ token, id })
     deleteNoPermissionToken({ token, id })
   })()
@@ -172,7 +172,7 @@ function deleteNoPermissionToken({ token, id }: { token: string, id: string }) {
   getDatabase().prepare(`
     DELETE FROM refile_token
      WHERE token = $token
-       AND refile_id = $id
+       AND namespace = $id
        AND write_permission = 0
        AND read_permission = 0
        AND delete_permission = 0;

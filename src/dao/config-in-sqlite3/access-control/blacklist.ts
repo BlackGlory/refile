@@ -2,9 +2,9 @@ import { getDatabase } from '../database'
 
 export function getAllBlacklistItems(): string[] {
   const result = getDatabase().prepare(`
-    SELECT refile_id FROM refile_blacklist;
+    SELECT namespace FROM refile_blacklist;
   `).all()
-  return result.map(x => x['refile_id'])
+  return result.map(x => x['namespace'])
 }
 
 export function inBlacklist(id: string): boolean {
@@ -12,7 +12,7 @@ export function inBlacklist(id: string): boolean {
     SELECT EXISTS(
              SELECT *
                FROM refile_blacklist
-              WHERE refile_id = $id
+              WHERE namespace = $id
            ) AS exist_in_blacklist;
   `).get({ id })
   return result['exist_in_blacklist'] === 1
@@ -21,7 +21,7 @@ export function inBlacklist(id: string): boolean {
 export function addBlacklistItem(id: string) {
   try {
     getDatabase().prepare(`
-      INSERT INTO refile_blacklist (refile_id)
+      INSERT INTO refile_blacklist (namespace)
       VALUES ($id);
     `).run({ id })
   } catch {}
@@ -30,6 +30,6 @@ export function addBlacklistItem(id: string) {
 export function removeBlacklistItem(id: string) {
   getDatabase().prepare(`
     DELETE FROM refile_blacklist
-     WHERE refile_id = $id;
+     WHERE namespace = $id;
   `).run({ id })
 }

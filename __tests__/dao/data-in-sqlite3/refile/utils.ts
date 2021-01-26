@@ -39,12 +39,15 @@ export function setRawReference(params: IRawReference): void {
 }
 
 export function hasRawReference(namespace: string, itemId: string, fileHash: string): boolean {
-  const row = getDatabase().prepare(`
+  return !!getRawReference(namespace, itemId, fileHash)
+}
+
+export function getRawReference(namespace: string, itemId: string, fileHash: string): IRawReference | null {
+  return getDatabase().prepare(`
     SELECT *
       FROM refile_reference
      WHERE namespace = $namespace
        AND item_id = $itemId
        AND file_hash = $fileHash;
   `).get({ namespace, itemId, fileHash })
-  return !!row
 }

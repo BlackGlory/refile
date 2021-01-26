@@ -9,27 +9,27 @@ PRAGMA journal_mode = WAL;
 -- refile资源本身是松散的, 没有自己的表
 
 CREATE TABLE refile_blacklist (
-  refile_id VARCHAR(255) NOT NULL UNIQUE
+  namespace VARCHAR(255) NOT NULL UNIQUE
 );
 
 CREATE TABLE refile_whitelist (
-  refile_id VARCHAR(255) NOT NULL UNIQUE
+  namespace VARCHAR(255) NOT NULL UNIQUE
 );
 
 CREATE TABLE refile_token_policy (
-  refile_id              VARCHAR(255) NOT NULL UNIQUE
+  namespace             VARCHAR(255) NOT NULL UNIQUE
 , write_token_required  BOOLEAN
 , read_token_required   BOOLEAN
 , delete_token_required BOOLEAN
 );
 
 CREATE TABLE refile_token (
-  refile_id          VARCHAR(255) NOT NULL
+  namespace         VARCHAR(255) NOT NULL
 , token             VARCHAR(255) NOT NULL
 , read_permission   BOOLEAN      NOT NULL DEFAULT 0 CHECK(read_permission IN (0,1))
 , write_permission  BOOLEAN      NOT NULL DEFAULT 0 CHECK(write_permission IN (0,1))
 , delete_permission BOOLEAN      NOT NULL DEFAULT 0 CHECK(delete_permission IN (0,1))
-, UNIQUE (token, refile_id)
+, UNIQUE (token, namespace)
 );
 
 --------------------------------------------------------------------------------

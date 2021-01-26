@@ -1,6 +1,6 @@
 import * as DAO from '@dao/config-in-sqlite3/access-control/token'
-import { getDatabase } from '@dao/config-in-sqlite3/database'
 import { resetDatabases, resetEnvironment } from '@test/utils'
+import { getRawToken, hasRawToken, setRawToken } from './utils'
 import 'jest-extended'
 
 jest.mock('@dao/config-in-sqlite3/database')
@@ -20,30 +20,64 @@ describe('token-based access control', () => {
       const token2 = 'token-2'
       const id3 = 'id-3'
       const token3 = 'token-3'
-      insert({ token: token1, id: id1, read: true })
-      insert({ token: token2, id: id2, write: true })
-      insert({ token: token3, id: id3, del: true })
+      setRawToken({
+        token: token1
+      , namespace: id1
+      , read_permission: 1
+      , write_permission: 0
+      , delete_permission: 0
+      })
+      setRawToken({
+        token: token2
+      , namespace: id2
+      , read_permission: 0
+      , write_permission: 1
+      , delete_permission: 0
+      })
+      setRawToken({
+        token: token3
+      , namespace: id3
+      , read_permission: 0
+      , write_permission: 0
+      , delete_permission: 1
+      })
 
       const result = DAO.getAllIdsWithTokens()
 
-      // expect.toStrictEqual is broken, I have no idea
       expect(result).toEqual([id1, id2, id3])
     })
   })
 
-  describe('getAllTokens(id: string): Array<{ token: string; write: boolean; read: boolean; delete: boolean }>', () => {
-    it('return Array<{ token: string; write: boolean; read: boolean; delete: boolean }>', () => {
+  describe('getAllTokens(id: string): TokenInfo[]', () => {
+    it('return TokenInfo[]', () => {
       const id = 'id-1'
       const token1 = 'token-1'
       const token2 = 'token-2'
       const token3 = 'token-3'
-      insert({ token: token1, id, read: true })
-      insert({ token: token2, id, write: true })
-      insert({ token: token3, id, del: true })
+      setRawToken({
+        token: token1
+      , namespace: id
+      , read_permission: 1
+      , write_permission: 0
+      , delete_permission: 0
+      })
+      setRawToken({
+        token: token2
+      , namespace: id
+      , read_permission: 0
+      , write_permission: 1
+      , delete_permission: 0
+      })
+      setRawToken({
+        token: token3
+      , namespace: id
+      , read_permission: 0
+      , write_permission: 0
+      , delete_permission: 1
+      })
 
       const result = DAO.getAllTokens(id)
 
-      // expect.toStrictEqual is broken, I have no idea
       expect(result).toEqual([
         { token: token1, read: true, write: false, delete: false }
       , { token: token2, read: false, write: true, delete: false }
@@ -58,7 +92,13 @@ describe('token-based access control', () => {
         it('return true', () => {
           const token = 'token-1'
           const id = 'id-1'
-          insert({ token, id, read: false, write: true })
+          setRawToken({
+            token
+          , namespace: id
+          , read_permission: 0
+          , write_permission: 1
+          , delete_permission: 0
+          })
 
           const result = DAO.hasWriteTokens(id)
 
@@ -70,7 +110,13 @@ describe('token-based access control', () => {
         it('return false', () => {
           const token = 'token-1'
           const id = 'id-1'
-          insert({ token, id, read: true, write: false })
+          setRawToken({
+            token
+          , namespace: id
+          , read_permission: 1
+          , write_permission: 0
+          , delete_permission: 0
+          })
 
           const result = DAO.hasWriteTokens(id)
 
@@ -84,7 +130,13 @@ describe('token-based access control', () => {
         it('return true', () => {
           const token = 'token-1'
           const id = 'id-1'
-          insert({ token, id, read: false, write: true })
+          setRawToken({
+            token
+          , namespace: id
+          , read_permission: 0
+          , write_permission: 1
+          , delete_permission: 0
+          })
 
           const result = DAO.matchWriteToken({ token, id })
 
@@ -96,7 +148,13 @@ describe('token-based access control', () => {
         it('return false', () => {
           const token = 'token-1'
           const id = 'id-1'
-          insert({ token, id, read: true, write: false })
+          setRawToken({
+            token
+          , namespace: id
+          , read_permission: 1
+          , write_permission: 0
+          , delete_permission: 0
+          })
 
           const result = DAO.matchWriteToken({ token, id })
 
@@ -110,13 +168,20 @@ describe('token-based access control', () => {
         it('update row', () => {
           const token = 'token-1'
           const id = 'id-1'
-          insert({ token, id, read: true, write: false })
+          setRawToken({
+            token
+          , namespace: id
+          , read_permission: 1
+          , write_permission: 0
+          , delete_permission: 0
+          })
 
           const result = DAO.setWriteToken({ token, id })
-          const row = select({ token, id })
+          const row = getRawToken(token, id)
 
           expect(result).toBeUndefined()
-          expect(row['write_permission']).toBe(1)
+          expect(row).not.toBeNull()
+          expect(row!['write_permission']).toBe(1)
         })
       })
 
@@ -126,10 +191,11 @@ describe('token-based access control', () => {
           const id = 'id-1'
 
           const result = DAO.setWriteToken({ token, id })
-          const row = select({ token, id })
+          const row = getRawToken(token, id)
 
           expect(result).toBeUndefined()
-          expect(row['write_permission']).toBe(1)
+          expect(row).not.toBeNull()
+          expect(row!['write_permission']).toBe(1)
         })
       })
     })
@@ -139,13 +205,20 @@ describe('token-based access control', () => {
         it('return undefined', () => {
           const token = 'token-1'
           const id = 'id-1'
-          insert({ token, id, read: true, write: true })
+          setRawToken({
+            token
+          , namespace: id
+          , read_permission: 1
+          , write_permission: 1
+          , delete_permission: 0
+          })
 
           const result = DAO.unsetWriteToken({ token, id })
-          const row = select({ token, id })
+          const row = getRawToken(token, id)
 
           expect(result).toBeUndefined()
-          expect(row['write_permission']).toBe(0)
+          expect(row).not.toBeNull()
+          expect(row!['write_permission']).toBe(0)
         })
       })
 
@@ -157,7 +230,7 @@ describe('token-based access control', () => {
           const result = DAO.unsetWriteToken({ token, id })
 
           expect(result).toBeUndefined()
-          expect(exist({ token, id })).toBeFalse()
+          expect(hasRawToken(token, id)).toBeFalse()
         })
       })
     })
@@ -169,7 +242,13 @@ describe('token-based access control', () => {
         it('return true', () => {
           const token = 'token-1'
           const id = 'id-1'
-          insert({ token, id, read: true, write: false })
+          setRawToken({
+            token
+          , namespace: id
+          , read_permission: 1
+          , write_permission: 0
+          , delete_permission: 0
+          })
 
           const result = DAO.hasReadTokens(id)
 
@@ -181,7 +260,13 @@ describe('token-based access control', () => {
         it('return false', () => {
           const token = 'token-1'
           const id = 'id-1'
-          insert({ token, id, read: false, write: true })
+          setRawToken({
+            token
+          , namespace: id
+          , read_permission: 0
+          , write_permission: 1
+          , delete_permission: 0
+          })
 
           const result = DAO.hasReadTokens(id)
 
@@ -195,7 +280,13 @@ describe('token-based access control', () => {
         it('return true', () => {
           const token = 'token-1'
           const id = 'id-1'
-          insert({ token, id, read: true, write: false })
+          setRawToken({
+            token
+          , namespace: id
+          , read_permission: 1
+          , write_permission: 0
+          , delete_permission: 0
+          })
 
           const result = DAO.matchReadToken({ token, id })
 
@@ -207,7 +298,13 @@ describe('token-based access control', () => {
         it('return false', () => {
           const token = 'token-1'
           const id = 'id-1'
-          insert({ token, id, read: false, write: true })
+          setRawToken({
+            token
+          , namespace: id
+          , read_permission: 0
+          , write_permission: 1
+          , delete_permission: 0
+          })
 
           const result = DAO.matchReadToken({ token, id })
 
@@ -221,13 +318,20 @@ describe('token-based access control', () => {
         it('update row', () => {
           const token = 'token-1'
           const id = 'id-1'
-          insert({ token, id, read: false, write: true })
+          setRawToken({
+            token
+          , namespace: id
+          , read_permission: 0
+          , write_permission: 1
+          , delete_permission: 0
+          })
 
           const result = DAO.setReadToken({ token, id })
-          const row = select({ token, id })
+          const row = getRawToken(token, id)
 
           expect(result).toBeUndefined()
-          expect(row['read_permission']).toBe(1)
+          expect(row).not.toBeNull()
+          expect(row!['read_permission']).toBe(1)
         })
       })
 
@@ -237,10 +341,11 @@ describe('token-based access control', () => {
           const id = 'id-1'
 
           const result = DAO.setReadToken({ token, id })
-          const row = select({ token, id })
+          const row = getRawToken(token, id)
 
           expect(result).toBeUndefined()
-          expect(row['read_permission']).toBe(1)
+          expect(row).not.toBeNull()
+          expect(row!['read_permission']).toBe(1)
         })
       })
     })
@@ -250,13 +355,20 @@ describe('token-based access control', () => {
         it('return undefined', () => {
           const token = 'token-1'
           const id = 'id-1'
-          insert({ token, id, read: true, write: true })
+          setRawToken({
+            token
+          , namespace: id
+          , read_permission: 1
+          , write_permission: 1
+          , delete_permission: 0
+          })
 
           const result = DAO.unsetReadToken({ token, id })
-          const row = select({ token, id })
+          const row = getRawToken(token, id)
 
           expect(result).toBeUndefined()
-          expect(row['read_permission']).toBe(0)
+          expect(row).not.toBeNull()
+          expect(row!['read_permission']).toBe(0)
         })
       })
 
@@ -268,7 +380,7 @@ describe('token-based access control', () => {
           const result = DAO.unsetReadToken({ token, id })
 
           expect(result).toBeUndefined()
-          expect(exist({ token, id })).toBeFalse()
+          expect(hasRawToken(token, id)).toBeFalse()
         })
       })
     })
@@ -280,7 +392,13 @@ describe('token-based access control', () => {
         it('return true', () => {
           const token = 'token-1'
           const id = 'id-1'
-          insert({ token, id, del: true })
+          setRawToken({
+            token
+          , namespace: id
+          , read_permission: 0
+          , write_permission: 0
+          , delete_permission: 1
+          })
 
           const result = DAO.matchDeleteToken({ token, id })
 
@@ -292,7 +410,13 @@ describe('token-based access control', () => {
         it('return false', () => {
           const token = 'token-1'
           const id = 'id-1'
-          insert({ token, id, del: false })
+          setRawToken({
+            token
+          , namespace: id
+          , read_permission: 0
+          , write_permission: 0
+          , delete_permission: 0
+          })
 
           const result = DAO.matchDeleteToken({ token, id })
 
@@ -304,16 +428,22 @@ describe('token-based access control', () => {
     describe('setDeleteToken(token: string, id: string)', () => {
       describe('token exists', () => {
         it('update row', () => {
-          const db = getDatabase()
           const token = 'token-1'
           const id = 'id-1'
-          insert({ token, id, del: false })
+          setRawToken({
+            token
+          , namespace: id
+          , read_permission: 0
+          , write_permission: 0
+          , delete_permission: 0
+          })
 
           const result = DAO.setDeleteToken({ token, id })
-          const row = select({ token, id })
+          const row = getRawToken(token, id)
 
           expect(result).toBeUndefined()
-          expect(row['delete_permission']).toBe(1)
+          expect(row).not.toBeNull()
+          expect(row!['delete_permission']).toBe(1)
         })
       })
 
@@ -323,10 +453,11 @@ describe('token-based access control', () => {
           const id = 'id-1'
 
           const result = DAO.setDeleteToken({ token, id })
-          const row = select({ token, id })
+          const row = getRawToken(token, id)
 
           expect(result).toBeUndefined()
-          expect(row['delete_permission']).toBe(1)
+          expect(row).not.toBeNull()
+          expect(row!['delete_permission']).toBe(1)
         })
       })
     })
@@ -336,10 +467,16 @@ describe('token-based access control', () => {
         it('return undefined', () => {
           const token = 'token-1'
           const id = 'id-1'
-          insert({ token, id, del: true })
+          setRawToken({
+            token
+          , namespace: id
+          , read_permission: 0
+          , write_permission: 0
+          , delete_permission: 1
+          })
 
           const result = DAO.unsetDeleteToken({ token, id })
-          const row = select({ token, id })
+          const row = getRawToken(token, id)
 
           expect(result).toBeUndefined()
           expect(row).toBeUndefined()
@@ -354,42 +491,9 @@ describe('token-based access control', () => {
           const result = DAO.unsetDeleteToken({ token, id })
 
           expect(result).toBeUndefined()
-          expect(exist({ token, id })).toBeFalse()
+          expect(hasRawToken(token, id)).toBeFalse()
         })
       })
     })
   })
 })
-
-function exist({ token, id }: { token: string; id: string }): boolean {
-  return !!select({ token, id })
-}
-
-function select({ token, id }: { token: string; id: string }) {
-  return getDatabase().prepare(`
-    SELECT *
-      FROM refile_token
-     WHERE token = $token AND refile_id = $id;
-  `).get({ token, id })
-}
-
-function insert(
-  { token, id, read = false, write = false, del = false }: {
-    token: string
-    id: string
-    read?: boolean
-    write?: boolean
-    del?: boolean
-  }
-): void {
-  getDatabase().prepare(`
-    INSERT INTO refile_token (token, refile_id, write_permission, read_permission, delete_permission)
-    VALUES ($token, $id, $write, $read, $del);
-  `).run({
-    token
-  , id
-  , write: write ? 1 : 0
-  , read: read ? 1 : 0
-  , del: del ? 1 : 0
-  })
-}
