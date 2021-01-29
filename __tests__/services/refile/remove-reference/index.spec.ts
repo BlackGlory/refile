@@ -11,16 +11,18 @@ beforeEach(async () => {
   await resetDatabases()
 })
 
-it('204', async () => {
-  const server = await buildServer()
-  const namespace = 'namespace'
-  const id = 'id'
-  const hash = 'hash'.repeat(16)
+describe('no access control', () => {
+  it('204', async () => {
+    const server = await buildServer()
+    const namespace = 'namespace'
+    const id = 'id'
+    const hash = 'hash'.repeat(16)
 
-  const res = await server.inject({
-    method: 'DELETE'
-  , url: `/refile/namespaces/${namespace}/items/${id}/files/${hash}`
+    const res = await server.inject({
+      method: 'DELETE'
+    , url: `/refile/namespaces/${namespace}/items/${id}/files/${hash}`
+    })
+
+    expect(res.statusCode).toBe(204)
   })
-
-  expect(res.statusCode).toBe(204)
 })

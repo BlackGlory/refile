@@ -11,15 +11,17 @@ beforeEach(async () => {
   await resetDatabases()
 })
 
-it('204', async () => {
-  const server = await buildServer()
-  const namespace = 'namespace'
-  const id = 'id'
+describe('no access control', () => {
+  it('204', async () => {
+    const server = await buildServer()
+    const namespace = 'namespace'
+    const id = 'id'
 
-  const res = await server.inject({
-    method: 'DELETE'
-  , url: `/refile/namespaces/${namespace}/items/${id}`
+    const res = await server.inject({
+      method: 'DELETE'
+    , url: `/refile/namespaces/${namespace}/items/${id}`
+    })
+
+    expect(res.statusCode).toBe(204)
   })
-
-  expect(res.statusCode).toBe(204)
 })
