@@ -1,6 +1,6 @@
 import { getDatabase } from '../database'
 
-export function listAllNamespaces(): string[] {
+export function getAllNamespaces(): string[] {
   const rows = getDatabase().prepare(`
     SELECT DISTINCT namespace
       FROM refile_reference;

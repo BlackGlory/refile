@@ -1,6 +1,6 @@
 import { getDatabase } from '../database'
 
-export function listAllItemIdsByFileAndNamespace(fileHash: string, namespace: string): string[] {
+export function getAllItemIdsByFileAndNamespace(fileHash: string, namespace: string): string[] {
   const rows = getDatabase().prepare(`
     SELECT item_id
       FROM refile_reference

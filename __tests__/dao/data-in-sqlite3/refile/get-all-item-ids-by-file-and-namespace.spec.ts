@@ -1,4 +1,4 @@
-import * as DAO from '@dao/data-in-sqlite3/refile/list-all-file-hashes-by-item'
+import * as DAO from '@dao/data-in-sqlite3/refile/get-all-item-ids-by-file-and-namespace'
 import { resetDatabases, resetEnvironment } from '@test/utils'
 import { setRawReference } from './utils'
 import '@blackglory/jest-matchers'
@@ -12,34 +12,31 @@ beforeEach(async () => {
   await resetDatabases()
 })
 
-describe('listAllFileHashesByItem(namespace: string, itemId: string): string[]', () => {
+describe('getAllItemIdsByFileAndNamespace(fileHash: string, namespace: string): string[]', () => {
   it('return string[]', () => {
     const namespace1 = 'namespace-1'
     const namespace2 = 'namespace-2'
-    const itemId = 'id'
+    const hash = 'hash'
+    const itemId1 = 'id-1'
+    const itemId2 = 'id-2'
     setRawReference({
       namespace: namespace1
-    , item_id: itemId
-    , file_hash: 'hash1'
+    , item_id: itemId1
+    , file_hash: hash
     })
     setRawReference({
       namespace: namespace1
-    , item_id: itemId
-    , file_hash: 'hash2'
+    , item_id: itemId2
+    , file_hash: hash
     })
     setRawReference({
       namespace: namespace2
-    , item_id: itemId
-    , file_hash: 'hash3'
-    })
-    setRawReference({
-      namespace: namespace2
-    , item_id: itemId
-    , file_hash: 'hash4'
+    , item_id: itemId1
+    , file_hash: hash
     })
 
-    const result = DAO.listAllFileHashes(namespace1, itemId)
+    const result = DAO.getAllItemIdsByFileAndNamespace(hash, namespace1)
 
-    expect(result).toEqual(['hash1', 'hash2'])
+    expect(result).toEqual([itemId1, itemId2])
   })
 })

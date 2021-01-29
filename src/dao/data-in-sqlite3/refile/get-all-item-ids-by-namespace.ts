@@ -1,7 +1,7 @@
 import { getDatabase } from '../database'
 import { map } from 'iterable-operator'
 
-export function listAllItemIdsByNamespace(namespace: string): Iterable<string> {
+export function getAllItemIdsByNamespace(namespace: string): Iterable<string> {
   const iter = getDatabase().prepare(`
     SELECT DISTINCT item_id
       FROM refile_reference

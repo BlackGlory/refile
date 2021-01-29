@@ -78,20 +78,20 @@ export async function getFileInfo(hash: string): Promise<IFileInfo> {
   }
 }
 
-export async function listNamespaces(): Promise<string[]> {
-  return await RefileDAO.listAllNamespaces()
+export async function getAllNamespaces(): Promise<string[]> {
+  return await RefileDAO.getAllNamespaces()
 }
 
-export async function listItems(namespace: string): Promise<string[]> {
-  return await toArrayAsync(RefileDAO.listAllItemIdsByNamespace(namespace))
+export async function getAllItemIds(namespace: string): Promise<string[]> {
+  return await toArrayAsync(RefileDAO.getAllItemIdsByNamespace(namespace))
 }
 
-export async function listItemsByFile(namespace: string, fileHash: string): Promise<string[]> {
-  return await RefileDAO.listAllItemIdsByFileAndNamespace(namespace, fileHash)
+export async function getItemIdsByFile(namespace: string, fileHash: string): Promise<string[]> {
+  return await RefileDAO.getAllItemIdsByFileAndNamespace(namespace, fileHash)
 }
 
-export async function listFilesByItem(namespace: string, itemId: string): Promise<string[]> {
-  return await RefileDAO.listAllFileHashes(namespace, itemId)
+export async function getFileHashesByItem(namespace: string, itemId: string): Promise<string[]> {
+  return await RefileDAO.getAllFileHashes(namespace, itemId)
 }
 
 export async function setReference(namespace: string, itemId: string, fileHash: string): Promise<void> {
@@ -108,7 +108,7 @@ export async function removeReference(namespace: string, itemId: string, fileHas
 }
 
 export async function removeReferencesByItem(namespace: string, itemId: string): Promise<void> {
-  const hashes = await RefileDAO.listAllFileHashes(namespace, itemId)
+  const hashes = await RefileDAO.getAllFileHashes(namespace, itemId)
   await RefileDAO.removeReferencesByItem(namespace, itemId)
 
   const promises: Array<Promise<void>> = []

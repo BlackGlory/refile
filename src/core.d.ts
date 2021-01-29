@@ -25,10 +25,10 @@ interface ICore {
 
     getFileInfo(fileHash: string): Promise<IFileInfo>
 
-    listNamespaces(): Promise<string[]>
-    listItems(namespace: string): Promise<string[]>
-    listItemsByFile(namespace: string, fileHash: string): Promise<string[]>
-    listFilesByItem(namespace: string, itemId: string): Promise<string[]>
+    getAllNamespaces(): Promise<string[]>
+    getAllItemIds(namespace: string): Promise<string[]>
+    getItemIdsByFile(namespace: string, fileHash: string): Promise<string[]>
+    getFileHashesByItem(namespace: string, itemId: string): Promise<string[]>
 
     setReference(namespace: string, itemId: string, fileHash: string): Promise<void>
     removeReference(namespace: string, itemId: string, fileHash: string): Promise<void>

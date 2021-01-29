@@ -1,6 +1,7 @@
-import * as DAO from '@dao/data-in-sqlite3/refile/list-all-item-ids-by-file-and-namespace'
+import * as DAO from '@dao/data-in-sqlite3/refile/get-all-item-ids-by-namespace'
 import { resetDatabases, resetEnvironment } from '@test/utils'
 import { setRawReference } from './utils'
+import { toArray } from 'iterable-operator'
 import '@blackglory/jest-matchers'
 import 'jest-extended'
 
@@ -12,13 +13,14 @@ beforeEach(async () => {
   await resetDatabases()
 })
 
-describe('listAllItemIdsByFileAndNamespace(fileHash: string, namespace: string): string[]', () => {
-  it('return string[]', () => {
+describe('getAllItemIdsByNamespace(namespace: string): Iterable<string>', () => {
+  it('return Iterable<string>', () => {
     const namespace1 = 'namespace-1'
     const namespace2 = 'namespace-2'
     const hash = 'hash'
     const itemId1 = 'id-1'
     const itemId2 = 'id-2'
+    const itemId3 = 'id-3'
     setRawReference({
       namespace: namespace1
     , item_id: itemId1
@@ -31,12 +33,13 @@ describe('listAllItemIdsByFileAndNamespace(fileHash: string, namespace: string):
     })
     setRawReference({
       namespace: namespace2
-    , item_id: itemId1
+    , item_id: itemId3
     , file_hash: hash
     })
 
-    const result = DAO.listAllItemIdsByFileAndNamespace(hash, namespace1)
+    const result = DAO.getAllItemIdsByNamespace(namespace1)
 
-    expect(result).toEqual([itemId1, itemId2])
+    expect(result).toBeIterable()
+    expect(toArray(result)).toEqual([itemId1, itemId2])
   })
 })

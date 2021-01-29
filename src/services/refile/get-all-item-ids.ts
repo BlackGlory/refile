@@ -3,19 +3,13 @@ import { idSchema, tokenSchema } from '@src/schema'
 
 export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes(server, { Core }) {
   server.get<{
-    Params: {
-      namespace: string
-      itemId: string
-    }
+    Params: { namespace: string }
     Querystring: { token?: string }
   }>(
-    '/refile/namespaces/:namespace/items/:itemId/files'
+    '/refile/namespaces/:namespace/items'
   , {
       schema: {
-        params: {
-          namespace: idSchema
-        , itemId: idSchema
-        }
+        params: { namespace: idSchema }
       , querystring: { token: tokenSchema }
       , response: {
           200: {
@@ -26,7 +20,7 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
       }
     }
   , async (req, reply) => {
-      const { namespace, itemId } = req.params
+      const { namespace } = req.params
       const { token } = req.query
 
       try {
@@ -40,8 +34,8 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
         throw e
       }
 
-      const hashes = await Core.Refile.listFilesByItem(namespace, itemId)
-      reply.status(200).send(hashes)
+      const itemIds = await Core.Refile.getAllItemIds(namespace)
+      reply.status(200).send(itemIds)
     }
   )
 }

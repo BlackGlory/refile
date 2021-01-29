@@ -1,7 +1,7 @@
-import { listAllFileHashes } from './list-all-file-hashes-by-item'
-import { listAllItemIdsByFileAndNamespace } from './list-all-item-ids-by-file-and-namespace'
-import { listAllItemIdsByNamespace } from './list-all-item-ids-by-namespace'
-import { listAllNamespaces } from './list-all-namespaces'
+import { getAllFileHashes } from './get-all-file-hashes-by-item'
+import { getAllItemIdsByFileAndNamespace } from './get-all-item-ids-by-file-and-namespace'
+import { getAllItemIdsByNamespace } from './get-all-item-ids-by-namespace'
+import { getAllNamespaces } from './get-all-namespaces'
 import { setFile } from './set-file'
 import { getFileLocation } from './get-file-location'
 import { removeFile } from './remove-file'
@@ -12,10 +12,10 @@ import { removeReferencesByFile } from './remove-references-by-file'
 import { removeReferencesByItem } from './remove-references-by-item'
 
 export const RefileDAO: IRefileDAO = {
-  listAllFileHashes: asyncify(listAllFileHashes)
-, listAllItemIdsByFileAndNamespace: asyncify(listAllItemIdsByFileAndNamespace)
-, listAllItemIdsByNamespace: asyncifyIterable(listAllItemIdsByNamespace)
-, listAllNamespaces: asyncify(listAllNamespaces)
+  getAllFileHashes: asyncify(getAllFileHashes)
+, getAllItemIdsByFileAndNamespace: asyncify(getAllItemIdsByFileAndNamespace)
+, getAllItemIdsByNamespace: asyncifyIterable(getAllItemIdsByNamespace)
+, getAllNamespaces: asyncify(getAllNamespaces)
 
 , setFile: asyncify(setFile)
 , getFileLocation: asyncify(getFileLocation)

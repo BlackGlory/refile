@@ -1,15 +1,21 @@
 import { FastifyPluginAsync } from 'fastify'
-import { idSchema, tokenSchema } from '@src/schema'
+import { idSchema, hashSchema, tokenSchema } from '@src/schema'
 
 export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes(server, { Core }) {
   server.get<{
-    Params: { namespace: string }
+    Params: {
+      namespace: string
+      fileHash: string
+    }
     Querystring: { token?: string }
   }>(
-    '/refile/namespaces/:namespace/items'
+    '/refile/files/:fileHash/namespaces/:namespace/items'
   , {
       schema: {
-        params: { namespace: idSchema }
+        params: {
+          namespace: idSchema
+        , fileHash: hashSchema
+        }
       , querystring: { token: tokenSchema }
       , response: {
           200: {
@@ -20,7 +26,7 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
       }
     }
   , async (req, reply) => {
-      const { namespace } = req.params
+      const { namespace, fileHash } = req.params
       const { token } = req.query
 
       try {
@@ -34,7 +40,7 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
         throw e
       }
 
-      const itemIds = await Core.Refile.listItems(namespace)
+      const itemIds = await Core.Refile.getItemIdsByFile(namespace, fileHash)
       reply.status(200).send(itemIds)
     }
   )

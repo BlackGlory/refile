@@ -4,10 +4,10 @@ interface IFile {
 }
 
 interface IRefileDAO {
-  listAllFileHashes(namespace: string, itemId: string): Promise<string[]>
-  listAllItemIdsByFileAndNamespace(fileHash: string, namespace: string): Promise<string[]>
-  listAllItemIdsByNamespace(namepsace: string): AsyncIterable<string>
-  listAllNamespaces(): Promise<string[]>
+  getAllFileHashes(namespace: string, itemId: string): Promise<string[]>
+  getAllItemIdsByFileAndNamespace(fileHash: string, namespace: string): Promise<string[]>
+  getAllItemIdsByNamespace(namepsace: string): AsyncIterable<string>
+  getAllNamespaces(): Promise<string[]>
 
   setFile(hash: string, location: string): Promise<void>
   getFileLocation(hash: string): Promise<string | null>

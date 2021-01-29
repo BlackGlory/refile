@@ -1,6 +1,6 @@
 import { getDatabase } from '../database'
 
-export function listAllFileHashes(namespace: string, itemId: string): string[] {
+export function getAllFileHashes(namespace: string, itemId: string): string[] {
   const rows = getDatabase().prepare(`
     SELECT file_hash
       FROM refile_reference

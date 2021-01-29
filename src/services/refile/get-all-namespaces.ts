@@ -14,7 +14,7 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
       }
     }
   , async (req, reply) => {
-      const namespaces = await Core.Refile.listNamespaces()
+      const namespaces = await Core.Refile.getAllNamespaces()
       reply.status(200).send(namespaces)
     }
   )
