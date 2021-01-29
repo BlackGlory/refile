@@ -87,7 +87,7 @@ export function getAllItemIds(namespace: string): AsyncIterable<string> {
 }
 
 export function getItemIdsByFile(namespace: string, fileHash: string): AsyncIterable<string> {
-  return RefileDAO.getAllItemIdsByFileAndNamespace(namespace, fileHash)
+  return RefileDAO.getAllItemIdsByFileAndNamespace(fileHash, namespace)
 }
 
 export function getFileHashesByItem(namespace: string, itemId: string): AsyncIterable<string> {

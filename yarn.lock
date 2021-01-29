@@ -878,6 +878,13 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
+"@types/accepts@^1.3.5":
+  version "1.3.5"
+  resolved "https://registry.yarnpkg.com/@types/accepts/-/accepts-1.3.5.tgz#c34bec115cfc746e04fe5a059df4ce7e7b391575"
+  integrity sha512-jOdnI/3qTpHABjM5cx1Hc0sKsPoYCp+DP/GJRGtDlPd7fiV9oXGGIcjW/ZOxLIvjGz8MA+uMZI9metHlgqbgwQ==
+  dependencies:
+    "@types/node" "*"
+
 "@types/app-root-path@^1.2.4":
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/@types/app-root-path/-/app-root-path-1.2.4.tgz#a78b703282b32ac54de768f5512ecc3569919dc7"
@@ -1197,6 +1204,14 @@ abstract-logging@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/abstract-logging/-/abstract-logging-2.0.1.tgz#6b0c371df212db7129b57d2e7fcf282b8bf1c839"
   integrity sha512-2BjRTZxTPvheOvGbBslFSYOUkr+SjPtOnrLP33f+VIWLzezQpZcqVg7ja3L4dBXmzzgwT+a029jRx5PCi3JuiA==
+
+accepts@^1.3.5:
+  version "1.3.7"
+  resolved "https://registry.yarnpkg.com/accepts/-/accepts-1.3.7.tgz#531bc726517a3b2b41f850021c6cc15eaab507cd"
+  integrity sha512-Il80Qs2WjYlJIBNzNkK6KYqlVMTbZLXgHx2oT0pU/fjRHyEp+PEfEPY0R3WCwAGVOtauxh1hOxNgIf5bv7dQpA==
+  dependencies:
+    mime-types "~2.1.24"
+    negotiator "0.6.2"
 
 acorn-globals@^6.0.0:
   version "6.0.0"
@@ -2865,6 +2880,14 @@ extra-fetch@^0.1.9:
     formdata-node "^2.4.0"
     node-fetch "3.0.0-beta.9"
 
+extra-generator@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/extra-generator/-/extra-generator-0.1.3.tgz#ed821820c078d02c7513be2c3ff543d2e4656f64"
+  integrity sha512-StbHAF5KGWkwP3bkuodnkX+WuRNSu6VhD42Py+2cLCycsQuPtslP0OsM/Yxxml0QhJz3tGK7QQgWIDbHkiYlUw==
+  dependencies:
+    "@blackglory/types" "^0.2.9"
+    typed-assert "^1.0.7"
+
 extra-promise@^0.13.15:
   version "0.13.15"
   resolved "https://registry.yarnpkg.com/extra-promise/-/extra-promise-0.13.15.tgz#64f0bfa61bae741e5f8921854c2fb4491ac712dc"
@@ -2974,6 +2997,14 @@ fast-safe-stringify@^2.0.7:
   version "2.0.7"
   resolved "https://registry.yarnpkg.com/fast-safe-stringify/-/fast-safe-stringify-2.0.7.tgz#124aa885899261f68aedb42a7c080de9da608743"
   integrity sha512-Utm6CdzT+6xsDk2m8S6uL8VHxNwI6Jub+e9NYTcAms28T84pTa25GJQV9j0CY0N1rM8hK4x6grpF2BQf+2qwVA==
+
+fastify-accepts@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/fastify-accepts/-/fastify-accepts-2.0.1.tgz#adfff78c700e23eb59c79cc3ab40b45980ae13a7"
+  integrity sha512-L7yOz/NQ4WMd6RP3eDz1bEBDXRT0Xw7ij8cNUhIw5IwDnKxnpPiX8NZd4HU+N28GEK+X5V3OrbRSYXM1upWdDg==
+  dependencies:
+    accepts "^1.3.5"
+    fastify-plugin "^2.0.0"
 
 fastify-bearer-auth@^5.0.2:
   version "5.0.2"
@@ -5004,7 +5035,7 @@ mime-types@2.1.27:
   dependencies:
     mime-db "1.44.0"
 
-mime-types@^2.1.12, mime-types@~2.1.19:
+mime-types@^2.1.12, mime-types@~2.1.19, mime-types@~2.1.24:
   version "2.1.28"
   resolved "https://registry.yarnpkg.com/mime-types/-/mime-types-2.1.28.tgz#1160c4757eab2c5363888e005273ecf79d2a0ecd"
   integrity sha512-0TO2yJ5YHYr7M2zzT7gDU1tbwHxEUWBCLt0lscSNpcdAfFyJOVEpRYNS7EXVcTLNj/25QO8gulHC5JtTzSE2UQ==
@@ -5162,6 +5193,11 @@ needle@2.4.0:
     debug "^3.2.6"
     iconv-lite "^0.4.4"
     sax "^1.2.4"
+
+negotiator@0.6.2:
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.2.tgz#feacf7ccf525a77ae9634436a64883ffeca346fb"
+  integrity sha512-hZXc7K2e+PgeI1eDBe/10Ard4ekbfrrqG8Ep+8Jmf4JID2bNg7NvCPOZN+kfF574pFQI7mum2AUqDidoKqcTOw==
 
 netmask@^1.0.6:
   version "1.0.6"

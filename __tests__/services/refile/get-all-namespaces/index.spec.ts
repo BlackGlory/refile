@@ -1,6 +1,7 @@
 import { buildServer } from '@src/server'
 import { resetDatabases, resetEnvironment } from '@test/utils'
 import { matchers } from 'jest-json-schema'
+import { prepareNamespaces } from './utils'
 
 jest.mock('@dao/config-in-sqlite3/database')
 jest.mock('@dao/data-in-sqlite3/database')
@@ -11,13 +12,18 @@ beforeEach(async () => {
   await resetDatabases()
 })
 
-it('200', async () => {
-  const server = await buildServer()
+describe('no access control', () => {
+  it('200', async () => {
+    const namespaces = ['namespace']
+    const server = await buildServer()
+    await prepareNamespaces(namespaces)
 
-  const res = await server.inject({
-    method: 'GET'
-  , url: `/refile/namespaces`
+    const res = await server.inject({
+      method: 'GET'
+    , url: '/refile/namespaces'
+    })
+
+    expect(res.statusCode).toBe(200)
+    expect(res.json()).toStrictEqual(namespaces)
   })
-
-  expect(res.statusCode).toBe(200)
 })

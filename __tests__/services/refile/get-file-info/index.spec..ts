@@ -11,14 +11,16 @@ beforeEach(async () => {
   await resetDatabases()
 })
 
-it('200', async () => {
-  const server = await buildServer()
-  const hash = 'hash'.repeat(16)
+describe('no access control', () => {
+  it('200', async () => {
+    const server = await buildServer()
+    const hash = 'hash'.repeat(16)
 
-  const res = await server.inject({
-    method: 'GET'
-  , url: `/refile/files/${hash}`
+    const res = await server.inject({
+      method: 'GET'
+    , url: `/refile/files/${hash}`
+    })
+
+    expect(res.statusCode).toBe(200)
   })
-
-  expect(res.statusCode).toBe(200)
 })
