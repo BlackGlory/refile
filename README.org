@@ -133,7 +133,7 @@ curl "http://localhost:8080/refile/files/$hash"
 await fetch(`http://localhost:8080/refile/files/${hash}`).then(res => res.json())
 #+END_SRC
 
-**** set reference 设置引用
+**** set reference
 =PUT /refile/namespaces/<namespace>/items/<id>/files/<hash>=
 
 设置资源hash与引用的关系, 此操作并不需要相关的文件已被上传.
@@ -151,7 +151,7 @@ curl \
 await fetch(`http://localhost:8080/refile/namespaces/${namespace}/items/${id}/files/${hash}`)
 #+END_SRC
 
-**** remove reference 移除引用
+**** remove reference
 =DELETE /refile/namespaces/<namespace>/items/<id>/files/<hash>=
 
 删除资源hash与引用的关系.
@@ -171,7 +171,7 @@ await fetch(`http://localhost:8080/refile/namespaces/${namespace}/items/${id}/fi
 })
 #+END_SRC
 
-**** remove references by item 移除项目的全部引用
+**** remove references by item
 =DELETE /refile/namespaces/<namespace>/items/<id>=
 
 删除特定项目的全部引用.
@@ -193,7 +193,7 @@ await fetch(`http://localhost:8080/refile/namespaces/${namespace}/items/${id}`, 
 })
 #+END_SRC
 
-**** list namespaces
+**** get all namespaces
 =GET /refile/namespaces=
 
 获取所有命名空间.
@@ -211,7 +211,7 @@ curl 'http://localhost:8080/refile/namespaces'
 await fetch('http://localhost:8080/refile/namespaces').then(res => res.json())
 #+END_SRC
 
-**** list items
+**** get all item ids
 =GET /refile/namespaces/<namespace>/items=
 
 获取特定命名空间下的所有项目id列表.
@@ -229,7 +229,7 @@ curl "http://localhost:8080/refile/namespaces/$namespace/items"
 await fetch(`http://localhost:8080/refile/namespaces/${namespace}/items`).then(res => res.json())
 #+END_SRC
 
-**** list files by item
+**** get file hashes by item
 =GET /refile/namespaces/<namespace>/items/<id>/files=
 
 获取与特定引用相关联的文件hash列表.
@@ -247,7 +247,7 @@ curl "http://localhost:8080/refile/namespaces/$namespace/items/$id/files"
 await fetch(`http://localhost:8080/refile/namespace/${namespace}/items/${id}/files`).then(res => res.json())
 #+END_SRC
 
-**** list items by file
+**** get item ids by file
 =GET /refile/files/<hash>/namespaces/<namespace>/items=
 
 获取特定namespace下与特定文件相关的项目id列表.
