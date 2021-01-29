@@ -1,10 +1,11 @@
 import { getDatabase } from '../database'
+import { map } from 'iterable-operator'
 
-export function getAllNamespaces(): string[] {
-  const rows = getDatabase().prepare(`
+export function getAllNamespaces(): Iterable<string> {
+  const iter = getDatabase().prepare(`
     SELECT DISTINCT namespace
       FROM refile_reference;
-  `).all()
+  `).iterate()
 
-  return rows.map(row => row['namespace'])
+  return map(iter, row => row['namespace'])
 }

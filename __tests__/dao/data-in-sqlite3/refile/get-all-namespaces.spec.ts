@@ -1,6 +1,7 @@
 import * as DAO from '@dao/data-in-sqlite3/refile/get-all-namespaces'
 import { resetDatabases, resetEnvironment } from '@test/utils'
 import { setRawReference } from './utils'
+import { toArray } from 'iterable-operator'
 import '@blackglory/jest-matchers'
 import 'jest-extended'
 
@@ -30,7 +31,9 @@ describe('getAllNamespaces(): string[]', () => {
     })
 
     const result = DAO.getAllNamespaces()
+    const proResult = toArray(result)
 
-    expect(result).toEqual([namespace1, namespace2])
+    expect(result).toBeIterable()
+    expect(proResult).toEqual([namespace1, namespace2])
   })
 })

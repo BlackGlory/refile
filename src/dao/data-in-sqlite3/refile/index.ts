@@ -12,10 +12,10 @@ import { removeReferencesByFile } from './remove-references-by-file'
 import { removeReferencesByItem } from './remove-references-by-item'
 
 export const RefileDAO: IRefileDAO = {
-  getAllFileHashes: asyncify(getAllFileHashes)
-, getAllItemIdsByFileAndNamespace: asyncify(getAllItemIdsByFileAndNamespace)
+  getAllFileHashes: asyncifyIterable(getAllFileHashes)
+, getAllItemIdsByFileAndNamespace: asyncifyIterable(getAllItemIdsByFileAndNamespace)
 , getAllItemIdsByNamespace: asyncifyIterable(getAllItemIdsByNamespace)
-, getAllNamespaces: asyncify(getAllNamespaces)
+, getAllNamespaces: asyncifyIterable(getAllNamespaces)
 
 , setFile: asyncify(setFile)
 , getFileLocation: asyncify(getFileLocation)

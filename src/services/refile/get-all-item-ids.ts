@@ -34,7 +34,7 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
         throw e
       }
 
-      const itemIds = await Core.Refile.getAllItemIds(namespace)
+      const itemIds = Core.Refile.getAllItemIds(namespace)
       reply.status(200).send(itemIds)
     }
   )

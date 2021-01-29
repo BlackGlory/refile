@@ -1,6 +1,6 @@
 import { RefileDAO, StorageDAO } from '@dao'
-import { each } from 'extra-promise'
 import { toArrayAsync } from 'iterable-operator'
+import { each } from 'extra-promise'
 import * as crypto from 'crypto'
 import { SplitHashValidator, NotMatchedError } from 'split-hash'
 import { CustomError } from '@blackglory/errors'
@@ -78,20 +78,20 @@ export async function getFileInfo(hash: string): Promise<IFileInfo> {
   }
 }
 
-export async function getAllNamespaces(): Promise<string[]> {
-  return await RefileDAO.getAllNamespaces()
+export function getAllNamespaces(): AsyncIterable<string> {
+  return RefileDAO.getAllNamespaces()
 }
 
-export async function getAllItemIds(namespace: string): Promise<string[]> {
-  return await toArrayAsync(RefileDAO.getAllItemIdsByNamespace(namespace))
+export function getAllItemIds(namespace: string): AsyncIterable<string> {
+  return RefileDAO.getAllItemIdsByNamespace(namespace)
 }
 
-export async function getItemIdsByFile(namespace: string, fileHash: string): Promise<string[]> {
-  return await RefileDAO.getAllItemIdsByFileAndNamespace(namespace, fileHash)
+export function getItemIdsByFile(namespace: string, fileHash: string): AsyncIterable<string> {
+  return RefileDAO.getAllItemIdsByFileAndNamespace(namespace, fileHash)
 }
 
-export async function getFileHashesByItem(namespace: string, itemId: string): Promise<string[]> {
-  return await RefileDAO.getAllFileHashes(namespace, itemId)
+export function getFileHashesByItem(namespace: string, itemId: string): AsyncIterable<string> {
+  return RefileDAO.getAllFileHashes(namespace, itemId)
 }
 
 export async function setReference(namespace: string, itemId: string, fileHash: string): Promise<void> {
@@ -108,7 +108,7 @@ export async function removeReference(namespace: string, itemId: string, fileHas
 }
 
 export async function removeReferencesByItem(namespace: string, itemId: string): Promise<void> {
-  const hashes = await RefileDAO.getAllFileHashes(namespace, itemId)
+  const hashes = await toArrayAsync(RefileDAO.getAllFileHashes(namespace, itemId))
   await RefileDAO.removeReferencesByItem(namespace, itemId)
 
   const promises: Array<Promise<void>> = []

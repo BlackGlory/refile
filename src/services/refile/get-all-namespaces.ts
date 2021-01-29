@@ -1,4 +1,5 @@
 import { FastifyPluginAsync } from 'fastify'
+import { Readable } from 'stream'
 
 export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes(server, { Core }) {
   server.get(
@@ -14,8 +15,8 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
       }
     }
   , async (req, reply) => {
-      const namespaces = await Core.Refile.getAllNamespaces()
-      reply.status(200).send(namespaces)
+      const namespaces = Core.Refile.getAllNamespaces()
+      reply.status(200).send(Readable.from(namespaces))
     }
   )
 }

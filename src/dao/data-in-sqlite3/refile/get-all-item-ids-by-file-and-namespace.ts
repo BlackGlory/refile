@@ -1,12 +1,13 @@
 import { getDatabase } from '../database'
+import { map } from 'iterable-operator'
 
-export function getAllItemIdsByFileAndNamespace(fileHash: string, namespace: string): string[] {
-  const rows = getDatabase().prepare(`
+export function getAllItemIdsByFileAndNamespace(fileHash: string, namespace: string): Iterable<string> {
+  const iter = getDatabase().prepare(`
     SELECT item_id
       FROM refile_reference
      WHERE file_hash = $fileHash
        AND namespace = $namespace;
-  `).all({ namespace, fileHash })
+  `).iterate({ namespace, fileHash })
 
-  return rows.map(row => row['item_id'])
+  return map(iter, row => row['item_id'])
 }
