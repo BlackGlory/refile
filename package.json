@@ -89,6 +89,7 @@
     "fs-extra": "^9.1.0",
     "iterable-operator": "^0.12.11",
     "migrations-file": "^0.1.1",
+    "return-style": "^0.11.6",
     "split-hash": "^0.1.2",
     "tmp-promise": "^3.0.2",
     "value-getter": "^0.1.7"
