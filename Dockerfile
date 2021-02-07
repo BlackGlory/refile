@@ -5,6 +5,7 @@ COPY package.json yarn.lock ./
 
 # better-sqlite3 build deps
 RUN apk add --update --no-cache --virtual .build-deps \
+      git \
       build-base \
       python3 \
  && yarn install \
