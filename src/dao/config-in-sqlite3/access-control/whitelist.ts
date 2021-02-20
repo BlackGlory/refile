@@ -2,7 +2,8 @@ import { getDatabase } from '../database'
 
 export function getAllWhitelistItems(): string[] {
   const result = getDatabase().prepare(`
-    SELECT namespace FROM refile_whitelist;
+    SELECT namespace
+      FROM refile_whitelist;
   `).all()
   return result.map(x => x['namespace'])
 }
@@ -15,16 +16,17 @@ export function inWhitelist(id: string): boolean {
               WHERE namespace = $id
            ) AS exist_in_whitelist;
   `).get({ id })
+
   return result['exist_in_whitelist'] === 1
 }
 
 export function addWhitelistItem(id: string) {
-  try {
-    getDatabase().prepare(`
-      INSERT INTO refile_whitelist (namespace)
-      VALUES ($id);
-    `).run({ id })
-  } catch {}
+  getDatabase().prepare(`
+    INSERT INTO refile_whitelist (namespace)
+    VALUES ($id)
+        ON CONFLICT
+        DO NOTHING;
+  `).run({ id })
 }
 
 export function removeWhitelistItem(id: string) {
