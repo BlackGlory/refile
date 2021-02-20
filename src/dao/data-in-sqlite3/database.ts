@@ -3,8 +3,8 @@ import type { Database as IDatabase } from 'better-sqlite3'
 import * as path from 'path'
 import * as fs from 'fs-extra'
 import { NODE_ENV, NodeEnv, DATA } from '@env'
-import { strict as assert } from 'assert'
 import { migrateDatabase } from './utils'
+import { assert } from '@blackglory/errors'
 assert(NODE_ENV() !== NodeEnv.Test)
 
 let db: IDatabase
