@@ -11,11 +11,13 @@ interface IRawReference {
   file_hash: string
 }
 
-export function setRawFile({ hash, location }: IRawFile): void {
+export function setRawFile(file: IRawFile): IRawFile {
   getDatabase().prepare(`
     INSERT INTO refile_file (hash, location)
     VALUES ($hash, $location);
-  `).run({ hash, location })
+  `).run(file)
+
+  return file
 }
 
 export function getRawFile(hash: string): IRawFile | null {
@@ -31,11 +33,13 @@ export function hasRawFile(hash: string): boolean {
   return !!getRawFile(hash)
 }
 
-export function setRawReference(params: IRawReference): void {
+export function setRawReference(item: IRawReference): IRawReference {
   getDatabase().prepare(`
     INSERT INTO refile_reference (namespace, item_id, file_hash)
     VALUES ($namespace, $item_id, $file_hash);
-  `).run(params)
+  `).run(item)
+
+  return item
 }
 
 export function hasRawReference(namespace: string, itemId: string, fileHash: string): boolean {
