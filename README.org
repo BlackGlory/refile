@@ -685,7 +685,7 @@ curl \
 
 ******** fetch
 #+BEGIN_SRC js
-await fetch(`http://localhost:8080/api/refile/${id}/tokens/$token/read`, {
+await fetch(`http://localhost:8080/api/refile/${id}/tokens/${token}/read`, {
   method: 'PUT'
 , headers: {
     'Authorization': `Bearer ${adminPassword}`
@@ -733,7 +733,7 @@ curl \
 
 ******** fetch
 #+BEGIN_SRC js
-await fetch(`http://localhost:8080/api/refile/${id}/tokens/$token/delete`, {
+await fetch(`http://localhost:8080/api/refile/${id}/tokens/${token}/delete`, {
   method: 'PUT'
 , headers: {
     'Authorization': `Bearer ${adminPassword}`
