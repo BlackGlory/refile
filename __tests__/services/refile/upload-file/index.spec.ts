@@ -31,8 +31,6 @@ beforeEach(async () => {
   process.env.REFILE_DATA = path
   await startService()
 })
-
-beforeEach(startService)
 afterEach(async () => {
   await stopService()
   await fs.remove(tmpDirPath)
