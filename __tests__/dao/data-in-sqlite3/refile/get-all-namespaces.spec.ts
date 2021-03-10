@@ -1,5 +1,5 @@
 import * as DAO from '@dao/data-in-sqlite3/refile/get-all-namespaces'
-import { resetDatabases, resetEnvironment } from '@test/utils'
+import { initializeDatabases, clearDatabases } from '@test/utils'
 import { setRawReference } from './utils'
 import { toArray } from 'iterable-operator'
 import '@blackglory/jest-matchers'
@@ -8,10 +8,8 @@ import 'jest-extended'
 jest.mock('@dao/config-in-sqlite3/database')
 jest.mock('@dao/data-in-sqlite3/database')
 
-beforeEach(async () => {
-  resetEnvironment()
-  await resetDatabases()
-})
+beforeEach(initializeDatabases)
+afterEach(clearDatabases)
 
 describe('getAllNamespaces(): string[]', () => {
   it('return string[]', () => {

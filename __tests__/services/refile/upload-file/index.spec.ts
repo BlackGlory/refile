@@ -1,7 +1,6 @@
 import { RefileDAO } from '@dao/data-in-sqlite3/refile'
 import { StorageDAO } from '@dao/data-in-fs/storage'
-import { buildServer } from '@src/server'
-import { resetDatabases, resetEnvironment } from '@test/utils'
+import { startService, stopService, getServer } from '@test/utils'
 import { matchers } from 'jest-json-schema'
 import { put } from 'extra-request'
 import { url, pathname, formDataField } from 'extra-request/lib/es2018/transformers'
@@ -27,14 +26,15 @@ expect.extend(matchers)
 let tmpDirPath: string
 
 beforeEach(async () => {
-  resetEnvironment()
   const { path } = await dir()
   tmpDirPath = path
   process.env.REFILE_DATA = path
-  await resetDatabases()
+  await startService()
 })
 
+beforeEach(startService)
 afterEach(async () => {
+  await stopService()
   await fs.remove(tmpDirPath)
 })
 
@@ -46,7 +46,7 @@ const BAD_FIXTURE_FILENAME = path.join(__dirname, 'fixtures', 'bad.txt')
 describe('file does not exist', () => {
   describe('upload success', () => {
     it('204', async () => {
-      const server = await buildServer()
+      const server = getServer()
       const address = await server.listen(0)
       const { hash, hashList } = await getHashInfo(FIXTURE_FILENAME)
       await RefileDAO.setReference('namespace', 'id', hash)
@@ -71,7 +71,7 @@ describe('file does not exist', () => {
 
   describe('bad hash list', () => {
     it('400', async () => {
-      const server = await buildServer()
+      const server = getServer()
       const address = await server.listen(0)
       const { hash, hashList } = await getHashInfo(FIXTURE_FILENAME)
       await RefileDAO.setReference('namespace', 'id', hash)
@@ -94,7 +94,7 @@ describe('file does not exist', () => {
 
   describe('bad file', () => {
     it('400', async () => {
-      const server = await buildServer()
+      const server = getServer()
       const address = await server.listen(0)
       const { hash, hashList } = await getHashInfo(FIXTURE_FILENAME)
       await RefileDAO.setReference('namespace', 'id', hash)
@@ -118,7 +118,7 @@ describe('file does not exist', () => {
 
 describe('file exists', () => {
   it('204', async () => {
-    const server = await buildServer()
+    const server = getServer()
     const address = await server.listen(0)
     const { hash, hashList } = await getHashInfo(FIXTURE_FILENAME)
     await RefileDAO.setReference('namespace', 'id', hash)

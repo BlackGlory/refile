@@ -1,5 +1,4 @@
-import { buildServer } from '@src/server'
-import { resetDatabases, resetEnvironment } from '@test/utils'
+import { startService, stopService, getServer } from '@test/utils'
 import { matchers } from 'jest-json-schema'
 import { AccessControlDAO } from '@dao'
 
@@ -7,10 +6,8 @@ jest.mock('@dao/config-in-sqlite3/database')
 jest.mock('@dao/data-in-sqlite3/database')
 expect.extend(matchers)
 
-beforeEach(async () => {
-  resetEnvironment()
-  await resetDatabases()
-})
+beforeEach(startService)
+afterEach(stopService)
 
 describe('token-based access control', () => {
   describe('enabled', () => {
@@ -21,7 +18,7 @@ describe('token-based access control', () => {
           const namespace = 'namespace'
           const hash = 'hash'.repeat(16)
           const token = 'token'
-          const server = await buildServer()
+          const server = getServer()
           await AccessControlDAO.setReadTokenRequired(namespace, true)
           await AccessControlDAO.setReadToken({ id: namespace, token })
 
@@ -41,7 +38,7 @@ describe('token-based access control', () => {
           const namespace = 'namespace'
           const hash = 'hash'.repeat(16)
           const token = 'token'
-          const server = await buildServer()
+          const server = getServer()
           await AccessControlDAO.setReadTokenRequired(namespace, true)
           await AccessControlDAO.setReadToken({ id: namespace, token })
 
@@ -60,7 +57,7 @@ describe('token-based access control', () => {
           const namespace = 'namespace'
           const hash = 'hash'.repeat(16)
           const token = 'token'
-          const server = await buildServer()
+          const server = getServer()
           await AccessControlDAO.setReadTokenRequired(namespace, true)
           await AccessControlDAO.setReadToken({ id: namespace, token })
 
@@ -81,7 +78,7 @@ describe('token-based access control', () => {
           process.env.REFILE_READ_TOKEN_REQUIRED = 'true'
           const namespace = 'namespace'
           const hash = 'hash'.repeat(16)
-          const server = await buildServer()
+          const server = getServer()
 
           const res = await server.inject({
             method: 'GET'
@@ -97,7 +94,7 @@ describe('token-based access control', () => {
           process.env.REFILE_TOKEN_BASED_ACCESS_CONTROL = 'true'
           const namespace = 'namespace'
           const hash = 'hash'.repeat(16)
-          const server = await buildServer()
+          const server = getServer()
 
           const res = await server.inject({
             method: 'GET'
@@ -117,7 +114,7 @@ describe('token-based access control', () => {
           const namespace = 'namespace'
           const hash = 'hash'.repeat(16)
           const token = 'token'
-          const server = await buildServer()
+          const server = getServer()
           await AccessControlDAO.setReadTokenRequired(namespace, true)
           await AccessControlDAO.setReadToken({ id: namespace, token })
 
@@ -138,7 +135,7 @@ describe('token-based access control', () => {
           const namespace = 'namespace'
           const hash = 'hash'.repeat(16)
           const token = 'token'
-          const server = await buildServer()
+          const server = getServer()
           await AccessControlDAO.setReadTokenRequired(namespace, true)
           await AccessControlDAO.setReadToken({ id: namespace, token })
 

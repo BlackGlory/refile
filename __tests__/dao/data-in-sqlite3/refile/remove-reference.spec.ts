@@ -1,5 +1,5 @@
 import * as DAO from '@dao/data-in-sqlite3/refile/remove-reference'
-import { resetDatabases, resetEnvironment } from '@test/utils'
+import { initializeDatabases, clearDatabases } from '@test/utils'
 import { hasRawReference, setRawReference } from './utils'
 import '@blackglory/jest-matchers'
 import 'jest-extended'
@@ -7,10 +7,8 @@ import 'jest-extended'
 jest.mock('@dao/config-in-sqlite3/database')
 jest.mock('@dao/data-in-sqlite3/database')
 
-beforeEach(async () => {
-  resetEnvironment()
-  await resetDatabases()
-})
+beforeEach(initializeDatabases)
+afterEach(clearDatabases)
 
 describe('removeReference(namespace: string, itemId: string, fileHash: string): void', () => {
   describe('exist', () => {
