@@ -273,29 +273,6 @@ curl "http://localhost:8080/refile/files/$hash/namespaces/$namespace/items"
 await fetch(`http://localhost:8080/refile/files/${hash}/namespaces/${namespace}/items`).then(res => res.json())
 #+END_SRC
 
-**** metrics
-=GET /metrics=
-
-输出JSON:
-#+BEGIN_SRC ts
-{
-  memoryUsage: NodeJS.MemoryUsage
-  cpuUsage: NodeJS.CpuUsage
-  resourceUsage: NodeJS.ResourceUsage
-}
-#+END_SRC
-
-***** Example
-****** curl
-#+BEGIN_SRC sh
-curl 'http://localhost:8080/metrics'
-#+END_SRC
-
-****** JavaScript
-#+BEGIN_SRC js
-await fetch('http://localhost:8080/metrics').then(res => res.json())
-#+END_SRC
-
 *** Private
 **** 访问控制
 Refile提供两种可以同时启用的访问控制策略.
