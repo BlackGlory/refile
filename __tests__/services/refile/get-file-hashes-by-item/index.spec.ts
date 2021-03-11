@@ -1,6 +1,10 @@
-import { startService, stopService, getServer } from '@test/utils'
+import { startService, stopService, getAddress } from '@test/utils'
 import { matchers } from 'jest-json-schema'
 import { prepareFiles } from './utils'
+import { fetch } from 'extra-fetch'
+import { get } from 'extra-request'
+import { url, pathname } from 'extra-request/lib/es2018/transformers'
+import { toJSON } from 'extra-response'
 
 jest.mock('@dao/config-in-sqlite3/database')
 jest.mock('@dao/data-in-sqlite3/database')
@@ -14,15 +18,14 @@ describe('no access control', () => {
     const namespace = 'namespace'
     const itemId = 'item-id'
     const fileHashes = ['hash']
-    const server = getServer()
     await prepareFiles(namespace, itemId, fileHashes)
 
-    const res = await server.inject({
-      method: 'GET'
-    , url: `/refile/namespaces/${namespace}/items/${itemId}/files`
-    })
+    const res = await fetch(get(
+      url(getAddress())
+    , pathname(`/refile/namespaces/${namespace}/items/${itemId}/files`)
+    ))
 
-    expect(res.statusCode).toBe(200)
-    expect(res.json()).toStrictEqual(fileHashes)
+    expect(res.status).toBe(200)
+    expect(await toJSON(res)).toStrictEqual(fileHashes)
   })
 })

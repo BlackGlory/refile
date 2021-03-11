@@ -1,6 +1,6 @@
 import { RefileDAO } from '@dao/data-in-sqlite3/refile'
 import { StorageDAO } from '@dao/data-in-fs/storage'
-import { startService, stopService, getServer } from '@test/utils'
+import { startService, stopService, getAddress } from '@test/utils'
 import { matchers } from 'jest-json-schema'
 import { put } from 'extra-request'
 import { url, pathname, formDataField } from 'extra-request/lib/es2018/transformers'
@@ -44,87 +44,11 @@ const BAD_FIXTURE_FILENAME = path.join(__dirname, 'fixtures', 'bad.txt')
 describe('file does not exist', () => {
   describe('upload success', () => {
     it('204', async () => {
-      const server = getServer()
-      const address = await server.listen(0)
       const { hash, hashList } = await getHashInfo(FIXTURE_FILENAME)
       await RefileDAO.setReference('namespace', 'id', hash)
 
-      try {
-        const req = put(
-          url(address)
-        , pathname(`/refile/files/${hash}`)
-        , formDataField('hash', hashList)
-        , formDataField('file', blobFrom(FIXTURE_FILENAME))
-        )
-
-        const res = await fetch(req)
-        expect(res.status).toBe(204)
-      } finally {
-        server.close()
-        const location = await RefileDAO.getFileLocation(hash)
-        if (location) await StorageDAO.deleteFile(location)
-      }
-    })
-  })
-
-  describe('bad hash list', () => {
-    it('400', async () => {
-      const server = getServer()
-      const address = await server.listen(0)
-      const { hash, hashList } = await getHashInfo(FIXTURE_FILENAME)
-      await RefileDAO.setReference('namespace', 'id', hash)
-
-      try {
-        const req = put(
-          url(address)
-        , pathname(`/refile/files/${hash}`)
-        , formDataField('hash', [...hashList, 'bad'])
-        , formDataField('file', blobFrom(FIXTURE_FILENAME))
-        )
-
-        const res = await fetch(req)
-        expect(res.status).toBe(400)
-      } finally {
-        server.close()
-      }
-    })
-  })
-
-  describe('bad file', () => {
-    it('400', async () => {
-      const server = getServer()
-      const address = await server.listen(0)
-      const { hash, hashList } = await getHashInfo(FIXTURE_FILENAME)
-      await RefileDAO.setReference('namespace', 'id', hash)
-
-      try {
-        const req = put(
-          url(address)
-        , pathname(`/refile/files/${hash}`)
-        , formDataField('hash', hashList)
-        , formDataField('file', blobFrom(BAD_FIXTURE_FILENAME))
-        )
-
-        const res = await fetch(req)
-        expect(res.status).toBe(400)
-      } finally {
-        server.close()
-      }
-    })
-  })
-})
-
-describe('file exists', () => {
-  it('204', async () => {
-    const server = getServer()
-    const address = await server.listen(0)
-    const { hash, hashList } = await getHashInfo(FIXTURE_FILENAME)
-    await RefileDAO.setReference('namespace', 'id', hash)
-    await RefileDAO.setFile(hash, 'location')
-
-    try {
       const req = put(
-        url(address)
+        url(getAddress())
       , pathname(`/refile/files/${hash}`)
       , formDataField('hash', hashList)
       , formDataField('file', blobFrom(FIXTURE_FILENAME))
@@ -132,9 +56,59 @@ describe('file exists', () => {
 
       const res = await fetch(req)
       expect(res.status).toBe(204)
-    } finally {
-      server.close()
-    }
+    })
+  })
+
+  describe('bad hash list', () => {
+    it('400', async () => {
+      const { hash, hashList } = await getHashInfo(FIXTURE_FILENAME)
+      await RefileDAO.setReference('namespace', 'id', hash)
+
+      const req = put(
+        url(getAddress())
+      , pathname(`/refile/files/${hash}`)
+      , formDataField('hash', [...hashList, 'bad'])
+      , formDataField('file', blobFrom(FIXTURE_FILENAME))
+      )
+
+      const res = await fetch(req)
+      expect(res.status).toBe(400)
+    })
+  })
+
+  describe('bad file', () => {
+    it('400', async () => {
+      const { hash, hashList } = await getHashInfo(FIXTURE_FILENAME)
+      await RefileDAO.setReference('namespace', 'id', hash)
+
+      const req = put(
+        url(getAddress())
+      , pathname(`/refile/files/${hash}`)
+      , formDataField('hash', hashList)
+      , formDataField('file', blobFrom(BAD_FIXTURE_FILENAME))
+      )
+
+      const res = await fetch(req)
+      expect(res.status).toBe(400)
+    })
+  })
+})
+
+describe('file exists', () => {
+  it('204', async () => {
+    const { hash, hashList } = await getHashInfo(FIXTURE_FILENAME)
+    await RefileDAO.setReference('namespace', 'id', hash)
+    await RefileDAO.setFile(hash, 'location')
+
+    const req = put(
+      url(getAddress())
+    , pathname(`/refile/files/${hash}`)
+    , formDataField('hash', hashList)
+    , formDataField('file', blobFrom(FIXTURE_FILENAME))
+    )
+
+    const res = await fetch(req)
+    expect(res.status).toBe(204)
   })
 })
 

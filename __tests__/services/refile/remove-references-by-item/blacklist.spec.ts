@@ -1,6 +1,9 @@
-import { startService, stopService, getServer } from '@test/utils'
+import { startService, stopService, getAddress } from '@test/utils'
 import { matchers } from 'jest-json-schema'
 import { AccessControlDAO } from '@dao'
+import { fetch } from 'extra-fetch'
+import { del } from 'extra-request'
+import { url, pathname } from 'extra-request/lib/es2018/transformers'
 
 jest.mock('@dao/config-in-sqlite3/database')
 jest.mock('@dao/data-in-sqlite3/database')
@@ -16,15 +19,14 @@ describe('blacklist', () => {
         process.env.REFILE_LIST_BASED_ACCESS_CONTROL = 'blacklist'
         const namespace = 'namespace'
         const id = 'id'
-        const server = getServer()
         await AccessControlDAO.addBlacklistItem(namespace)
 
-        const res = await server.inject({
-          method: 'DELETE'
-        , url: `/refile/namespaces/${namespace}/items/${id}`
-        })
+        const res = await fetch(del(
+          url(getAddress())
+        , pathname(`/refile/namespaces/${namespace}/items/${id}`)
+        ))
 
-        expect(res.statusCode).toBe(403)
+        expect(res.status).toBe(403)
       })
     })
 
@@ -33,14 +35,13 @@ describe('blacklist', () => {
         process.env.REFILE_LIST_BASED_ACCESS_CONTROL = 'blacklist'
         const namespace = 'namespace'
         const id = 'id'
-        const server = getServer()
 
-        const res = await server.inject({
-          method: 'DELETE'
-        , url: `/refile/namespaces/${namespace}/items/${id}`
-        })
+        const res = await fetch(del(
+          url(getAddress())
+        , pathname(`/refile/namespaces/${namespace}/items/${id}`)
+        ))
 
-        expect(res.statusCode).toBe(204)
+        expect(res.status).toBe(204)
       })
     })
   })
@@ -50,15 +51,14 @@ describe('blacklist', () => {
       it('204', async () => {
         const namespace = 'namespace'
         const id = 'id'
-        const server = getServer()
         await AccessControlDAO.addBlacklistItem(namespace)
 
-        const res = await server.inject({
-          method: 'DELETE'
-        , url: `/refile/namespaces/${namespace}/items/${id}`
-        })
+        const res = await fetch(del(
+          url(getAddress())
+        , pathname(`/refile/namespaces/${namespace}/items/${id}`)
+        ))
 
-        expect(res.statusCode).toBe(204)
+        expect(res.status).toBe(204)
       })
     })
   })
