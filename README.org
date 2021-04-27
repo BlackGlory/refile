@@ -102,7 +102,7 @@ FormData 将文件作为表单的一部分, 以 =multipart/form-data= 的类型�
 
 文件不存在时, 返回201
 文件已存在时, 返回200
-在Location里包含文件在存储器上的URI(对IPFS来说, 是IPFS地址).
+在Location里包含文件在存储器上的URI.
 
 文件hash校验错误时, 返回409
 服务器存储空间不足时, 返回507
