@@ -1,5 +1,4 @@
 import { RefileDAO } from '@dao/data-in-sqlite3/refile'
-import { StorageDAO } from '@dao/data-in-fs/storage'
 import { startService, stopService, getAddress } from '@test/utils'
 import { matchers } from 'jest-json-schema'
 import { put } from 'extra-request'
@@ -11,7 +10,7 @@ import { toArrayAsync } from 'iterable-operator'
 import { fetch } from 'extra-fetch'
 import * as fs from 'fs-extra'
 import { dir } from 'tmp-promise'
-/* @ts-ignore */
+// @ts-ignore
 import blobFrom = require('fetch-blob/from')
 
 interface HashInfo {
@@ -51,7 +50,7 @@ describe('file does not exist', () => {
         url(getAddress())
       , pathname(`/refile/files/${hash}`)
       , formDataField('hash', hashList)
-      , formDataField('file', blobFrom(FIXTURE_FILENAME))
+      , formDataField('file', blobFrom(FIXTURE_FILENAME) as unknown as Blob)
       )
 
       const res = await fetch(req)
@@ -68,7 +67,7 @@ describe('file does not exist', () => {
         url(getAddress())
       , pathname(`/refile/files/${hash}`)
       , formDataField('hash', [...hashList, 'bad'])
-      , formDataField('file', blobFrom(FIXTURE_FILENAME))
+      , formDataField('file', blobFrom(FIXTURE_FILENAME) as unknown as Blob)
       )
 
       const res = await fetch(req)
@@ -85,7 +84,7 @@ describe('file does not exist', () => {
         url(getAddress())
       , pathname(`/refile/files/${hash}`)
       , formDataField('hash', hashList)
-      , formDataField('file', blobFrom(BAD_FIXTURE_FILENAME))
+      , formDataField('file', blobFrom(BAD_FIXTURE_FILENAME) as unknown as Blob)
       )
 
       const res = await fetch(req)
@@ -104,7 +103,7 @@ describe('file exists', () => {
       url(getAddress())
     , pathname(`/refile/files/${hash}`)
     , formDataField('hash', hashList)
-    , formDataField('file', blobFrom(FIXTURE_FILENAME))
+    , formDataField('file', blobFrom(FIXTURE_FILENAME) as unknown as Blob)
     )
 
     const res = await fetch(req)
