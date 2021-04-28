@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://github.com/BlackGlory/refile/compare/v0.2.2...v0.3.0) (2021-04-28)
+
+
+### ⚠ BREAKING CHANGES
+
+* The database schema has been upgraded
+
+* rename ([322ba9d](https://github.com/BlackGlory/refile/commit/322ba9d6857475b629c04f6df92ce5d502042801))
+
 ### [0.2.2](https://github.com/BlackGlory/refile/compare/v0.2.1...v0.2.2) (2021-04-28)
 
 ### [0.2.1](https://github.com/BlackGlory/refile/compare/v0.2.0...v0.2.1) (2021-03-17)
