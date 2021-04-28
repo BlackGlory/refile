@@ -21,17 +21,17 @@ describe('getAllItemIdsByNamespace(namespace: string): Iterable<string>', () => 
     const itemId3 = 'id-3'
     setRawReference({
       namespace: namespace1
-    , item_id: itemId1
+    , id: itemId1
     , file_hash: hash
     })
     setRawReference({
       namespace: namespace1
-    , item_id: itemId2
+    , id: itemId2
     , file_hash: hash
     })
     setRawReference({
       namespace: namespace2
-    , item_id: itemId3
+    , id: itemId3
     , file_hash: hash
     })
 

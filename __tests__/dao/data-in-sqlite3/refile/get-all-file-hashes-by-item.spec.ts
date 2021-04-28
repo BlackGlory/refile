@@ -11,33 +11,33 @@ jest.mock('@dao/data-in-sqlite3/database')
 beforeEach(initializeDatabases)
 afterEach(clearDatabases)
 
-describe('getAllFileHashesByItem(namespace: string, itemId: string): string[]', () => {
+describe('getAllFileHashesByItem(namespace: string, id: string): string[]', () => {
   it('return string[]', () => {
     const namespace1 = 'namespace-1'
     const namespace2 = 'namespace-2'
-    const itemId = 'id'
+    const id = 'id'
     setRawReference({
       namespace: namespace1
-    , item_id: itemId
+    , id
     , file_hash: 'hash1'
     })
     setRawReference({
       namespace: namespace1
-    , item_id: itemId
+    , id
     , file_hash: 'hash2'
     })
     setRawReference({
       namespace: namespace2
-    , item_id: itemId
+    , id
     , file_hash: 'hash3'
     })
     setRawReference({
       namespace: namespace2
-    , item_id: itemId
+    , id
     , file_hash: 'hash4'
     })
 
-    const result = DAO.getAllFileHashes(namespace1, itemId)
+    const result = DAO.getAllFileHashes(namespace1, id)
     const proResult = toArray(result)
 
     expect(result).toBeIterable()

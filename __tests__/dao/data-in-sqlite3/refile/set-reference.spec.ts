@@ -10,35 +10,35 @@ jest.mock('@dao/data-in-sqlite3/database')
 beforeEach(initializeDatabases)
 afterEach(clearDatabases)
 
-describe('setReference(namespace: string, itemId: string, fileHash: string): void', () => {
+describe('setReference(namespace: string, id: string, fileHash: string): void', () => {
   describe('exist', () => {
     it('ignore and return undefined', () => {
       const namespace = 'namespace'
-      const itemId = 'id'
+      const id = 'id'
       const fileHash = 'hash'
       setRawReference({
         namespace
-      , item_id: itemId
+      , id
       , file_hash: fileHash
       })
 
-      const result = DAO.setReference(namespace, itemId, fileHash)
+      const result = DAO.setReference(namespace, id, fileHash)
 
       expect(result).toBeUndefined()
-      expect(hasRawReference(namespace, itemId, fileHash)).toBeTrue()
+      expect(hasRawReference(namespace, id, fileHash)).toBeTrue()
     })
   })
 
   describe('not exist', () => {
     it('insert and return undefined', () => {
       const namespace = 'namespace'
-      const itemId = 'id'
+      const id = 'id'
       const fileHash = 'hash'
 
-      const result = DAO.setReference(namespace, itemId, fileHash)
+      const result = DAO.setReference(namespace, id, fileHash)
 
       expect(result).toBeUndefined()
-      expect(hasRawReference(namespace, itemId, fileHash)).toBeTrue()
+      expect(hasRawReference(namespace, id, fileHash)).toBeTrue()
     })
   })
 })

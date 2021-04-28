@@ -19,17 +19,17 @@ describe('countReferences(fileHash: string): number', () => {
     const fileHash = 'hash'
     setRawReference({
       namespace: namespace1
-    , item_id: itemId1
+    , id: itemId1
     , file_hash: fileHash
     })
     setRawReference({
       namespace: namespace1
-    , item_id: itemId2
+    , id: itemId2
     , file_hash: fileHash
     })
     setRawReference({
       namespace: namespace2
-    , item_id: itemId1
+    , id: itemId1
     , file_hash: fileHash
     })
 

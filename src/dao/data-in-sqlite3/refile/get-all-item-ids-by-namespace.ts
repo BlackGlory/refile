@@ -3,10 +3,10 @@ import { map } from 'iterable-operator'
 
 export function getAllItemIdsByNamespace(namespace: string): Iterable<string> {
   const iter = getDatabase().prepare(`
-    SELECT DISTINCT item_id
+    SELECT DISTINCT id
       FROM refile_reference
      WHERE namespace = $namespace;
   `).iterate({ namespace })
 
-  return map(iter, row => row['item_id'])
+  return map(iter, row => row['id'])
 }

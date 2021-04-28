@@ -7,7 +7,7 @@ interface IRawFile {
 
 interface IRawReference {
   namespace: string
-  item_id: string
+  id: string
   file_hash: string
 }
 
@@ -35,23 +35,23 @@ export function hasRawFile(hash: string): boolean {
 
 export function setRawReference(item: IRawReference): IRawReference {
   getDatabase().prepare(`
-    INSERT INTO refile_reference (namespace, item_id, file_hash)
-    VALUES ($namespace, $item_id, $file_hash);
+    INSERT INTO refile_reference (namespace, id, file_hash)
+    VALUES ($namespace, $id, $file_hash);
   `).run(item)
 
   return item
 }
 
-export function hasRawReference(namespace: string, itemId: string, fileHash: string): boolean {
-  return !!getRawReference(namespace, itemId, fileHash)
+export function hasRawReference(namespace: string, id: string, fileHash: string): boolean {
+  return !!getRawReference(namespace, id, fileHash)
 }
 
-export function getRawReference(namespace: string, itemId: string, fileHash: string): IRawReference | null {
+export function getRawReference(namespace: string, id: string, fileHash: string): IRawReference | null {
   return getDatabase().prepare(`
     SELECT *
       FROM refile_reference
      WHERE namespace = $namespace
-       AND item_id = $itemId
+       AND id = $id
        AND file_hash = $fileHash;
-  `).get({ namespace, itemId, fileHash })
+  `).get({ namespace, id, fileHash })
 }

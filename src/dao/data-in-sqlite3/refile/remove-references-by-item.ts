@@ -1,9 +1,9 @@
 import { getDatabase } from '../database'
 
-export function removeReferencesByItem(namespace: string, itemId: string): void {
+export function removeReferencesByItem(namespace: string, id: string): void {
   getDatabase().prepare(`
     DELETE FROM refile_reference
      WHERE namespace = $namespace
-       AND item_id = $itemId;
-  `).run({ namespace, itemId })
+       AND id = $id;
+  `).run({ namespace, id })
 }

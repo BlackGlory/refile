@@ -15,16 +15,16 @@ describe('getAllNamespaces(): string[]', () => {
   it('return string[]', () => {
     const namespace1 = 'namespace-1'
     const namespace2 = 'namespace-2'
-    const itemId = 'id'
+    const id = 'id'
     const hash = 'hash'
     setRawReference({
       namespace: namespace1
-    , item_id: itemId
+    , id
     , file_hash: hash
     })
     setRawReference({
       namespace: namespace2
-    , item_id: itemId
+    , id
     , file_hash: hash
     })
 

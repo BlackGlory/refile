@@ -1,8 +1,8 @@
 import { getDatabase } from '../database'
 
-export function setReference(namespace: string, itemId: string, fileHash: string): void {
+export function setReference(namespace: string, id: string, fileHash: string): void {
   getDatabase().prepare(`
-    INSERT OR IGNORE INTO refile_reference (namespace, item_id, file_hash)
-    VALUES ($namespace, $itemId, $fileHash);
-  `).run({ namespace, itemId, fileHash })
+    INSERT OR IGNORE INTO refile_reference (namespace, id, file_hash)
+    VALUES ($namespace, $id, $fileHash);
+  `).run({ namespace, id, fileHash })
 }

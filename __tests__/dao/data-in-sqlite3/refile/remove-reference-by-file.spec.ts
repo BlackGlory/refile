@@ -20,22 +20,22 @@ describe('removeReferencesByFile(fileHash: string): void', () => {
       const fileHash = 'hash'
       setRawReference({
         namespace: namespace1
-      , item_id: itemId1
+      , id: itemId1
       , file_hash: fileHash
       })
       setRawReference({
         namespace: namespace1
-      , item_id: itemId2
+      , id: itemId2
       , file_hash: fileHash
       })
       setRawReference({
         namespace: namespace2
-      , item_id: itemId1
+      , id: itemId1
       , file_hash: fileHash
       })
       setRawReference({
         namespace: namespace2
-      , item_id: itemId2
+      , id: itemId2
       , file_hash: fileHash
       })
 
@@ -52,13 +52,13 @@ describe('removeReferencesByFile(fileHash: string): void', () => {
   describe('not exist', () => {
     it('return undefined', () => {
       const namespace = 'namespace'
-      const itemId = 'id'
+      const id = 'id'
       const fileHash = 'hash'
 
       const result = DAO.removeReferencesByFile(fileHash)
 
       expect(result).toBeUndefined()
-      expect(hasRawReference(namespace, itemId, fileHash)).toBeFalse()
+      expect(hasRawReference(namespace, id, fileHash)).toBeFalse()
     })
   })
 })
