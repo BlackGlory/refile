@@ -9,28 +9,28 @@ export function getAllIdsWithJsonSchema(): string[] {
   return result.map(x => x['namespace'])
 }
 
-export function getJsonSchema(id: string): string | null {
+export function getJsonSchema(namespace: string): string | null {
   const result = getDatabase().prepare(`
     SELECT json_schema
       FROM refile_json_schema
-     WHERE namespace = $id;
-  `).get({ id })
+     WHERE namespace = $namespace;
+  `).get({ namespace })
 
   return result ? result['json_schema'] : null
 }
 
-export function setJsonSchema({ id, schema }: { id: string; schema: string }): void {
+export function setJsonSchema({ namespace, schema }: { namespace: string; schema: string }): void {
   getDatabase().prepare(`
     INSERT INTO refile_json_schema (namespace, json_schema)
-    VALUES ($id, $schema)
+    VALUES ($namespace, $schema)
         ON CONFLICT(namespace)
         DO UPDATE SET json_schema = $schema;
-  `).run({ id, schema })
+  `).run({ namespace, schema })
 }
 
-export function removeJsonSchema(id: string): void {
+export function removeJsonSchema(namespace: string): void {
   getDatabase().prepare(`
     DELETE FROM refile_json_schema
-     WHERE namespace = $id;
-  `).run({ id })
+     WHERE namespace = $namespace;
+  `).run({ namespace })
 }

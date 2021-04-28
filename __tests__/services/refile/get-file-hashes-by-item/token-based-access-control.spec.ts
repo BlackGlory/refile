@@ -22,7 +22,7 @@ describe('token-based access control', () => {
           const id = 'id'
           const token = 'token'
           await AccessControlDAO.setReadTokenRequired(namespace, true)
-          await AccessControlDAO.setReadToken({ id: namespace, token })
+          await AccessControlDAO.setReadToken({ namespace, token })
 
           const res = await fetch(get(
             url(getAddress())
@@ -41,7 +41,7 @@ describe('token-based access control', () => {
           const id = 'id'
           const token = 'token'
           await AccessControlDAO.setReadTokenRequired(namespace, true)
-          await AccessControlDAO.setReadToken({ id: namespace, token })
+          await AccessControlDAO.setReadToken({ namespace, token })
 
           const res = await fetch(get(
             url(getAddress())
@@ -59,7 +59,7 @@ describe('token-based access control', () => {
           const id = 'id'
           const token = 'token'
           await AccessControlDAO.setReadTokenRequired(namespace, true)
-          await AccessControlDAO.setReadToken({ id: namespace, token })
+          await AccessControlDAO.setReadToken({ namespace, token })
 
           const res = await fetch(get(
             url(getAddress())
@@ -71,7 +71,7 @@ describe('token-based access control', () => {
       })
     })
 
-    describe('id does not need delete tokens', () => {
+    describe('namespace does not need delete tokens', () => {
       describe('READ_TOKEN_REQUIRED=true', () => {
         it('401', async () => {
           process.env.REFILE_TOKEN_BASED_ACCESS_CONTROL = 'true'
@@ -113,7 +113,7 @@ describe('token-based access control', () => {
           const id = 'id'
           const token = 'token'
           await AccessControlDAO.setReadTokenRequired(namespace, true)
-          await AccessControlDAO.setReadToken({ id: namespace, token })
+          await AccessControlDAO.setReadToken({ namespace, token })
 
           const res = await fetch(get(
             url(getAddress())
@@ -125,7 +125,7 @@ describe('token-based access control', () => {
       })
     })
 
-    describe('id does not need delete tokens', () => {
+    describe('namespace does not need delete tokens', () => {
       describe('READ_TOKEN_REQUIRED=true', () => {
         it('200', async () => {
           process.env.REFILE_READ_TOKEN_REQUIRED = 'true'
@@ -133,7 +133,7 @@ describe('token-based access control', () => {
           const id = 'id'
           const token = 'token'
           await AccessControlDAO.setReadTokenRequired(namespace, true)
-          await AccessControlDAO.setReadToken({ id: namespace, token })
+          await AccessControlDAO.setReadToken({ namespace, token })
 
           const res = await fetch(get(
             url(getAddress())

@@ -8,6 +8,11 @@ export const idSchema = {
 , pattern: '^[a-zA-Z0-9\\.\\-_]{0,255}$'
 }
 
+export const namespaceSchema = {
+  type: 'string'
+, pattern: '^[a-zA-Z0-9\\.\\-_]{0,255}$'
+}
+
 export const hashSchema = {
   type: 'string'
 , pattern: '^[a-z0-9]{64}$'

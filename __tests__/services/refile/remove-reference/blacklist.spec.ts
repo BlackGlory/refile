@@ -14,7 +14,7 @@ afterEach(stopService)
 
 describe('blacklist', () => {
   describe('enabled', () => {
-    describe('id in blacklist', () => {
+    describe('namespace in blacklist', () => {
       it('403', async () => {
         process.env.REFILE_LIST_BASED_ACCESS_CONTROL = 'blacklist'
         const namespace = 'namespace'
@@ -31,7 +31,7 @@ describe('blacklist', () => {
       })
     })
 
-    describe('id not in blacklist', () => {
+    describe('namespace not in blacklist', () => {
       it('204', async () => {
         process.env.REFILE_LIST_BASED_ACCESS_CONTROL = 'blacklist'
         const namespace = 'namespace'
@@ -49,7 +49,7 @@ describe('blacklist', () => {
   })
 
   describe('disabled', () => {
-    describe('id in blacklist', () => {
+    describe('namespace in blacklist', () => {
       it('204', async () => {
         const namespace = 'namespace'
         const id = 'id'

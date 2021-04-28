@@ -8,30 +8,30 @@ export function getAllWhitelistItems(): string[] {
   return result.map(x => x['namespace'])
 }
 
-export function inWhitelist(id: string): boolean {
+export function inWhitelist(namespace: string): boolean {
   const result = getDatabase().prepare(`
     SELECT EXISTS(
              SELECT *
                FROM refile_whitelist
-              WHERE namespace = $id
+              WHERE namespace = $namespace
            ) AS exist_in_whitelist;
-  `).get({ id })
+  `).get({ namespace })
 
   return result['exist_in_whitelist'] === 1
 }
 
-export function addWhitelistItem(id: string) {
+export function addWhitelistItem(namespace: string) {
   getDatabase().prepare(`
     INSERT INTO refile_whitelist (namespace)
-    VALUES ($id)
+    VALUES ($namespace)
         ON CONFLICT
         DO NOTHING;
-  `).run({ id })
+  `).run({ namespace })
 }
 
-export function removeWhitelistItem(id: string) {
+export function removeWhitelistItem(namespace: string) {
   getDatabase().prepare(`
     DELETE FROM refile_whitelist
-     WHERE namespace = $id;
-  `).run({ id })
+     WHERE namespace = $namespace;
+  `).run({ namespace })
 }

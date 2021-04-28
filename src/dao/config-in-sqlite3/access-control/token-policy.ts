@@ -1,6 +1,6 @@
 import { getDatabase } from '../database'
 
-export function getAllIdsWithTokenPolicies(): string[] {
+export function getAllNamespacesWithTokenPolicies(): string[] {
   const result = getDatabase().prepare(`
     SELECT namespace
       FROM refile_token_policy;
@@ -9,7 +9,7 @@ export function getAllIdsWithTokenPolicies(): string[] {
   return result.map(x => x['namespace'])
 }
 
-export function getTokenPolicies(id: string): {
+export function getTokenPolicies(namespace: string): {
   writeTokenRequired: boolean | null
   readTokenRequired: boolean | null
   deleteTokenRequired: boolean | null
@@ -23,23 +23,26 @@ export function getTokenPolicies(id: string): {
          , read_token_required
          , delete_token_required
       FROM refile_token_policy
-     WHERE namespace = $id;
-  `).get({ id })
+     WHERE namespace = $namespace;
+  `).get({ namespace })
 
   if (row) {
     const writeTokenRequired = row['write_token_required']
     const readTokenRequired = row['read_token_required']
     const deleteTokenRequired = row['delete_token_required']
     return {
-      writeTokenRequired: writeTokenRequired === null
-                          ? null
-                          : numberToBoolean(writeTokenRequired)
-    , readTokenRequired: readTokenRequired === null
-                         ? null
-                         : numberToBoolean(readTokenRequired)
-    , deleteTokenRequired: deleteTokenRequired === null
-                           ? null
-                           : numberToBoolean(deleteTokenRequired)
+      writeTokenRequired:
+        writeTokenRequired === null
+        ? null
+        : numberToBoolean(writeTokenRequired)
+    , readTokenRequired:
+        readTokenRequired === null
+        ? null
+        : numberToBoolean(readTokenRequired)
+    , deleteTokenRequired:
+        deleteTokenRequired === null
+        ? null
+        : numberToBoolean(deleteTokenRequired)
     }
   } else {
     return {
@@ -50,80 +53,80 @@ export function getTokenPolicies(id: string): {
   }
 }
 
-export function setWriteTokenRequired(id: string, val: boolean): void {
+export function setWriteTokenRequired(namespace: string, val: boolean): void {
   getDatabase().prepare(`
     INSERT INTO refile_token_policy (namespace, write_token_required)
-    VALUES ($id, $writeTokenRequired)
+    VALUES ($namespace, $writeTokenRequired)
         ON CONFLICT(namespace)
         DO UPDATE SET write_token_required = $writeTokenRequired;
-  `).run({ id, writeTokenRequired: booleanToNumber(val) })
+  `).run({ namespace, writeTokenRequired: booleanToNumber(val) })
 }
 
-export function unsetWriteTokenRequired(id: string): void {
+export function unsetWriteTokenRequired(namespace: string): void {
   const db = getDatabase()
   db.transaction(() => {
     db.prepare(`
       UPDATE refile_token_policy
          SET write_token_required = NULL
-       WHERE namespace = $id;
-    `).run({ id })
+       WHERE namespace = $namespace;
+    `).run({ namespace })
 
-    deleteNoPoliciesRow(id)
+    deleteNoPoliciesRow(namespace)
   })()
 }
 
-export function setReadTokenRequired(id: string, val: boolean): void {
+export function setReadTokenRequired(namespace: string, val: boolean): void {
   getDatabase().prepare(`
     INSERT INTO refile_token_policy (namespace, read_token_required)
-    VALUES ($id, $readTokenRequired)
+    VALUES ($namespace, $readTokenRequired)
         ON CONFLICT(namespace)
         DO UPDATE SET read_token_required = $readTokenRequired;
-  `).run({ id, readTokenRequired: booleanToNumber(val) })
+  `).run({ namespace, readTokenRequired: booleanToNumber(val) })
 }
 
-export function unsetReadTokenRequired(id: string): void {
+export function unsetReadTokenRequired(namespace: string): void {
   const db = getDatabase()
   db.transaction(() => {
     db.prepare(`
       UPDATE refile_token_policy
          SET read_token_required = NULL
-       WHERE namespace = $id;
-    `).run({ id })
+       WHERE namespace = $namespace;
+    `).run({ namespace })
 
-    deleteNoPoliciesRow(id)
+    deleteNoPoliciesRow(namespace)
   })()
 }
 
-export function setDeleteTokenRequired(id: string, val: boolean): void {
+export function setDeleteTokenRequired(namespace: string, val: boolean): void {
   getDatabase().prepare(`
     INSERT INTO refile_token_policy (namespace, delete_token_required)
-    VALUES ($id, $deleteTokenRequired)
+    VALUES ($namespace, $deleteTokenRequired)
         ON CONFLICT(namespace)
         DO UPDATE SET delete_token_required = $deleteTokenRequired;
-  `).run({ id, deleteTokenRequired: booleanToNumber(val) })
+  `).run({ namespace, deleteTokenRequired: booleanToNumber(val) })
 }
 
-export function unsetDeleteTokenRequired(id: string): void {
+export function unsetDeleteTokenRequired(namespace: string): void {
   const db = getDatabase()
   db.transaction(() => {
     db.prepare(`
       UPDATE refile_token_policy
          SET delete_token_required = NULL
-       WHERE namespace = $id;
-    `).run({ id })
+       WHERE namespace = $namespace;
+    `).run({ namespace })
 
-    deleteNoPoliciesRow(id)
+    deleteNoPoliciesRow(namespace)
   })()
 }
 
-function deleteNoPoliciesRow(id: string): void {
+function deleteNoPoliciesRow(namespace: string): void {
   getDatabase().prepare(`
     DELETE FROM refile_token_policy
-     WHERE namespace = $id
+     WHERE namespace = $namespace
        AND write_token_required = NULL
        AND read_token_required = NULL
        AND delete_token_required = NULL
-  `).run({ id })
+  `).run({ namespace })
 }
 
 function numberToBoolean(val: number): boolean {

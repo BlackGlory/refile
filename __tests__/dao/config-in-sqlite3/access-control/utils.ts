@@ -23,49 +23,49 @@ interface IRawToken {
   delete_permission: number
 }
 
-export function setRawBlacklist(item: IRawBlacklist): IRawBlacklist {
+export function setRawBlacklist(raw: IRawBlacklist): IRawBlacklist {
   getDatabase().prepare(`
     INSERT INTO refile_blacklist (namespace)
     VALUES ($namespace);
-  `).run(item)
+  `).run(raw)
 
-  return item
+  return raw
 }
 
-export function hasRawBlacklist(id: string): boolean {
-  return !!getRawBlacklist(id)
+export function hasRawBlacklist(namespace: string): boolean {
+  return !!getRawBlacklist(namespace)
 }
 
-export function getRawBlacklist(id: string): IRawBlacklist | null {
+export function getRawBlacklist(namespace: string): IRawBlacklist | null {
   return getDatabase().prepare(`
     SELECT *
       FROM refile_blacklist
-     WHERE namespace = $id;
-  `).get({ id })
+     WHERE namespace = $namespace;
+  `).get({ namespace })
 }
 
-export function setRawWhitelist(item: IRawWhitelist): IRawWhitelist {
+export function setRawWhitelist(raw: IRawWhitelist): IRawWhitelist {
   getDatabase().prepare(`
     INSERT INTO refile_whitelist (namespace)
     VALUES ($namespace);
-  `).run(item)
+  `).run(raw)
 
-  return item
+  return raw
 }
 
-export function hasRawWhitelist(id: string): boolean {
-  return !!getRawWhitelist(id)
+export function hasRawWhitelist(namespace: string): boolean {
+  return !!getRawWhitelist(namespace)
 }
 
-export function getRawWhitelist(id: string): IRawWhitelist | null {
+export function getRawWhitelist(namespace: string): IRawWhitelist | null {
   return getDatabase().prepare(`
     SELECT *
       FROM refile_whitelist
-     WHERE namespace = $id;
-  `).get({ id })
+     WHERE namespace = $namespace;
+  `).get({ namespace })
 }
 
-export function setRawTokenPolicy<T extends IRawTokenPolicy>(item: T): T {
+export function setRawTokenPolicy<T extends IRawTokenPolicy>(raw: T): T {
   getDatabase().prepare(`
     INSERT INTO refile_token_policy (
       namespace
@@ -79,24 +79,24 @@ export function setRawTokenPolicy<T extends IRawTokenPolicy>(item: T): T {
     , $read_token_required
     , $delete_token_required
     );
-  `).run(item)
+  `).run(raw)
 
-  return item
+  return raw
 }
 
-export function hasRawTokenPolicy(id: string): boolean {
-  return !!getRawTokenPolicy(id)
+export function hasRawTokenPolicy(namespace: string): boolean {
+  return !!getRawTokenPolicy(namespace)
 }
 
-export function getRawTokenPolicy(id: string): IRawTokenPolicy | null {
+export function getRawTokenPolicy(namespace: string): IRawTokenPolicy | null {
   return getDatabase().prepare(`
     SELECT *
       FROM refile_token_policy
-     WHERE namespace = $id;
-  `).get({ id })
+     WHERE namespace = $namespace;
+  `).get({ namespace })
 }
 
-export function setRawToken(item: IRawToken): IRawToken {
+export function setRawToken(raw: IRawToken): IRawToken {
   getDatabase().prepare(`
     INSERT INTO refile_token (
       token
@@ -112,20 +112,20 @@ export function setRawToken(item: IRawToken): IRawToken {
     , $read_permission
     , $delete_permission
     );
-  `).run(item)
+  `).run(raw)
 
-  return item
+  return raw
 }
 
-export function hasRawToken(token: string, id: string): boolean {
-  return !!getRawToken(token, id)
+export function hasRawToken(token: string, namespace: string): boolean {
+  return !!getRawToken(token, namespace)
 }
 
-export function getRawToken(token: string, id: string): IRawToken | null {
+export function getRawToken(token: string, namespace: string): IRawToken | null {
   return getDatabase().prepare(`
     SELECT *
       FROM refile_token
      WHERE token = $token
-       AND namespace = $id;
-  `).get({ token, id })
+       AND namespace = $namespace;
+  `).get({ token, namespace })
 }

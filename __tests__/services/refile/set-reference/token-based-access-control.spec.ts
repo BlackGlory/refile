@@ -23,7 +23,7 @@ describe('token-based access control', () => {
           const hash = 'hash'.repeat(16)
           const token = 'token'
           await AccessControlDAO.setWriteTokenRequired(namespace, true)
-          await AccessControlDAO.setWriteToken({ id: namespace, token })
+          await AccessControlDAO.setWriteToken({ namespace, token })
 
           const res = await fetch(put(
             url(getAddress())
@@ -43,7 +43,7 @@ describe('token-based access control', () => {
           const hash = 'hash'.repeat(16)
           const token = 'token'
           await AccessControlDAO.setWriteTokenRequired(namespace, true)
-          await AccessControlDAO.setWriteToken({ id: namespace, token })
+          await AccessControlDAO.setWriteToken({ namespace, token })
 
           const res = await fetch(put(
             url(getAddress())
@@ -62,7 +62,7 @@ describe('token-based access control', () => {
           const hash = 'hash'.repeat(16)
           const token = 'token'
           await AccessControlDAO.setWriteTokenRequired(namespace, true)
-          await AccessControlDAO.setWriteToken({ id: namespace, token })
+          await AccessControlDAO.setWriteToken({ namespace, token })
 
           const res = await fetch(put(
             url(getAddress())
@@ -74,7 +74,7 @@ describe('token-based access control', () => {
       })
     })
 
-    describe('id does not need delete tokens', () => {
+    describe('namespace does not need delete tokens', () => {
       describe('WRITE_TOKEN_REQUIRED=true', () => {
         it('401', async () => {
           process.env.REFILE_TOKEN_BASED_ACCESS_CONTROL = 'true'
@@ -119,7 +119,7 @@ describe('token-based access control', () => {
           const hash = 'hash'.repeat(16)
           const token = 'token'
           await AccessControlDAO.setWriteTokenRequired(namespace, true)
-          await AccessControlDAO.setWriteToken({ id: namespace, token })
+          await AccessControlDAO.setWriteToken({ namespace, token })
 
           const res = await fetch(put(
             url(getAddress())
@@ -131,7 +131,7 @@ describe('token-based access control', () => {
       })
     })
 
-    describe('id does not need delete tokens', () => {
+    describe('namespace does not need delete tokens', () => {
       describe('WRITE_TOKEN_REQUIRED=true', () => {
         it('204', async () => {
           process.env.REFILE_WRITE_TOKEN_REQUIRED = 'true'
@@ -140,7 +140,7 @@ describe('token-based access control', () => {
           const hash = 'hash'.repeat(16)
           const token = 'token'
           await AccessControlDAO.setWriteTokenRequired(namespace, true)
-          await AccessControlDAO.setWriteToken({ id: namespace, token })
+          await AccessControlDAO.setWriteToken({ namespace, token })
 
           const res = await fetch(put(
             url(getAddress())

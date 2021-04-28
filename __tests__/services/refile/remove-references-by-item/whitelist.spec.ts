@@ -14,7 +14,7 @@ afterEach(stopService)
 
 describe('whitelist', () => {
   describe('enabled', () => {
-    describe('id in whitelist', () => {
+    describe('namespace in whitelist', () => {
       it('204', async () => {
         process.env.REFILE_LIST_BASED_ACCESS_CONTROL = 'whitelist'
         const namespace = 'namespace'
@@ -30,7 +30,7 @@ describe('whitelist', () => {
       })
     })
 
-    describe('id not in whitelist', () => {
+    describe('namespace not in whitelist', () => {
       it('403', async () => {
         process.env.REFILE_LIST_BASED_ACCESS_CONTROL = 'whitelist'
         const namespace = 'namespace'
@@ -47,7 +47,7 @@ describe('whitelist', () => {
   })
 
   describe('disabled', () => {
-    describe('id not in whitelist', () => {
+    describe('namespace not in whitelist', () => {
       it('204', async () => {
         const namespace = 'namespace'
         const id = 'id'

@@ -63,11 +63,11 @@ describe('TBAC', () => {
     describe('auth', () => {
       it('200', async () => {
         process.env.REFILE_ADMIN_PASSWORD = 'password'
-        const id = 'id'
+        const namespace = 'namespace'
 
         const res = await fetch(get(
           url(getAddress())
-        , pathname(`/admin/refile/${id}/tokens`)
+        , pathname(`/admin/refile/${namespace}/tokens`)
         , headers(createAuthHeaders())
         ))
 
@@ -89,11 +89,11 @@ describe('TBAC', () => {
 
     describe('no admin password', () => {
       it('401', async () => {
-        const id = 'id'
+        const namespace = 'namespace'
 
         const res = await fetch(get(
           url(getAddress())
-        , pathname(`/admin/refile/${id}/tokens`)
+        , pathname(`/admin/refile/${namespace}/tokens`)
         ))
 
         expect(res.status).toBe(401)
@@ -103,11 +103,11 @@ describe('TBAC', () => {
     describe('bad auth', () => {
       it('401', async () => {
         process.env.REFILE_ADMIN_PASSWORD = 'password'
-        const id = 'id'
+        const namespace = 'namespace'
 
         const res = await fetch(get(
           url(getAddress())
-        , pathname(`/admin/refile/${id}/tokens`)
+        , pathname(`/admin/refile/${namespace}/tokens`)
         , headers(createAuthHeaders('bad'))
         ))
 
@@ -120,12 +120,12 @@ describe('TBAC', () => {
     describe('auth', () => {
       it('204', async () => {
         process.env.REFILE_ADMIN_PASSWORD = 'password'
-        const id = 'id'
+        const namespace = 'namespace'
         const token = 'token'
 
         const res = await fetch(put(
           url(getAddress())
-        , pathname(`/admin/refile/${id}/tokens/${token}/write`)
+        , pathname(`/admin/refile/${namespace}/tokens/${token}/write`)
         , headers(createAuthHeaders())
         ))
 
@@ -135,12 +135,12 @@ describe('TBAC', () => {
 
     describe('no admin password', () => {
       it('401', async () => {
-        const id = 'id'
+        const namespace = 'namespace'
         const token = 'token'
 
         const res = await fetch(put(
           url(getAddress())
-        , pathname(`/admin/refile/${id}/tokens/${token}/write`)
+        , pathname(`/admin/refile/${namespace}/tokens/${token}/write`)
         ))
 
         expect(res.status).toBe(401)
@@ -150,12 +150,12 @@ describe('TBAC', () => {
     describe('bad auth', () => {
       it('401', async () => {
         process.env.REFILE_ADMIN_PASSWORD = 'password'
-        const id = 'id'
+        const namespace = 'namespace'
         const token = 'token'
 
         const res = await fetch(put(
           url(getAddress())
-        , pathname(`/admin/refile/${id}/tokens/${token}/write`)
+        , pathname(`/admin/refile/${namespace}/tokens/${token}/write`)
         , headers(createAuthHeaders('bad'))
         ))
 
@@ -168,12 +168,12 @@ describe('TBAC', () => {
     describe('auth', () => {
       it('204', async () => {
         process.env.REFILE_ADMIN_PASSWORD = 'password'
-        const id = 'id'
+        const namespace = 'namespace'
         const token = 'token'
 
         const res = await fetch(del(
           url(getAddress())
-        , pathname(`/admin/refile/${id}/tokens/${token}/write`)
+        , pathname(`/admin/refile/${namespace}/tokens/${token}/write`)
         , headers(createAuthHeaders())
         ))
 
@@ -183,12 +183,12 @@ describe('TBAC', () => {
 
     describe('no admin password', () => {
       it('401', async () => {
-        const id = 'id'
+        const namespace = 'namespace'
         const token = 'token'
 
         const res = await fetch(del(
           url(getAddress())
-        , pathname(`/admin/refile/${id}/tokens/${token}/write`)
+        , pathname(`/admin/refile/${namespace}/tokens/${token}/write`)
         ))
 
         expect(res.status).toBe(401)
@@ -198,12 +198,12 @@ describe('TBAC', () => {
     describe('bad auth', () => {
       it('401', async () => {
         process.env.REFILE_ADMIN_PASSWORD = 'password'
-        const id = 'id'
+        const namespace = 'namespace'
         const token = 'token'
 
         const res = await fetch(del(
           url(getAddress())
-        , pathname(`/admin/refile/${id}/tokens/${token}/write`)
+        , pathname(`/admin/refile/${namespace}/tokens/${token}/write`)
         , headers(createAuthHeaders('bad'))
         ))
 
@@ -216,12 +216,12 @@ describe('TBAC', () => {
     describe('auth', () => {
       it('204', async () => {
         process.env.REFILE_ADMIN_PASSWORD = 'password'
-        const id = 'id'
+        const namespace = 'namespace'
         const token = 'token'
 
         const res = await fetch(put(
           url(getAddress())
-        , pathname(`/admin/refile/${id}/tokens/${token}/read`)
+        , pathname(`/admin/refile/${namespace}/tokens/${token}/read`)
         , headers(createAuthHeaders())
         ))
 
@@ -231,12 +231,12 @@ describe('TBAC', () => {
 
     describe('no admin password', () => {
       it('401', async () => {
-        const id = 'id'
+        const namespace = 'namespace'
         const token = 'token'
 
         const res = await fetch(put(
           url(getAddress())
-        , pathname(`/admin/refile/${id}/tokens/${token}/read`)
+        , pathname(`/admin/refile/${namespace}/tokens/${token}/read`)
         ))
 
         expect(res.status).toBe(401)
@@ -246,12 +246,12 @@ describe('TBAC', () => {
     describe('bad auth', () => {
       it('401', async () => {
         process.env.REFILE_ADMIN_PASSWORD = 'password'
-        const id = 'id'
+        const namespace = 'namespace'
         const token = 'token'
 
         const res = await fetch(put(
           url(getAddress())
-        , pathname(`/admin/refile/${id}/tokens/${token}/read`)
+        , pathname(`/admin/refile/${namespace}/tokens/${token}/read`)
         , headers(createAuthHeaders('bad'))
         ))
 
@@ -264,12 +264,12 @@ describe('TBAC', () => {
     describe('auth', () => {
       it('204', async () => {
         process.env.REFILE_ADMIN_PASSWORD = 'password'
-        const id = 'id'
+        const namespace = 'namespace'
         const token = 'token'
 
         const res = await fetch(del(
           url(getAddress())
-        , pathname(`/admin/refile/${id}/tokens/${token}/read`)
+        , pathname(`/admin/refile/${namespace}/tokens/${token}/read`)
         , headers(createAuthHeaders())
         ))
 
@@ -279,12 +279,12 @@ describe('TBAC', () => {
 
     describe('no admin password', () => {
       it('401', async () => {
-        const id = 'id'
+        const namespace = 'namespace'
         const token = 'token'
 
         const res = await fetch(del(
           url(getAddress())
-        , pathname(`/admin/refile/${id}/tokens/${token}/read`)
+        , pathname(`/admin/refile/${namespace}/tokens/${token}/read`)
         ))
 
         expect(res.status).toBe(401)
@@ -294,12 +294,12 @@ describe('TBAC', () => {
     describe('bad auth', () => {
       it('401', async () => {
         process.env.REFILE_ADMIN_PASSWORD = 'password'
-        const id = 'id'
+        const namespace = 'namespace'
         const token = 'token'
 
         const res = await fetch(del(
           url(getAddress())
-        , pathname(`/admin/refile/${id}/tokens/${token}/read`)
+        , pathname(`/admin/refile/${namespace}/tokens/${token}/read`)
         , headers(createAuthHeaders('bad'))
         ))
 
@@ -312,12 +312,12 @@ describe('TBAC', () => {
     describe('auth', () => {
       it('204', async () => {
         process.env.REFILE_ADMIN_PASSWORD = 'password'
-        const id = 'id'
+        const namespace = 'namespace'
         const token = 'token'
 
         const res = await fetch(put(
           url(getAddress())
-        , pathname(`/admin/refile/${id}/tokens/${token}/delete`)
+        , pathname(`/admin/refile/${namespace}/tokens/${token}/delete`)
         , headers(createAuthHeaders())
         ))
 
@@ -327,12 +327,12 @@ describe('TBAC', () => {
 
     describe('no admin password', () => {
       it('401', async () => {
-        const id = 'id'
+        const namespace = 'namespace'
         const token = 'token'
 
         const res = await fetch(put(
           url(getAddress())
-        , pathname(`/admin/refile/${id}/tokens/${token}/delete`)
+        , pathname(`/admin/refile/${namespace}/tokens/${token}/delete`)
         ))
 
         expect(res.status).toBe(401)
@@ -342,12 +342,12 @@ describe('TBAC', () => {
     describe('bad auth', () => {
       it('401', async () => {
         process.env.REFILE_ADMIN_PASSWORD = 'password'
-        const id = 'id'
+        const namespace = 'namespace'
         const token = 'token'
 
         const res = await fetch(put(
           url(getAddress())
-        , pathname(`/admin/refile/${id}/tokens/${token}/delete`)
+        , pathname(`/admin/refile/${namespace}/tokens/${token}/delete`)
         , headers(createAuthHeaders('bad'))
         ))
 
@@ -360,12 +360,12 @@ describe('TBAC', () => {
     describe('auth', () => {
       it('204', async () => {
         process.env.REFILE_ADMIN_PASSWORD = 'password'
-        const id = 'id'
+        const namespace = 'namespace'
         const token = 'token'
 
         const res = await fetch(del(
           url(getAddress())
-        , pathname(`/admin/refile/${id}/tokens/${token}/delete`)
+        , pathname(`/admin/refile/${namespace}/tokens/${token}/delete`)
         , headers(createAuthHeaders())
         ))
 
@@ -375,12 +375,12 @@ describe('TBAC', () => {
 
     describe('no admin password', () => {
       it('401', async () => {
-        const id = 'id'
+        const namespace = 'namespace'
         const token = 'token'
 
         const res = await fetch(del(
           url(getAddress())
-        , pathname(`/admin/refile/${id}/tokens/${token}/delete`)
+        , pathname(`/admin/refile/${namespace}/tokens/${token}/delete`)
         ))
 
         expect(res.status).toBe(401)
@@ -390,12 +390,12 @@ describe('TBAC', () => {
     describe('bad auth', () => {
       it('401', async () => {
         process.env.REFILE_ADMIN_PASSWORD = 'password'
-        const id = 'id'
+        const namespace = 'namespace'
         const token = 'token'
 
         const res = await fetch(del(
           url(getAddress())
-        , pathname(`/admin/refile/${id}/tokens/${token}/delete`)
+        , pathname(`/admin/refile/${namespace}/tokens/${token}/delete`)
         , headers(createAuthHeaders('bad'))
         ))
 

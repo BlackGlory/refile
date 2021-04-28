@@ -7,29 +7,29 @@ export function getAllBlacklistItems(): string[] {
   return result.map(x => x['namespace'])
 }
 
-export function inBlacklist(id: string): boolean {
+export function inBlacklist(namespace: string): boolean {
   const result = getDatabase().prepare(`
     SELECT EXISTS(
              SELECT *
                FROM refile_blacklist
-              WHERE namespace = $id
+              WHERE namespace = $namespace
            ) AS exist_in_blacklist;
-  `).get({ id })
+  `).get({ namespace })
   return result['exist_in_blacklist'] === 1
 }
 
-export function addBlacklistItem(id: string) {
+export function addBlacklistItem(namespace: string) {
   try {
     getDatabase().prepare(`
       INSERT INTO refile_blacklist (namespace)
-      VALUES ($id);
-    `).run({ id })
+      VALUES ($namespace);
+    `).run({ namespace })
   } catch {}
 }
 
-export function removeBlacklistItem(id: string) {
+export function removeBlacklistItem(namespace: string) {
   getDatabase().prepare(`
     DELETE FROM refile_blacklist
-     WHERE namespace = $id;
-  `).run({ id })
+     WHERE namespace = $namespace;
+  `).run({ namespace })
 }

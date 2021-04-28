@@ -1,5 +1,5 @@
 import { FastifyPluginAsync } from 'fastify'
-import { idSchema, tokenSchema } from '@src/schema'
+import { idSchema, namespaceSchema, tokenSchema } from '@src/schema'
 import { stringifyJSONStreamAsync, stringifyNDJSONStreamAsync } from 'extra-generator'
 import accepts from 'fastify-accepts'
 import { Readable } from 'stream'
@@ -18,7 +18,7 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
   , {
       schema: {
         params: {
-          namespace: idSchema
+          namespace: namespaceSchema
         , itemId: idSchema
         }
       , querystring: { token: tokenSchema }

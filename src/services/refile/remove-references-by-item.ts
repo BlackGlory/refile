@@ -1,5 +1,5 @@
 import { FastifyPluginAsync } from 'fastify'
-import { idSchema, tokenSchema } from '@src/schema'
+import { namespaceSchema, idSchema, tokenSchema } from '@src/schema'
 
 export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes(server, { Core }) {
   server.delete<{
@@ -13,7 +13,7 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
   , {
       schema: {
         params: {
-          namespace: idSchema
+          namespace: namespaceSchema
         , itemId: idSchema
         }
       , querystring: { token: tokenSchema }
