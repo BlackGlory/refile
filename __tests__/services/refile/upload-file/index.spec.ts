@@ -8,8 +8,8 @@ import * as crypto from 'crypto'
 import { splitHash, ProgressiveHash } from 'split-hash'
 import { toArrayAsync } from 'iterable-operator'
 import { fetch } from 'extra-fetch'
-import * as fs from 'fs-extra'
-import { dir } from 'tmp-promise'
+import { createTempDir, remove } from 'extra-filesystem'
+import { promises as fs, createReadStream } from 'fs'
 // @ts-ignore
 import blobFrom = require('fetch-blob/from')
 
@@ -25,14 +25,13 @@ expect.extend(matchers)
 let tmpDirPath: string
 
 beforeEach(async () => {
-  const { path } = await dir()
-  tmpDirPath = path
-  process.env.REFILE_DATA = path
+  tmpDirPath = await createTempDir()
+  process.env.REFILE_DATA = tmpDirPath
   await startService()
 })
 afterEach(async () => {
   await stopService()
-  await fs.remove(tmpDirPath)
+  await remove(tmpDirPath)
 })
 
 const KiB = 1024
@@ -112,7 +111,7 @@ describe('file exists', () => {
 })
 
 async function getHashInfo(filename: string): Promise<HashInfo> {
-  const stream = fs.createReadStream(filename)
+  const stream = createReadStream(filename)
   const hashList = await getHashList(stream)
   const hash = mergeHash(hashList)
   return { hash, hashList }
