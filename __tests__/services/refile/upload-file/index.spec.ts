@@ -9,9 +9,9 @@ import { splitHash, ProgressiveHash } from 'split-hash'
 import { toArrayAsync } from 'iterable-operator'
 import { fetch } from 'extra-fetch'
 import { createTempDir, remove } from 'extra-filesystem'
-import { promises as fs, createReadStream } from 'fs'
+import { createReadStream } from 'fs'
 // @ts-ignore
-import blobFrom = require('fetch-blob/from')
+import blobFrom from 'fetch-blob/from'
 
 interface HashInfo {
   hash: string
