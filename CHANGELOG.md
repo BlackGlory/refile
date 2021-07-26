@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.4.0](https://github.com/BlackGlory/refile/compare/v0.3.4...v0.4.0) (2021-07-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* `remove reference` and `remove references by item` no longer
+trigger garbage collection
+
+### Features
+
+* add `garbage collect` ([9f4e7c8](https://github.com/BlackGlory/refile/commit/9f4e7c83af5ff130d0ca617d1e3dc389e8f86044))
+* add removeAllUnreferencedFiles ([33ee3af](https://github.com/BlackGlory/refile/commit/33ee3af2db04f63a6dd00a1f22548ae13ac22793))
+
 ### [0.3.4](https://github.com/BlackGlory/refile/compare/v0.3.3...v0.3.4) (2021-07-13)
 
 ### [0.3.3](https://github.com/BlackGlory/refile/compare/v0.3.2...v0.3.3) (2021-07-12)
