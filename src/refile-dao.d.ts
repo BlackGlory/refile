@@ -12,6 +12,7 @@ interface IRefileDAO {
   setFile(hash: string, location: string): Promise<void>
   getFileLocation(hash: string): Promise<string | null>
   removeFile(hash: string): Promise<void>
+  removeAllUnreferencedFiles(): Promise<string[]>
 
   setReference(namespace: string, itemId: string, fileHash: string): Promise<void>
   countReferences(fileHash: string): Promise<number>

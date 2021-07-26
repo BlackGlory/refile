@@ -4,6 +4,7 @@ import { getAllItemIdsByNamespace } from './get-all-item-ids-by-namespace'
 import { getAllNamespaces } from './get-all-namespaces'
 import { setFile } from './set-file'
 import { getFileLocation } from './get-file-location'
+import { removeAllUnreferencedFiles } from './remove-all-unreferenced-files'
 import { removeFile } from './remove-file'
 import { setReference } from './set-reference'
 import { countReferences } from './count-references'
@@ -20,6 +21,7 @@ export const RefileDAO: IRefileDAO = {
 , setFile: asyncify(setFile)
 , getFileLocation: asyncify(getFileLocation)
 , removeFile: asyncify(removeFile)
+, removeAllUnreferencedFiles: asyncify(removeAllUnreferencedFiles)
 
 , setReference: asyncify(setReference)
 , countReferences: asyncify(countReferences)
