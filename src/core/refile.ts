@@ -16,7 +16,11 @@ export class IncorrectFileHash extends CustomError {}
  * @throws {IncorrectHashList}
  * @throws {IncorrectFileHash}
  */
-export function uploadFile(hash: string, hashList: string[], stream: NodeJS.ReadableStream): Promise<void> {
+export function uploadFile(
+  hash: string
+, hashList: string[]
+, stream: NodeJS.ReadableStream
+): Promise<void> {
   const KiB = 1024
   const HASH_BLOCK_SIZE = 512 * KiB
 
@@ -86,37 +90,44 @@ export function getAllItemIds(namespace: string): AsyncIterable<string> {
   return RefileDAO.getAllItemIdsByNamespace(namespace)
 }
 
-export function getItemIdsByFile(namespace: string, fileHash: string): AsyncIterable<string> {
+export function getItemIdsByFile(
+  namespace: string
+, fileHash: string
+): AsyncIterable<string> {
   return RefileDAO.getAllItemIdsByFileAndNamespace(fileHash, namespace)
 }
 
-export function getFileHashesByItem(namespace: string, itemId: string): AsyncIterable<string> {
+export function getFileHashesByItem(
+  namespace: string
+, itemId: string
+): AsyncIterable<string> {
   return RefileDAO.getAllFileHashes(namespace, itemId)
 }
 
-export async function setReference(namespace: string, itemId: string, fileHash: string): Promise<void> {
+export async function setReference(
+  namespace: string
+, itemId: string
+, fileHash: string
+): Promise<void> {
   await RefileDAO.setReference(namespace, itemId, fileHash)
 }
 
-export async function removeReference(namespace: string, itemId: string, fileHash: string): Promise<void> {
+export async function removeReference(
+  namespace: string
+, itemId: string
+, fileHash: string
+): Promise<void> {
   await RefileDAO.removeReference(namespace, itemId, fileHash)
-
-  const fileInfo = await getFileInfo(fileHash)
-  if (fileInfo.location && fileInfo.references === 0) {
-    await StorageDAO.deleteFile(fileInfo.location)
-  }
 }
 
-export async function removeReferencesByItem(namespace: string, itemId: string): Promise<void> {
-  const hashes = await toArrayAsync(RefileDAO.getAllFileHashes(namespace, itemId))
+export async function removeReferencesByItem(
+  namespace: string
+, itemId: string
+): Promise<void> {
   await RefileDAO.removeReferencesByItem(namespace, itemId)
+}
 
-  const promises: Array<Promise<void>> = []
-  await each(hashes, async hash => {
-    const fileInfo = await getFileInfo(hash)
-    if (fileInfo.location && fileInfo.references === 0) {
-      promises.push(StorageDAO.deleteFile(fileInfo.location))
-    }
-  })
-  await Promise.all(promises)
+export async function garbageCollect(): Promise<void> {
+  const locations = await RefileDAO.removeAllUnreferencedFiles()
+  await each(locations, StorageDAO.deleteFile)
 }

@@ -88,7 +88,7 @@ volumes:
 
 上传文件.
 
-*被上传的文件必须先通过其他API建立引用, 如果文件的引用数为零, 上传会被拒绝.*
+*被上传的文件必须先通过[[set reference]]建立相应的引用关系, 如果文件的引用数为零, 上传会被拒绝.*
 
 上传文件时需要提供三个参数:
 - 二进制文件, 由FormData的file字段提供, 一次只能上传一个文件, 表单的编码必须为 =multipart/form-data=.
@@ -130,7 +130,7 @@ curl "http://localhost:8080/refile/files/$hash"
 await fetch(`http://localhost:8080/refile/files/${hash}`).then(res => res.json())
 #+END_SRC
 
-**** set reference
+**** <<set reference>>
 =PUT /refile/namespaces/<namespace>/items/<id>/files/<hash>=
 
 设置资源hash与引用的关系, 此操作并不需要相关的文件已被上传.
@@ -172,8 +172,6 @@ await fetch(`http://localhost:8080/refile/namespaces/${namespace}/items/${id}/fi
 =DELETE /refile/namespaces/<namespace>/items/<id>=
 
 删除特定项目的全部引用.
-
-当文件的引用数量降至0时, 文件会被删除.
 
 ***** Example
 ****** curl
@@ -268,6 +266,25 @@ curl "http://localhost:8080/refile/files/$hash/namespaces/$namespace/items"
 ****** JavaScript
 #+BEGIN_SRC js
 await fetch(`http://localhost:8080/refile/files/${hash}/namespaces/${namespace}/items`).then(res => res.json())
+#+END_SRC
+
+**** garbage collect
+=POST /refile/gc=
+
+执行垃圾回收:
+- 引用数为0的文件会从文件系统中被删除.
+
+***** Example
+****** curl
+#+BEGIN_SRC sh
+curl 'http://localhost:8080/refile/gc'
+#+END_SRC
+       
+****** JavaScript
+#+BEGIN_SRC js
+await fetch('http://localhost:8080/refile/gc', {
+  method: 'POST'
+})
 #+END_SRC
 
 *** Private
