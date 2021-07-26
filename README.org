@@ -268,7 +268,7 @@ curl "http://localhost:8080/refile/files/$hash/namespaces/$namespace/items"
 await fetch(`http://localhost:8080/refile/files/${hash}/namespaces/${namespace}/items`).then(res => res.json())
 #+END_SRC
 
-**** garbage collect
+**** collect garbage
 =POST /refile/gc=
 
 执行垃圾回收:

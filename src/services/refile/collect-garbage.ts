@@ -12,7 +12,7 @@ async function routes(server, { Core }) {
       }
     }
   , async (req, reply) => {
-      await Core.Refile.garbageCollect()
+      await Core.Refile.collectGarbage()
 
       reply.status(204).send()
     }

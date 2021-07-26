@@ -28,7 +28,7 @@ interface ICore {
     removeReference(namespace: string, itemId: string, fileHash: string): Promise<void>
     removeReferencesByItem(namespace: string, itemId: string): Promise<void>
 
-    garbageCollect(): Promise<void>
+    collectGarbage(): Promise<void>
 
     FileAlreadyExists: CustomErrorConstructor
     ReferencesIsZero: CustomErrorConstructor
