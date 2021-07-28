@@ -2,7 +2,7 @@ import Database from 'better-sqlite3'
 import type { Database as IDatabase } from 'better-sqlite3'
 import * as path from 'path'
 import { ensureDirSync } from 'extra-filesystem'
-import { NODE_ENV, NodeEnv, DATA } from '@env'
+import { NODE_ENV, NodeEnv, DATABASE } from '@env'
 import { assert } from '@blackglory/errors'
 import { migrateDatabase } from './utils'
 assert(NODE_ENV() !== NodeEnv.Test)
@@ -10,7 +10,7 @@ assert(NODE_ENV() !== NodeEnv.Test)
 let db: IDatabase
 
 export function openDatabase(): void {
-  const dataPath = DATA()
+  const dataPath = DATABASE()
   const dataFilename = path.join(dataPath, 'config.db')
   ensureDirSync(dataPath)
 

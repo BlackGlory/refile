@@ -44,15 +44,17 @@ version: '3.8'
 
 services:
   refile:
-    image: 'blackglory/refile
+    image: 'blackglory/refile'
     restart: always
     volumes:
-      - 'refile-data:/data'
+      - 'refile-database:/database'
+      - 'refile-storage:/storage'
     ports:
       - '8080:8080'
 
 volumes:
-  refile-data:
+  refile-database:
+  refile-storage:
 #+END_SRC
 
 ***** 私人服务器
@@ -71,12 +73,14 @@ services:
       - REFILE_READ_TOKEN_REQUIRED=true
       - REFILE_DELETE_TOKEN_REQUIRED=true
     volumes:
-      - 'refile-data:/data'
+      - 'refile-database:/data'
+      - 'reifle-storage:/storage'
     ports:
       - '8080:8080'
 
 volumes:
-  refile-data:
+  refile-database:
+  refile-storage:
 #+END_SRC
 
 ** API

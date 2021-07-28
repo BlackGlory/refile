@@ -1,6 +1,6 @@
 import * as path from 'path'
-import { DATA } from '@env'
+import { STORAGE } from '@env'
 
 export function createFilename(location: string): string {
-  return path.join(DATA(), 'storage', location)
+  return path.join(STORAGE(), location)
 }

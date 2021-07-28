@@ -61,4 +61,5 @@ typings/
 lib
 
 # Generated files
-data
+database
+storage

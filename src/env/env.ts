@@ -37,9 +37,15 @@ export const CI: Getter<boolean> =
     .memoize(getCache)
     .get()
 
-export const DATA: Getter<string> =
-  env('REFILE_DATA')
-    .default(path.join(appRoot, 'data'))
+export const DATABASE: Getter<string> =
+  env('REFILE_DATABASE')
+    .default(path.join(appRoot, 'database'))
+    .memoize(getCache)
+    .get()
+
+export const STORAGE: Getter<string> =
+  env('REFILE_STORAGE')
+    .default(path.join(appRoot, 'storage'))
     .memoize(getCache)
     .get()
 
