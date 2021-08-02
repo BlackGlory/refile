@@ -3040,10 +3040,10 @@ extra-filesystem@^0.3.3:
     extra-promise "^0.17.5"
     tmp-promise "^3.0.2"
 
-extra-filesystem@^0.3.6:
-  version "0.3.6"
-  resolved "https://registry.yarnpkg.com/extra-filesystem/-/extra-filesystem-0.3.6.tgz#60633c523b65f8d35cd8c1f7260a2d7d12abb126"
-  integrity sha512-PMTaJcWB6uzMKTknHuaPU9s8ibL/YA5yeK3fexWVrqn71+XGzKmQ4a3p0MZIzcWIhls2P4/+fRC+0qRLDflotA==
+extra-filesystem@^0.3.7:
+  version "0.3.7"
+  resolved "https://registry.yarnpkg.com/extra-filesystem/-/extra-filesystem-0.3.7.tgz#1e68bdd8c14b75bb29eb9445e3e43edd417d1d49"
+  integrity sha512-2ySBKyil1nLF7wvmFDnnvIT8lWjlu+EBjQSKHLefaUxg/7isMuq3CqwtjnmHhT37ZGm4u+fYcpFRYlq3v6ul/A==
   dependencies:
     extra-promise "^0.18.1"
     fs-extra "^10.0.0"

@@ -1,11 +1,10 @@
-import { promises as fs } from 'fs'
 import { createWriteStream } from 'fs'
 import { createLocation } from './utils/create-location'
 import { createFilename } from './utils/create-filename'
 import { getFileHash } from './utils/get-file-hash'
 import { createTempName, ensureDir } from 'extra-filesystem'
 import { pipeline } from 'stream'
-import { remove } from 'extra-filesystem'
+import { remove, move } from 'extra-filesystem'
 import * as path from 'path'
 
 export function saveFile(stream: NodeJS.ReadableStream): Promise<string> {
@@ -25,7 +24,7 @@ export function saveFile(stream: NodeJS.ReadableStream): Promise<string> {
         const location = createLocation(hash)
         const filename = createFilename(location)
         await ensureDir(path.dirname(filename))
-        await fs.rename(tempFilename, filename)
+        await move(tempFilename, filename)
         resolve(location)
       }
     )
