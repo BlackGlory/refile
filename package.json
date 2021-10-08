@@ -86,7 +86,7 @@
     "fastify-bearer-auth": "^6.0.0",
     "fastify-cors": "^6.0.2",
     "fastify-metrics": "^8.0.0",
-    "fastify-multipart": "^4.0.7",
+    "fastify-multipart": "^5.0.2",
     "fetch-blob": "2.1.1",
     "iterable-operator": "^0.14.3",
     "justypes": "^0.1.5",

@@ -3381,10 +3381,10 @@ fastify-metrics@^8.0.0:
     fastify-plugin "^3.0.0"
     prom-client "^14.0.0"
 
-fastify-multipart@^4.0.7:
-  version "4.0.7"
-  resolved "https://registry.yarnpkg.com/fastify-multipart/-/fastify-multipart-4.0.7.tgz#80e69f8034e95811b35d205cd9f4970d0199ff8f"
-  integrity sha512-bV6QB3mmDYdrYwIrUrkGplutQLUUSzXFXtkCL2HRw5eLXyv9+DD5Gb5GJNDtKYCiCtyaGLbJmt2rLsF6A3WCUw==
+fastify-multipart@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/fastify-multipart/-/fastify-multipart-5.0.2.tgz#3e920b198e7d56149cf5e4e9bfcfb307f5f09662"
+  integrity sha512-OA4P8LmLPAWU6fbx8bQ/QlD8fs560geqm33S5MhYFtER7IZnrcbQQIiT6Fb5sJSjMnPd0RoJkhWENskWQ+5SFw==
   dependencies:
     busboy "^0.3.1"
     deepmerge "^4.2.2"
