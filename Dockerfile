@@ -23,6 +23,8 @@ RUN apk add --update --no-cache --virtual .build-deps \
       # better-sqlite3
       build-base \
       python3 \
+      # healthcheck
+      curl \
  && yarn install --production \
  && yarn cache clean \
  && apk del .build-deps \
