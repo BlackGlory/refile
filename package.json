@@ -73,6 +73,7 @@
     "@blackglory/better-sqlite3-migrations": "^0.1.7",
     "@blackglory/errors": "^1.1.2",
     "@blackglory/go": "^0.1.0",
+    "@blackglory/pass": "^0.1.0",
     "@blackglory/types": "^0.5.1",
     "app-root-path": "^3.0.0",
     "better-sqlite3": "^7.4.3",

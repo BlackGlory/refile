@@ -1,4 +1,5 @@
 import { getDatabase } from '../database'
+import { pass } from '@blackglory/pass'
 
 export function getAllBlacklistItems(): string[] {
   const result = getDatabase().prepare(`
@@ -24,7 +25,9 @@ export function addBlacklistItem(namespace: string) {
       INSERT INTO refile_blacklist (namespace)
       VALUES ($namespace);
     `).run({ namespace })
-  } catch {}
+  } catch {
+    pass()
+  }
 }
 
 export function removeBlacklistItem(namespace: string) {

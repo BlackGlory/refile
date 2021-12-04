@@ -1,5 +1,6 @@
 import { FastifyPluginAsync } from 'fastify'
 import multipart from 'fastify-multipart'
+import { pass } from '@blackglory/pass'
 
 // The d.ts of fastify-multipart is too messy, so I have to write my version.
 interface MultipartFields {
@@ -97,7 +98,9 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
 }
 
 async function consume(stream: NodeJS.ReadableStream): Promise<void> {
-  for await (const _ of stream) {}
+  for await (const _ of stream) {
+    pass()
+  }
 }
 
 function getHashList(fields: MultipartFields): string[] {
