@@ -19,7 +19,7 @@ export function inBlacklist(namespace: string): boolean {
   return result['exist_in_blacklist'] === 1
 }
 
-export function addBlacklistItem(namespace: string) {
+export function addBlacklistItem(namespace: string): void {
   try {
     getDatabase().prepare(`
       INSERT INTO refile_blacklist (namespace)
@@ -30,7 +30,7 @@ export function addBlacklistItem(namespace: string) {
   }
 }
 
-export function removeBlacklistItem(namespace: string) {
+export function removeBlacklistItem(namespace: string): void {
   getDatabase().prepare(`
     DELETE FROM refile_blacklist
      WHERE namespace = $namespace;
