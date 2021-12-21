@@ -1,6 +1,7 @@
 import { FastifyPluginAsync } from 'fastify'
 import multipart from 'fastify-multipart'
 import { pass } from '@blackglory/pass'
+import { isArray } from '@blackglory/types'
 
 // The d.ts of fastify-multipart is too messy, so I have to write my version.
 interface MultipartFields {
@@ -106,7 +107,7 @@ async function consume(stream: NodeJS.ReadableStream): Promise<void> {
 function getHashList(fields: MultipartFields): string[] {
   if (fields['hash']) {
     const hash = fields.hash
-    if (Array.isArray(hash)) {
+    if (isArray(hash)) {
       if (hash.every(isMultipartField)) {
         return hash.map(x => x.value)
       }
