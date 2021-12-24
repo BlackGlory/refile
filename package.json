@@ -80,7 +80,7 @@
     "dotenv": "^10.0.0",
     "extra-filesystem": "^0.4.0",
     "extra-generator": "^0.2.15",
-    "extra-promise": "^0.20.0",
+    "extra-promise": "^0.21.0",
     "extra-tags": "^0.2.4",
     "fastify": "^3.25.2",
     "fastify-accepts": "^2.1.0",
