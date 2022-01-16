@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.5.3](https://github.com/BlackGlory/refile/compare/v0.5.2...v0.5.3) (2022-01-16)
+
+
+### Features
+
+* add accept-version support ([2d5e7b1](https://github.com/BlackGlory/refile/commit/2d5e7b1c4c63d8f2c486e85d36b1e997ace0d732))
+* add cache-control header ([494c4df](https://github.com/BlackGlory/refile/commit/494c4df800de929af54921419e7f01e4ba8ac0f5))
+
+
+### Bug Fixes
+
+* **docker:** add curl ([11ef248](https://github.com/BlackGlory/refile/commit/11ef24874a6f1358c9e866b30ae69973d9baaafc))
+* **docker:** healthcheck ([cfdabe5](https://github.com/BlackGlory/refile/commit/cfdabe56d98b14ab4ac198ec906a4510262e074f))
+* **docker:** healthcheck ([00f0093](https://github.com/BlackGlory/refile/commit/00f00936fad39369991766b1e6c0cd188de9048a))
+
 ### [0.5.2](https://github.com/BlackGlory/refile/compare/v0.5.1...v0.5.2) (2021-10-14)
 
 ### [0.5.1](https://github.com/BlackGlory/refile/compare/v0.5.0...v0.5.1) (2021-10-08)
