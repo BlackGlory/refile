@@ -44,6 +44,7 @@
     "@types/jest": "^27.4.0",
     "@types/jest-json-schema": "^2.1.4",
     "@types/node": "16",
+    "@types/semver": "^7.3.9",
     "@typescript-eslint/eslint-plugin": "^5.9.1",
     "@typescript-eslint/parser": "^5.9.1",
     "cross-env": "^7.0.3",
@@ -93,6 +94,7 @@
     "migrations-file": "^0.2.1",
     "prom-client": "^14.0.1",
     "return-style": "^0.12.6",
+    "semver": "^7.3.5",
     "split-hash": "^0.1.6",
     "value-getter": "^0.2.2"
   }
