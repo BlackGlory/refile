@@ -14,12 +14,7 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
       , response: {
           200: {
             hash: { type: 'string' }
-          , location: {
-              anyOf: [
-                { type: 'string' }
-              , { type: 'null' }
-              ]
-            }
+          , location: { type: 'string', nullable: true }
           , references: { type: 'number' }
           }
         }
