@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.5.4](https://github.com/BlackGlory/refile/compare/v0.5.3...v0.5.4) (2022-02-10)
+
+
+### Features
+
+* add removeReferencesByNamespace ([cf44d3e](https://github.com/BlackGlory/refile/commit/cf44d3e7d4654bd8cfb13dea2b4671abfe614b04))
+
 ### [0.5.3](https://github.com/BlackGlory/refile/compare/v0.5.2...v0.5.3) (2022-01-16)
 
 
