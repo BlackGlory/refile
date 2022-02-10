@@ -27,6 +27,7 @@ interface ICore {
     setReference(namespace: string, itemId: string, fileHash: string): Promise<void>
     removeReference(namespace: string, itemId: string, fileHash: string): Promise<void>
     removeReferencesByItem(namespace: string, itemId: string): Promise<void>
+    removeReferencesByNamespace(namespace: string): Promise<void>
 
     collectGarbage(): Promise<void>
 

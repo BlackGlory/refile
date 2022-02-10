@@ -192,6 +192,26 @@ await fetch(`http://localhost:8080/refile/namespaces/${namespace}/items/${id}`, 
 })
 #+END_SRC
 
+**** remove references by namespace
+=DELETE /refile/namespaces/<namespace>=
+
+删除特定命名空间下的全部引用.
+
+***** Example
+****** curl
+#+BEGIN_SRC sh
+curl \
+  --request DELETE \
+  "http://localhost:8080/refile/namespaces/$namespace"
+#+END_SRC
+
+****** JavaScript
+#+BEGIN_SRC js
+await fetch(`http://localhost:8080/refile/namespaces/${namespace}`, {
+  method: 'DELETE'
+})
+#+END_SRC
+
 **** get all namespaces
 =GET /refile/namespaces=
 

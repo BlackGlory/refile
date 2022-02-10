@@ -19,4 +19,5 @@ interface IRefileDAO {
   removeReference(namespace: string, itemId: string, fileHash: string): Promise<void>
   removeReferencesByFile(fileHash: string): Promise<void>
   removeReferencesByItem(namespace: string, itemId: string): Promise<void>
+  removeReferencesByNamespace(namespace: string): Promise<void>
 }

@@ -11,6 +11,7 @@ import { countReferences } from './count-references'
 import { removeReference } from './remove-reference'
 import { removeReferencesByFile } from './remove-references-by-file'
 import { removeReferencesByItem } from './remove-references-by-item'
+import { removeReferencesByNamespace } from './remove-references-by-namespace'
 
 export const RefileDAO: IRefileDAO = {
   getAllFileHashes: asyncifyIterable(getAllFileHashes)
@@ -28,6 +29,7 @@ export const RefileDAO: IRefileDAO = {
 , removeReference: asyncify(removeReference)
 , removeReferencesByFile: asyncify(removeReferencesByFile)
 , removeReferencesByItem: asyncify(removeReferencesByItem)
+, removeReferencesByNamespace: asyncify(removeReferencesByNamespace)
 }
 
 function asyncify<T extends any[], U>(fn: (...args: T) => U): (...args: T) => Promise<U> {

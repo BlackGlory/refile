@@ -8,6 +8,7 @@ import { routes as getFileHashesByItemRoutes } from './get-file-hashes-by-item'
 import { routes as setReferenceRoutes } from './set-reference'
 import { routes as removeReferenceRoutes } from './remove-reference'
 import { routes as removeReferencesByItemRoutes } from './remove-references-by-item'
+import { routes as removeReferencesByNamespaceRoutes } from './remove-references-by-namespace'
 import { routes as collectGarbageRoutes } from './collect-garbage'
 
 export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes(server, { Core }) {
@@ -20,5 +21,6 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
   server.register(setReferenceRoutes, { Core })
   server.register(removeReferenceRoutes, { Core })
   server.register(removeReferencesByItemRoutes , { Core })
+  server.register(removeReferencesByNamespaceRoutes, { Core })
   server.register(collectGarbageRoutes, { Core })
 }

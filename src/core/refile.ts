@@ -127,6 +127,10 @@ export async function removeReferencesByItem(
   await RefileDAO.removeReferencesByItem(namespace, itemId)
 }
 
+export async function removeReferencesByNamespace(namespace: string): Promise<void> {
+  await RefileDAO.removeReferencesByNamespace(namespace)
+}
+
 export async function collectGarbage(): Promise<void> {
   const locations = await RefileDAO.removeAllUnreferencedFiles()
   await each(locations, StorageDAO.deleteFile)
