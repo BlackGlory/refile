@@ -10,8 +10,8 @@ import { toArrayAsync } from 'iterable-operator'
 import { fetch } from 'extra-fetch'
 import { createTempDir, remove } from 'extra-filesystem'
 import { createReadStream } from 'fs'
-// @ts-ignore
-import blobFrom from 'fetch-blob/from'
+import { readFile } from 'fs/promises'
+import { Blob } from 'extra-fetch'
 
 interface HashInfo {
   hash: string
@@ -49,7 +49,7 @@ describe('file does not exist', () => {
         url(getAddress())
       , pathname(`/refile/files/${hash}`)
       , formDataField('hash', hashList)
-      , formDataField('file', blobFrom(FIXTURE_FILENAME) as unknown as Blob)
+      , formDataField('file', await getFile(FIXTURE_FILENAME))
       )
 
       const res = await fetch(req)
@@ -66,7 +66,7 @@ describe('file does not exist', () => {
         url(getAddress())
       , pathname(`/refile/files/${hash}`)
       , formDataField('hash', [...hashList, 'bad'])
-      , formDataField('file', blobFrom(FIXTURE_FILENAME) as unknown as Blob)
+      , formDataField('file', await getFile(FIXTURE_FILENAME))
       )
 
       const res = await fetch(req)
@@ -83,7 +83,7 @@ describe('file does not exist', () => {
         url(getAddress())
       , pathname(`/refile/files/${hash}`)
       , formDataField('hash', hashList)
-      , formDataField('file', blobFrom(BAD_FIXTURE_FILENAME) as unknown as Blob)
+      , formDataField('file', await getFile(BAD_FIXTURE_FILENAME))
       )
 
       const res = await fetch(req)
@@ -102,7 +102,7 @@ describe('file exists', () => {
       url(getAddress())
     , pathname(`/refile/files/${hash}`)
     , formDataField('hash', hashList)
-    , formDataField('file', blobFrom(FIXTURE_FILENAME) as unknown as Blob)
+    , formDataField('file', await getFile(FIXTURE_FILENAME))
     )
 
     const res = await fetch(req)
@@ -138,4 +138,9 @@ function mergeHash(hashList: string[]): string {
   const hash = crypto.createHash('sha256')
   hash.update(hashList.join(''))
   return hash.digest('hex')
+}
+
+async function getFile(filename: string): Promise<Blob> {
+  const buffer = await readFile(filename)
+  return new Blob([buffer])
 }
