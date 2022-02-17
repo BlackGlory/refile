@@ -43,7 +43,8 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
   , {
       schema: {
         response: {
-          204: { type: 'null' }
+          201: { type: 'null' }
+        , 204: { type: 'null' }
         }
       }
     }
