@@ -98,20 +98,20 @@ volumes:
 *被上传的文件必须先通过[[set reference]]建立相应的引用关系, 如果文件的引用数为零, 上传会被拒绝.*
 
 上传文件时需要提供三个参数:
-- 二进制文件, 由FormData的file字段提供, 一次只能上传一个文件, 表单的编码必须为 =multipart/form-data=.
-- 将文件按512KiB为切割点进行分段, 计算每个段的SHA-256 Hash, 将Hash的16进制字符串形式保存为有序数组hashList.
-  由FormData的多个同名hash字段来提供先前计算出的hashList里的元素.
-- 将先前计算出的hashList里的16进制表示的字符串数组连接起来, 计算新字符串的SHA-256 Hash, 在URL里提供此Hash值的16进制字符串形式.
+- =file=: 需要上传的二进制文件, 由FormData的file字段提供.
+  一次只能上传一个文件, 表单的编码必须为 =multipart/form-data=.
+- =hashList=: 分段hash列表, 由ForumData的多个名为hashList的同名字段提供.
+  将文件按512KiB为切割点进行分段, 计算出每段内容的SHA-256 hash, 将其16进制字符串形式保存为有序数组, 该数组即为hashList.
+- =hash=: 文件的最终hash, 在URL里提供.
+  将hashList的字符串连接起来, 计算其SHA-256 hash, 其16进制字符串形式就是文件的最终hash.
 
-上传参数如此复杂是为了能让Refile尽早拒绝错误和重复的文件.
-该API需要的参数过于复杂, 因此几乎无法通过curl, fetch等低级客户端/API进行使用, 实现客户端时建议参考[[https://github.com/BlackGlory/refile-js][refile-js]]的实现.
+上传参数设计得如此复杂是为了能让Refile尽早拒绝错误和重复的文件.
+由于参数过于复杂, 因此几乎无法通过curl, fetch等低级客户端/API进行使用,
+实现客户端时可参考[[https://github.com/BlackGlory/refile-js][refile-js]]的实现.
 
-文件不存在时, 返回201.
-文件已存在时, 返回200.
-在Location里包含文件在存储器上的URI.
-
+上传的文件服务器上不存在时, 以201结束.
+上传的文件已经在服务器上存在时, 中断上传, 以204结束.
 文件hash校验错误时, 返回409.
-服务器存储空间不足时, 返回507.
 
 **** get file info
 =GET /refile/files/<hash>=

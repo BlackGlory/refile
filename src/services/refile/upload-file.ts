@@ -55,7 +55,7 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
 
       try {
         await Core.Refile.uploadFile(hash, hashList, data.file)
-        reply.status(204).send()
+        reply.status(201).send()
       } catch (err) {
         // This is a bad idea, but it works
         await consume(data.file)
@@ -78,7 +78,7 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
 
         if (err instanceof Core.Refile.IncorrectHashList) {
           reply
-            .status(400)
+            .status(409)
             .header('Connection', 'close')
             .send('The hash list is incorrect')
           return
@@ -86,7 +86,7 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
 
         if (err instanceof Core.Refile.IncorrectFileHash) {
           reply
-            .status(400)
+            .status(409)
             .header('Connection', 'close')
             .send('The file hash is incorrect')
           return

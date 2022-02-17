@@ -41,7 +41,7 @@ const BAD_FIXTURE_FILENAME = path.join(__dirname, 'fixtures', 'bad.txt')
 
 describe('file does not exist', () => {
   describe('upload success', () => {
-    it('204', async () => {
+    it('201', async () => {
       const { hash, hashList } = await getHashInfo(FIXTURE_FILENAME)
       await RefileDAO.setReference('namespace', 'id', hash)
 
@@ -53,12 +53,12 @@ describe('file does not exist', () => {
       )
 
       const res = await fetch(req)
-      expect(res.status).toBe(204)
+      expect(res.status).toBe(201)
     })
   })
 
   describe('bad hash list', () => {
-    it('400', async () => {
+    it('409', async () => {
       const { hash, hashList } = await getHashInfo(FIXTURE_FILENAME)
       await RefileDAO.setReference('namespace', 'id', hash)
 
@@ -70,12 +70,12 @@ describe('file does not exist', () => {
       )
 
       const res = await fetch(req)
-      expect(res.status).toBe(400)
+      expect(res.status).toBe(409)
     })
   })
 
   describe('bad file', () => {
-    it('400', async () => {
+    it('409', async () => {
       const { hash, hashList } = await getHashInfo(FIXTURE_FILENAME)
       await RefileDAO.setReference('namespace', 'id', hash)
 
@@ -87,7 +87,7 @@ describe('file does not exist', () => {
       )
 
       const res = await fetch(req)
-      expect(res.status).toBe(400)
+      expect(res.status).toBe(409)
     })
   })
 })
