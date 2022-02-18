@@ -1,4 +1,5 @@
 import { FastifyPluginAsync } from 'fastify'
+import { hashSchema } from '@src/schema'
 import multipart from 'fastify-multipart'
 import { pass } from '@blackglory/pass'
 import { isArray } from '@blackglory/types'
@@ -42,7 +43,10 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
     '/refile/files/:hash'
   , {
       schema: {
-        response: {
+        params: {
+          hash: hashSchema
+        }
+      , response: {
           201: { type: 'null' }
         , 204: { type: 'null' }
         }

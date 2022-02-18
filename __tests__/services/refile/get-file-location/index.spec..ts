@@ -15,7 +15,7 @@ afterEach(stopService)
 describe('no access control', () => {
   describe('exist', () => {
     it('200', async () => {
-      const hash = 'hash'.repeat(16)
+      const hash = 'f'.repeat(64)
       const location = 'location'
       DAO.setFile(hash, location)
 
@@ -31,7 +31,7 @@ describe('no access control', () => {
 
   describe('does not exist', () => {
     it('404', async () => {
-      const hash = 'hash'.repeat(16)
+      const hash = 'f'.repeat(64)
 
       const res = await fetch(get(
         url(getAddress())

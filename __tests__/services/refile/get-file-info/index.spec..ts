@@ -13,7 +13,7 @@ afterEach(stopService)
 
 describe('no access control', () => {
   it('200', async () => {
-    const hash = 'hash'.repeat(16)
+    const hash = 'f'.repeat(64)
 
     const res = await fetch(get(
       url(getAddress())

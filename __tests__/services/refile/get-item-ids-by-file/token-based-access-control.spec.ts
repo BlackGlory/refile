@@ -19,7 +19,7 @@ describe('token-based access control', () => {
         it('200', async () => {
           process.env.REFILE_TOKEN_BASED_ACCESS_CONTROL = 'true'
           const namespace = 'namespace'
-          const hash = 'hash'.repeat(16)
+          const hash = 'f'.repeat(64)
           const token = 'token'
           await AccessControlDAO.setReadTokenRequired(namespace, true)
           await AccessControlDAO.setReadToken({ namespace, token })
@@ -38,7 +38,7 @@ describe('token-based access control', () => {
         it('401', async () => {
           process.env.REFILE_TOKEN_BASED_ACCESS_CONTROL = 'true'
           const namespace = 'namespace'
-          const hash = 'hash'.repeat(16)
+          const hash = 'f'.repeat(64)
           const token = 'token'
           await AccessControlDAO.setReadTokenRequired(namespace, true)
           await AccessControlDAO.setReadToken({ namespace, token })
@@ -56,7 +56,7 @@ describe('token-based access control', () => {
         it('401', async () => {
           process.env.REFILE_TOKEN_BASED_ACCESS_CONTROL = 'true'
           const namespace = 'namespace'
-          const hash = 'hash'.repeat(16)
+          const hash = 'f'.repeat(64)
           const token = 'token'
           await AccessControlDAO.setReadTokenRequired(namespace, true)
           await AccessControlDAO.setReadToken({ namespace, token })
@@ -77,7 +77,7 @@ describe('token-based access control', () => {
           process.env.REFILE_TOKEN_BASED_ACCESS_CONTROL = 'true'
           process.env.REFILE_READ_TOKEN_REQUIRED = 'true'
           const namespace = 'namespace'
-          const hash = 'hash'.repeat(16)
+          const hash = 'f'.repeat(64)
 
           const res = await fetch(get(
             url(getAddress())
@@ -92,7 +92,7 @@ describe('token-based access control', () => {
         it('200', async () => {
           process.env.REFILE_TOKEN_BASED_ACCESS_CONTROL = 'true'
           const namespace = 'namespace'
-          const hash = 'hash'.repeat(16)
+          const hash = 'f'.repeat(64)
 
           const res = await fetch(get(
             url(getAddress())
@@ -110,7 +110,7 @@ describe('token-based access control', () => {
       describe('no token', () => {
         it('200', async () => {
           const namespace = 'namespace'
-          const hash = 'hash'.repeat(16)
+          const hash = 'f'.repeat(64)
           const token = 'token'
           await AccessControlDAO.setReadTokenRequired(namespace, true)
           await AccessControlDAO.setReadToken({ namespace, token })
@@ -130,7 +130,7 @@ describe('token-based access control', () => {
         it('200', async () => {
           process.env.REFILE_READ_TOKEN_REQUIRED = 'true'
           const namespace = 'namespace'
-          const hash = 'hash'.repeat(16)
+          const hash = 'f'.repeat(64)
           const token = 'token'
           await AccessControlDAO.setReadTokenRequired(namespace, true)
           await AccessControlDAO.setReadToken({ namespace, token })

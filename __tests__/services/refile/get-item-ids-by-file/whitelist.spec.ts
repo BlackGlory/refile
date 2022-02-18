@@ -18,7 +18,7 @@ describe('whitelist', () => {
       it('200', async () => {
         process.env.REFILE_LIST_BASED_ACCESS_CONTROL = 'whitelist'
         const namespace = 'namespace'
-        const hash = 'hash'.repeat(16)
+        const hash = 'f'.repeat(64)
         await AccessControlDAO.addWhitelistItem(namespace)
 
         const res = await fetch(get(
@@ -34,7 +34,7 @@ describe('whitelist', () => {
       it('403', async () => {
         process.env.REFILE_LIST_BASED_ACCESS_CONTROL = 'whitelist'
         const namespace = 'namespace'
-        const hash = 'hash'.repeat(16)
+        const hash = 'f'.repeat(64)
 
         const res = await fetch(get(
           url(getAddress())
@@ -50,7 +50,7 @@ describe('whitelist', () => {
     describe('namespace not in whitelist', () => {
       it('200', async () => {
         const namespace = 'namespace'
-        const hash = 'hash'.repeat(16)
+        const hash = 'f'.repeat(64)
 
         const res = await fetch(get(
           url(getAddress())

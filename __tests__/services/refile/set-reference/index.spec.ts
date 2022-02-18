@@ -15,7 +15,7 @@ describe('no access control', () => {
   it('204', async () => {
     const namespace = 'namespace'
     const id = 'id'
-    const hash = 'hash'.repeat(16)
+    const hash = 'f'.repeat(64)
 
     const res = await fetch(put(
       url(getAddress())

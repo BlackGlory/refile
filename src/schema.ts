@@ -15,5 +15,5 @@ export const namespaceSchema = {
 
 export const hashSchema = {
   type: 'string'
-, pattern: '^[a-z0-9]{64}$'
+, pattern: '^[0-9a-f]{64}$'
 }
