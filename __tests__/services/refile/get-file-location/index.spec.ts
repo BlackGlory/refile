@@ -4,6 +4,7 @@ import { matchers } from 'jest-json-schema'
 import { fetch } from 'extra-fetch'
 import { get } from 'extra-request'
 import { url, pathname } from 'extra-request/lib/es2018/transformers'
+import { log } from '@blackglory/log'
 
 jest.mock('@dao/config-in-sqlite3/database')
 jest.mock('@dao/data-in-sqlite3/database')

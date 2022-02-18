@@ -1,6 +1,7 @@
 import { FastifyPluginAsync } from 'fastify'
 import { routes as uploadFileRoutes } from './upload-file'
 import { routes as getFileInfoRoutes } from './get-file-info'
+import { routes as getFileLocationRoutes } from './get-file-location'
 import { routes as getAllNamespacesRoutes } from './get-all-namespaces'
 import { routes as getAllItemIdsRoutes } from './get-all-item-ids'
 import { routes as getItemIdsByFileRoutes } from './get-item-ids-by-file'
@@ -14,6 +15,7 @@ import { routes as collectGarbageRoutes } from './collect-garbage'
 export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes(server, { Core }) {
   server.register(uploadFileRoutes, { Core })
   server.register(getFileInfoRoutes, { Core })
+  server.register(getFileLocationRoutes, { Core })
   server.register(getAllNamespacesRoutes, { Core })
   server.register(getAllItemIdsRoutes, { Core })
   server.register(getItemIdsByFileRoutes, { Core })

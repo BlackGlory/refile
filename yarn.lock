@@ -543,6 +543,11 @@
     extra-stream "^0.1.3"
     jest-diff "^27.4.2"
 
+"@blackglory/log@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@blackglory/log/-/log-0.1.0.tgz#a1b71c41469e3084a60c6de06fa496678ad10a5b"
+  integrity sha512-BdQhz9YRs1Q0pXNL5Wev6Nh/a+IMIaDuSU5FA3FStxSRZUPX/2/23u6wtbfA/mX7Jtrafee1GSbwvESwm+Jz+Q==
+
 "@blackglory/pass@^0.1.0":
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/@blackglory/pass/-/pass-0.1.0.tgz#c78c91c89d800bf4f2e3a16bbebd4116f5267d2f"
