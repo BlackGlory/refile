@@ -18,6 +18,7 @@ interface ICore {
     uploadFile(hash: string, hashList: string[], stream: NodeJS.ReadableStream): Promise<void>
 
     getFileInfo(fileHash: string): Promise<IFileInfo>
+    getFileLocation(fileHash: string): Promise<string | null>
 
     getAllNamespaces(): AsyncIterable<string>
     getAllItemIds(namespace: string): AsyncIterable<string>

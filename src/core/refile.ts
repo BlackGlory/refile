@@ -82,6 +82,10 @@ export async function getFileInfo(hash: string): Promise<IFileInfo> {
   }
 }
 
+export async function getFileLocation(hash: string): Promise<string | null> {
+  return RefileDAO.getFileLocation(hash)
+}
+
 export function getAllNamespaces(): AsyncIterable<string> {
   return RefileDAO.getAllNamespaces()
 }

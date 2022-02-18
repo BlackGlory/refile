@@ -137,6 +137,26 @@ curl "http://localhost:8080/refile/files/$hash"
 await fetch(`http://localhost:8080/refile/files/${hash}`).then(res => res.json())
 #+END_SRC
 
+**** get file location
+=GET /refile/files/<hash>/location=
+
+通过hash获取文件的location.
+它与get file info是冗余的, 但性能更好.
+
+如果location存在, 以文本形式返回location.
+如果location不存在, 返回404.
+
+***** Example
+****** curl
+#+BEGIN_SRC sh
+curl "http://localhost:8080/refile/files/$hash/location"
+#+END_SRC
+
+****** JavaScript
+#+BEGIN_SRC js
+await fetch(`http://localhost:8080/refile/files/${hash}/location`).then(res => res.text())
+#+END_SRC
+
 **** <<set reference>>
 =PUT /refile/namespaces/<namespace>/items/<id>/files/<hash>=
 
