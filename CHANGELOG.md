@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.5.8](https://github.com/BlackGlory/refile/compare/v0.5.7...v0.5.8) (2022-02-18)
+
+
+### Bug Fixes
+
+* getFileLocation ([8f0bbb4](https://github.com/BlackGlory/refile/commit/8f0bbb424a41450af2757b796a4c344935f746c5))
+
 ### [0.5.7](https://github.com/BlackGlory/refile/compare/v0.5.6...v0.5.7) (2022-02-18)
 
 
