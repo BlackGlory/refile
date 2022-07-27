@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "refile",
-  "version": "0.5.8",
+  "version": "0.5.9",
   "repository": "git@github.com/BlackGlory/refile.git",
   "author": "BlackGlory <woshenmedoubuzhidao@blackglory.me>",
   "license": "MIT",
