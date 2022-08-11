@@ -1,11 +1,12 @@
 import { getDatabase } from '../database'
+import { withLazyStatic, lazyStatic } from 'extra-lazy'
 
-export function countReferences(fileHash: string): number {
-  const row = getDatabase().prepare(`
+export const countReferences = withLazyStatic(function (fileHash: string): number {
+  const row = lazyStatic(() => getDatabase().prepare(`
     SELECT COUNT(*) AS count
       FROM refile_reference
      WHERE file_hash = $fileHash;
-  `).get({ fileHash })
+  `), [getDatabase()]).get({ fileHash })
 
   return row['count']
-}
+})

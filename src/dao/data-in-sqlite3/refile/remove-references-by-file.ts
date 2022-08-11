@@ -1,8 +1,9 @@
 import { getDatabase } from '../database'
+import { withLazyStatic, lazyStatic } from 'extra-lazy'
 
-export function removeReferencesByFile(fileHash: string): void {
-  getDatabase().prepare(`
+export const removeReferencesByFile = withLazyStatic(function (fileHash: string): void {
+  lazyStatic(() => getDatabase().prepare(`
     DELETE FROM refile_reference
      WHERE file_hash = $fileHash;
-  `).run({ fileHash })
-}
+  `), [getDatabase()]).run({ fileHash })
+})

@@ -1,8 +1,11 @@
 import { getDatabase } from '../database'
+import { withLazyStatic, lazyStatic } from 'extra-lazy'
 
-export function removeReferencesByNamespace(namespace: string): void {
-  getDatabase().prepare(`
+export const removeReferencesByNamespace = withLazyStatic(function (
+  namespace: string
+): void {
+  lazyStatic(() => getDatabase().prepare(`
     DELETE FROM refile_reference
      WHERE namespace = $namespace
-  `).run({ namespace })
-}
+  `), [getDatabase()]).run({ namespace })
+})

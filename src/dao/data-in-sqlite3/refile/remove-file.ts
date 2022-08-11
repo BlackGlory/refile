@@ -1,8 +1,9 @@
 import { getDatabase } from '../database'
+import { withLazyStatic, lazyStatic } from 'extra-lazy'
 
-export function removeFile(hash: string): void {
-  getDatabase().prepare(`
+export const removeFile = withLazyStatic(function (hash: string): void {
+  lazyStatic(() => getDatabase().prepare(`
     DELETE FROM refile_file
      WHERE hash = $hash;
-  `).run({ hash })
-}
+  `), [getDatabase()]).run({ hash })
+})

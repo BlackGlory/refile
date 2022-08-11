@@ -1,13 +1,17 @@
 import { getDatabase } from '../database'
 import { map } from 'iterable-operator'
+import { withLazyStatic, lazyStatic } from 'extra-lazy'
 
-export function getAllFileHashes(namespace: string, id: string): Iterable<string> {
-  const iter = getDatabase().prepare(`
+export const getAllFileHashes = withLazyStatic(function (
+  namespace: string
+, id: string
+): Iterable<string> {
+  const iter = lazyStatic(() => getDatabase().prepare(`
     SELECT file_hash
       FROM refile_reference
      WHERE namespace = $namespace
        AND id = $id;
-  `).iterate({ namespace, id })
+  `), [getDatabase()]).iterate({ namespace, id })
 
   return map(iter, row => row['file_hash'])
-}
+})

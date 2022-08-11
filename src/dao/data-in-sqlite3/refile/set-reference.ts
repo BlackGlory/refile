@@ -1,8 +1,13 @@
 import { getDatabase } from '../database'
+import { withLazyStatic, lazyStatic } from 'extra-lazy'
 
-export function setReference(namespace: string, id: string, fileHash: string): void {
-  getDatabase().prepare(`
+export const setReference = withLazyStatic(function (
+  namespace: string
+, id: string
+, fileHash: string
+): void {
+  lazyStatic(() => getDatabase().prepare(`
     INSERT OR IGNORE INTO refile_reference (namespace, id, file_hash)
     VALUES ($namespace, $id, $fileHash);
-  `).run({ namespace, id, fileHash })
-}
+  `), [getDatabase()]).run({ namespace, id, fileHash })
+})

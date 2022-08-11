@@ -1,9 +1,13 @@
 import { getDatabase } from '../database'
+import { withLazyStatic, lazyStatic } from 'extra-lazy'
 
-export function removeReferencesByItem(namespace: string, id: string): void {
-  getDatabase().prepare(`
+export const removeReferencesByItem = withLazyStatic(function (
+  namespace: string
+, id: string
+): void {
+  lazyStatic(() => getDatabase().prepare(`
     DELETE FROM refile_reference
      WHERE namespace = $namespace
        AND id = $id;
-  `).run({ namespace, id })
-}
+  `), [getDatabase()]).run({ namespace, id })
+})

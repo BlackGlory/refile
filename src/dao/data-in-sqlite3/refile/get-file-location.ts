@@ -1,15 +1,16 @@
 import { getDatabase } from '../database'
+import { withLazyStatic, lazyStatic } from 'extra-lazy'
 
-export function getFileLocation(hash: string): string | null {
-  const row = getDatabase().prepare(`
+export const getFileLocation = withLazyStatic(function (hash: string): string | null {
+  const row = lazyStatic(() => getDatabase().prepare(`
     SELECT location
       FROM refile_file
      WHERE hash = $hash;
-  `).get({ hash })
+  `), [getDatabase()]).get({ hash })
 
   if (row) {
     return row['location']
   } else {
     return null
   }
-}
+})

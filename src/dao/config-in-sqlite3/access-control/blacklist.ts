@@ -1,38 +1,43 @@
 import { getDatabase } from '../database'
 import { pass } from '@blackglory/pass'
+import { withLazyStatic, lazyStatic } from 'extra-lazy'
 
-export function getAllBlacklistItems(): string[] {
-  const result = getDatabase().prepare(`
+export const getAllBlacklistItems = withLazyStatic(function (): string[] {
+  const result = lazyStatic(() => getDatabase().prepare(`
     SELECT namespace FROM refile_blacklist;
-  `).all()
-  return result.map(x => x['namespace'])
-}
+  `), [getDatabase()]).all()
 
-export function inBlacklist(namespace: string): boolean {
-  const result = getDatabase().prepare(`
+  return result.map(x => x['namespace'])
+})
+
+export const inBlacklist = withLazyStatic(function (namespace: string): boolean {
+  const result = lazyStatic(() => getDatabase().prepare(`
     SELECT EXISTS(
              SELECT *
                FROM refile_blacklist
               WHERE namespace = $namespace
            ) AS exist_in_blacklist;
-  `).get({ namespace })
-  return result['exist_in_blacklist'] === 1
-}
+  `), [getDatabase()]).get({ namespace })
 
-export function addBlacklistItem(namespace: string): void {
+  return result['exist_in_blacklist'] === 1
+})
+
+export const addBlacklistItem = withLazyStatic(function (namespace: string): void {
   try {
-    getDatabase().prepare(`
+    lazyStatic(() => getDatabase().prepare(`
       INSERT INTO refile_blacklist (namespace)
       VALUES ($namespace);
-    `).run({ namespace })
+    `), [getDatabase()]).run({ namespace })
   } catch {
     pass()
   }
-}
+})
 
-export function removeBlacklistItem(namespace: string): void {
-  getDatabase().prepare(`
+export const removeBlacklistItem = withLazyStatic(function (
+  namespace: string
+): void {
+  lazyStatic(() => getDatabase().prepare(`
     DELETE FROM refile_blacklist
      WHERE namespace = $namespace;
-  `).run({ namespace })
-}
+  `), [getDatabase()]).run({ namespace })
+})
