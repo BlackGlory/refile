@@ -98,6 +98,7 @@
     "prom-client": "^14.1.0",
     "return-style": "^1.0.0",
     "split-hash": "^0.1.7",
-    "value-getter": "^0.2.4"
+    "value-getter": "^0.2.4",
+    "you-died": "^0.4.2"
   }
 }
