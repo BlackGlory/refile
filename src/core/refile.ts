@@ -1,5 +1,4 @@
 import { RefileDAO, StorageDAO } from '@dao'
-import { toArrayAsync } from 'iterable-operator'
 import { each } from 'extra-promise'
 import * as crypto from 'crypto'
 import { SplitHashValidator, NotMatchedError } from 'split-hash'
