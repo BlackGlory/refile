@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.6.0](https://github.com/BlackGlory/refile/compare/v0.5.11...v0.6.0) (2022-12-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* - Removed HTTP2 support.
+- Removed `/metrics` route.
+
+* upgrade dependencies ([086f5ce](https://github.com/BlackGlory/refile/commit/086f5ce648670be04569bead4eb78f4b86586346))
+
 ### [0.5.11](https://github.com/BlackGlory/refile/compare/v0.5.10...v0.5.11) (2022-09-07)
 
 ### [0.5.10](https://github.com/BlackGlory/refile/compare/v0.5.9...v0.5.10) (2022-08-11)
