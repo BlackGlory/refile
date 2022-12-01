@@ -1,5 +1,5 @@
 import { FastifyPluginAsync } from 'fastify'
-import { namespaceSchema, idSchema, hashSchema, tokenSchema } from '@src/schema'
+import { namespaceSchema, idSchema, hashSchema, tokenSchema } from '@src/schema.js'
 
 export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes(server, { Core }) {
   server.delete<{
@@ -40,7 +40,8 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
       }
 
       await Core.Refile.removeReference(namespace, itemId, fileHash)
-      reply.status(204).send()
+
+      return reply.status(204).send()
     }
   )
 }

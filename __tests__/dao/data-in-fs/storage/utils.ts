@@ -1,4 +1,4 @@
-import { STORAGE } from '@env'
+import { STORAGE } from '@env/index.js'
 import * as path from 'path'
 
 export function getFilename(location: string): string {

@@ -1,5 +1,5 @@
-import { getDatabase } from '../database'
-import { isntNull } from '@blackglory/types'
+import { getDatabase } from '../database.js'
+import { isntNull } from '@blackglory/prelude'
 import { withLazyStatic, lazyStatic } from 'extra-lazy'
 
 export const removeAllUnreferencedFiles = withLazyStatic(function (): string[] {

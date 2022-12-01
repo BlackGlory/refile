@@ -1,10 +1,7 @@
-import * as DAO from '@dao/config-in-sqlite3/access-control/whitelist'
-import { initializeDatabases, clearDatabases } from '@test/utils'
-import { hasRawWhitelist, setRawWhitelist } from './utils'
+import * as DAO from '@dao/config-in-sqlite3/access-control/whitelist.js'
+import { initializeDatabases, clearDatabases } from '@test/utils.js'
+import { hasRawWhitelist, setRawWhitelist } from './utils.js'
 import 'jest-extended'
-
-jest.mock('@dao/config-in-sqlite3/database')
-jest.mock('@dao/data-in-sqlite3/database')
 
 beforeEach(initializeDatabases)
 afterEach(clearDatabases)

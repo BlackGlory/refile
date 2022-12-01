@@ -1,6 +1,6 @@
 import { FastifyPluginAsync } from 'fastify'
-import { hashSchema, tokenSchema } from '@src/schema'
-import { isNull } from '@blackglory/types'
+import { hashSchema, tokenSchema } from '@src/schema.js'
+import { isNull } from '@blackglory/prelude'
 
 export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes(server, { Core }) {
   server.get<{
@@ -24,7 +24,7 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
       const location = await Core.Refile.getFileLocation(hash)
       if (isNull(location)) return reply.status(404).send()
 
-      reply.status(200).send(location)
+      return reply.status(200).send(location)
     }
   )
 }

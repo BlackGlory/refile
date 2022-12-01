@@ -1,12 +1,10 @@
-import { startService, stopService, getAddress } from '@test/utils'
+import { startService, stopService, getAddress } from '@test/utils.js'
 import { matchers } from 'jest-json-schema'
-import { AccessControlDAO } from '@dao'
+import { AccessControlDAO } from '@dao/index.js'
 import { fetch } from 'extra-fetch'
 import { del } from 'extra-request'
-import { url, pathname, searchParam } from 'extra-request/lib/es2018/transformers'
+import { url, pathname, searchParam } from 'extra-request/transformers'
 
-jest.mock('@dao/config-in-sqlite3/database')
-jest.mock('@dao/data-in-sqlite3/database')
 expect.extend(matchers)
 
 beforeEach(startService)

@@ -1,4 +1,4 @@
-import { createFilename } from './utils/create-filename'
+import { createFilename } from './utils/create-filename.js'
 import { remove } from 'extra-filesystem'
 
 export async function deleteFile(location: string): Promise<void> {

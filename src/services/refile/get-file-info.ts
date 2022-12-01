@@ -1,5 +1,5 @@
 import { FastifyPluginAsync } from 'fastify'
-import { hashSchema, tokenSchema } from '@src/schema'
+import { hashSchema, tokenSchema } from '@src/schema.js'
 
 export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes(server, { Core }) {
   server.get<{
@@ -24,7 +24,8 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
       const { hash } = req.params
 
       const info = await Core.Refile.getFileInfo(hash)
-      reply.status(200).send(info)
+
+      return reply.status(200).send(info)
     }
   )
 }

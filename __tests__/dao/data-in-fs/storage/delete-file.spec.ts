@@ -1,9 +1,9 @@
-import * as DAO from '@dao/data-in-fs/storage/delete-file'
+import * as DAO from '@dao/data-in-fs/storage/delete-file.js'
 import '@blackglory/jest-matchers'
 import { promises as fs } from 'fs'
 import * as path from 'path'
 import { pathExists, ensureDir } from 'extra-filesystem'
-import { getFilename } from './utils'
+import { getFilename } from './utils.js'
 
 const CONTENT = 'hello world'
 const CONTENT_LOCATION = 'b9/4d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9'

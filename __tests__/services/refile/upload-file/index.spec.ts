@@ -1,25 +1,24 @@
-import { RefileDAO } from '@dao/data-in-sqlite3/refile'
-import { startService, stopService, getAddress } from '@test/utils'
+import { RefileDAO } from '@dao/data-in-sqlite3/refile/index.js'
+import { startService, stopService, getAddress } from '@test/utils.js'
 import { matchers } from 'jest-json-schema'
 import { put } from 'extra-request'
-import { url, pathname, formDataField } from 'extra-request/lib/es2018/transformers'
+import { url, pathname, formDataField } from 'extra-request/transformers'
 import * as path from 'path'
 import * as crypto from 'crypto'
-import { splitHash, ProgressiveHash } from 'split-hash'
+import { splitHash, IProgressiveHash } from 'split-hash/nodejs'
 import { toArrayAsync } from 'iterable-operator'
 import { fetch } from 'extra-fetch'
 import { createTempDir, remove } from 'extra-filesystem'
 import { createReadStream } from 'fs'
 import { readFile } from 'fs/promises'
 import { Blob } from 'extra-fetch'
+import { fileURLToPath } from 'url'
 
 interface HashInfo {
   hash: string
   hashList: string[]
 }
 
-jest.mock('@dao/config-in-sqlite3/database')
-jest.mock('@dao/data-in-sqlite3/database')
 expect.extend(matchers)
 
 let tmpDirPath: string
@@ -34,6 +33,7 @@ afterEach(async () => {
   await remove(tmpDirPath)
 })
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const KiB = 1024
 const HASH_BLOCK_SIZE = 512 * KiB
 const FIXTURE_FILENAME = path.join(__dirname, 'fixtures', 'file.txt')
@@ -122,7 +122,7 @@ async function getHashList(stream: NodeJS.ReadableStream): Promise<string[]> {
   return hashList
 }
 
-function createHash(): ProgressiveHash<string> {
+function createHash(): IProgressiveHash<string> {
   const hash = crypto.createHash('sha256')
   return {
     update(buffer: Buffer): void {

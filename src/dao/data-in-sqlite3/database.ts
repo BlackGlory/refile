@@ -2,23 +2,33 @@ import Database from 'better-sqlite3'
 import type { Database as IDatabase } from 'better-sqlite3'
 import * as path from 'path'
 import { ensureDirSync } from 'extra-filesystem'
-import { DATABASE } from '@env'
-import { migrateDatabase } from './utils'
+import { DATABASE, NODE_ENV, NodeEnv } from '@env/index.js'
+import { migrateDatabase } from './utils.js'
 import { assert } from '@blackglory/errors'
 
 let db: IDatabase
 
 export function openDatabase(): void {
-  const dataPath = DATABASE()
-  const dataFilename = path.join(dataPath, 'data.db')
-  ensureDirSync(dataPath)
+  switch (NODE_ENV()) {
+    case NodeEnv.Test: {
+      db = new Database(':memory:')
+      break
+    }
+    default: {
+      const dataPath = DATABASE()
+      const dataFilename = path.join(dataPath, 'data.db')
+      ensureDirSync(dataPath)
 
-  db = new Database(dataFilename)
+      db = new Database(dataFilename)
+    }
+  }
 }
 
 export async function prepareDatabase(): Promise<void> {
   assert(db, 'Database is not opened')
+
   await migrateDatabase(db)
+  db.unsafeMode(true)
 }
 
 export function getDatabase(): IDatabase {

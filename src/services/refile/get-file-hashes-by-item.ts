@@ -1,7 +1,7 @@
 import { FastifyPluginAsync } from 'fastify'
-import { idSchema, namespaceSchema, tokenSchema } from '@src/schema'
+import { idSchema, namespaceSchema, tokenSchema } from '@src/schema.js'
 import { stringifyJSONStreamAsync, stringifyNDJSONStreamAsync } from 'extra-generator'
-import accepts from 'fastify-accepts'
+import accepts from '@fastify/accepts'
 import { Readable } from 'stream'
 
 export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes(server, { Core }) {
@@ -43,12 +43,12 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
 
       const accept = req.accepts().type(['application/json', 'application/x-ndjson'])
       if (accept === 'application/x-ndjson') {
-        reply
+        return reply
           .status(200)
           .header('Content-Type', 'application/x-ndjson')
           .send(Readable.from(stringifyNDJSONStreamAsync(result)))
       } else {
-        reply
+        return reply
           .status(200)
           .header('Content-Type', 'application/json')
           .send(Readable.from(stringifyJSONStreamAsync(result)))

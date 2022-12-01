@@ -1,5 +1,5 @@
-import { getDatabase } from '../database'
-import { pass } from '@blackglory/pass'
+import { getDatabase } from '../database.js'
+import { pass } from '@blackglory/prelude'
 import { withLazyStatic, lazyStatic } from 'extra-lazy'
 
 export const getAllBlacklistItems = withLazyStatic(function (): string[] {

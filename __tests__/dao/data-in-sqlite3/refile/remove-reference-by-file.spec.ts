@@ -1,11 +1,8 @@
-import * as DAO from '@dao/data-in-sqlite3/refile/remove-references-by-file'
-import { initializeDatabases, clearDatabases } from '@test/utils'
-import { hasRawReference, setRawReference } from './utils'
+import * as DAO from '@dao/data-in-sqlite3/refile/remove-references-by-file.js'
+import { initializeDatabases, clearDatabases } from '@test/utils.js'
+import { hasRawReference, setRawReference } from './utils.js'
 import '@blackglory/jest-matchers'
 import 'jest-extended'
-
-jest.mock('@dao/config-in-sqlite3/database')
-jest.mock('@dao/data-in-sqlite3/database')
 
 beforeEach(initializeDatabases)
 afterEach(clearDatabases)

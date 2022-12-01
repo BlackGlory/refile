@@ -1,4 +1,4 @@
-import { RefileDAO } from '@dao'
+import { RefileDAO } from '@dao/index.js'
 
 export async function prepareNamespaces(namespaces: string[]) {
   const itemId = 'item-id'

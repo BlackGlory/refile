@@ -14,7 +14,7 @@ async function routes(server, { Core }) {
   , async (req, reply) => {
       await Core.Refile.collectGarbage()
 
-      reply.status(204).send()
+      return reply.status(204).send()
     }
   )
 }

@@ -1,4 +1,4 @@
-import { getDatabase } from '../database'
+import { getDatabase } from '../database.js'
 import { withLazyStatic, lazyStatic } from 'extra-lazy'
 
 export const removeReferencesByFile = withLazyStatic(function (fileHash: string): void {

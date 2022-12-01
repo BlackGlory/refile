@@ -1,7 +1,7 @@
-import { RefileDAO, StorageDAO } from '@dao'
+import { RefileDAO, StorageDAO } from '@dao/index.js'
 import { each } from 'extra-promise'
 import * as crypto from 'crypto'
-import { SplitHashValidator, NotMatchedError } from 'split-hash'
+import { SplitHashValidator, NotMatchedError } from 'split-hash/nodejs'
 import { CustomError } from '@blackglory/errors'
 
 export class FileAlreadyExists extends CustomError {}

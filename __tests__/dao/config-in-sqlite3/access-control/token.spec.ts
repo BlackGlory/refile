@@ -1,10 +1,7 @@
-import * as DAO from '@dao/config-in-sqlite3/access-control/token'
-import { initializeDatabases, clearDatabases } from '@test/utils'
-import { getRawToken, hasRawToken, setRawToken } from './utils'
+import * as DAO from '@dao/config-in-sqlite3/access-control/token.js'
+import { initializeDatabases, clearDatabases } from '@test/utils.js'
+import { getRawToken, hasRawToken, setRawToken } from './utils.js'
 import 'jest-extended'
-
-jest.mock('@dao/config-in-sqlite3/database')
-jest.mock('@dao/data-in-sqlite3/database')
 
 beforeEach(initializeDatabases)
 afterEach(clearDatabases)

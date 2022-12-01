@@ -1,8 +1,8 @@
-import { isAdmin } from './admin'
-import * as Blacklist from './blacklist'
-import * as Whitelist from './whitelist'
-import { TBAC } from './token-based-access-control'
-import * as Refile from './refile'
+import { isAdmin } from './admin.js'
+import * as Blacklist from './blacklist.js'
+import * as Whitelist from './whitelist.js'
+import { TBAC } from './token-based-access-control/index.js'
+import * as Refile from './refile.js'
 
 export const Core: ICore = {
   isAdmin

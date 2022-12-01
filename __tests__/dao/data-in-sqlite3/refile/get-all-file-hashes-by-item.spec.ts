@@ -1,12 +1,9 @@
-import * as DAO from '@dao/data-in-sqlite3/refile/get-all-file-hashes-by-item'
-import { initializeDatabases, clearDatabases } from '@test/utils'
-import { setRawReference } from './utils'
+import * as DAO from '@dao/data-in-sqlite3/refile/get-all-file-hashes-by-item.js'
+import { initializeDatabases, clearDatabases } from '@test/utils.js'
+import { setRawReference } from './utils.js'
 import { toArray } from 'iterable-operator'
 import '@blackglory/jest-matchers'
 import 'jest-extended'
-
-jest.mock('@dao/config-in-sqlite3/database')
-jest.mock('@dao/data-in-sqlite3/database')
 
 beforeEach(initializeDatabases)
 afterEach(clearDatabases)

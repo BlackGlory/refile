@@ -1,10 +1,10 @@
 import { ValueGetter } from 'value-getter'
-import { isNumber } from '@blackglory/types'
-import { Getter } from 'justypes'
+import { isNumber } from '@blackglory/prelude'
+import { Getter } from '@blackglory/prelude'
 import { assert } from '@blackglory/errors'
-import { getCache } from '@env/cache'
-import { path as appRoot } from 'app-root-path'
+import { getCache } from '@env/cache.js'
 import * as path from 'path'
+import { getAppRoot } from '@src/utils.js'
 
 export enum ListBasedAccessControl {
   Disable
@@ -32,13 +32,13 @@ export const NODE_ENV: Getter<NodeEnv | undefined> =
 
 export const DATABASE: Getter<string> =
   env('REFILE_DATABASE')
-    .default(path.join(appRoot, 'database'))
+    .default(path.join(getAppRoot(), 'database'))
     .memoize(getCache)
     .get()
 
 export const STORAGE: Getter<string> =
   env('REFILE_STORAGE')
-    .default(path.join(appRoot, 'storage'))
+    .default(path.join(getAppRoot(), 'storage'))
     .memoize(getCache)
     .get()
 
@@ -52,13 +52,6 @@ export const PORT: Getter<number> =
   env('REFILE_PORT')
     .convert(toInteger)
     .default(8080)
-    .memoize(getCache)
-    .get()
-
-export const HTTP2: Getter<boolean> =
-  env('REFILE_HTTP2')
-    .convert(toBool)
-    .default(false)
     .memoize(getCache)
     .get()
 
