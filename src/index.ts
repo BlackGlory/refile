@@ -15,7 +15,7 @@ go(async () => {
   await DataInSqlite3.prepareDatabase()
 
   const server = buildServer()
-  await server.listen(PORT(), HOST())
+  await server.listen({ port: PORT(), host: HOST() })
   if (NODE_ENV() === NodeEnv.Test) process.exit()
 
   process.send?.('ready')
