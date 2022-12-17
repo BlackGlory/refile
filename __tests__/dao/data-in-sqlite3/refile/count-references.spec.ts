@@ -1,8 +1,6 @@
 import * as DAO from '@dao/data-in-sqlite3/refile/count-references.js'
 import { initializeDatabases, clearDatabases } from '@test/utils.js'
 import { setRawReference } from './utils.js'
-import '@blackglory/jest-matchers'
-import 'jest-extended'
 
 beforeEach(initializeDatabases)
 afterEach(clearDatabases)

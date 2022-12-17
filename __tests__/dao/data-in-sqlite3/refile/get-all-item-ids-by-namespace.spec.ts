@@ -2,8 +2,6 @@ import * as DAO from '@dao/data-in-sqlite3/refile/get-all-item-ids-by-namespace.
 import { initializeDatabases, clearDatabases } from '@test/utils.js'
 import { setRawReference } from './utils.js'
 import { toArray } from 'iterable-operator'
-import '@blackglory/jest-matchers'
-import 'jest-extended'
 
 beforeEach(initializeDatabases)
 afterEach(clearDatabases)
@@ -32,9 +30,9 @@ describe('getAllItemIdsByNamespace(namespace: string): Iterable<string>', () => 
     , file_hash: hash
     })
 
-    const result = DAO.getAllItemIdsByNamespace(namespace1)
+    const iter = DAO.getAllItemIdsByNamespace(namespace1)
+    const result = toArray(iter)
 
-    expect(result).toBeIterable()
-    expect(toArray(result)).toEqual([itemId1, itemId2])
+    expect(result).toEqual([itemId1, itemId2])
   })
 })

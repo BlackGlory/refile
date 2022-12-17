@@ -1,11 +1,8 @@
-import { startService, stopService, getAddress } from '@test/utils.js'
-import { matchers } from 'jest-json-schema'
+import { expectMatchSchema, startService, stopService, getAddress } from '@test/utils.js'
 import { fetch } from 'extra-fetch'
 import { get, put, del } from 'extra-request'
 import { url, pathname, headers } from 'extra-request/transformers'
 import { toJSON } from 'extra-response'
-
-expect.extend(matchers)
 
 beforeEach(startService)
 afterEach(stopService)
@@ -23,7 +20,7 @@ describe('blacklist', () => {
         ))
 
         expect(res.status).toBe(200)
-        expect(await toJSON(res)).toMatchSchema({
+        expectMatchSchema(await toJSON(res), {
           type: 'array'
         , items: { type: 'string' }
         })

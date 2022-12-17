@@ -1,7 +1,6 @@
 import * as DAO from '@dao/config-in-sqlite3/access-control/blacklist.js'
 import { initializeDatabases, clearDatabases } from '@test/utils.js'
 import { hasRawBlacklist, setRawBlacklist } from './utils.js'
-import 'jest-extended'
 
 beforeEach(initializeDatabases)
 afterEach(clearDatabases)
@@ -26,7 +25,7 @@ describe('blacklist', () => {
 
         const result = DAO.inBlacklist(namespace)
 
-        expect(result).toBeTrue()
+        expect(result).toBe(true)
       })
     })
 
@@ -36,7 +35,7 @@ describe('blacklist', () => {
 
         const result = DAO.inBlacklist(namespace)
 
-        expect(result).toBeFalse()
+        expect(result).toBe(false)
       })
     })
   })
@@ -50,7 +49,7 @@ describe('blacklist', () => {
         const result = DAO.addBlacklistItem(namespace)
 
         expect(result).toBeUndefined()
-        expect(hasRawBlacklist(namespace)).toBeTrue()
+        expect(hasRawBlacklist(namespace)).toBe(true)
       })
     })
 
@@ -61,7 +60,7 @@ describe('blacklist', () => {
         const result = DAO.addBlacklistItem(namespace)
 
         expect(result).toBeUndefined()
-        expect(hasRawBlacklist(namespace)).toBeTrue()
+        expect(hasRawBlacklist(namespace)).toBe(true)
       })
     })
   })
@@ -75,7 +74,7 @@ describe('blacklist', () => {
         const result = DAO.removeBlacklistItem(namespace)
 
         expect(result).toBeUndefined()
-        expect(hasRawBlacklist(namespace)).toBeFalse()
+        expect(hasRawBlacklist(namespace)).toBe(false)
       })
     })
 
@@ -86,7 +85,7 @@ describe('blacklist', () => {
         const result = DAO.removeBlacklistItem(namespace)
 
         expect(result).toBeUndefined()
-        expect(hasRawBlacklist(namespace)).toBeFalse()
+        expect(hasRawBlacklist(namespace)).toBe(false)
       })
     })
   })

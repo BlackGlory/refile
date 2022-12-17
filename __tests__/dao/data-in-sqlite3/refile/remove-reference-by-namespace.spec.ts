@@ -1,8 +1,6 @@
 import * as DAO from '@dao/data-in-sqlite3/refile/remove-references-by-namespace.js'
 import { initializeDatabases, clearDatabases } from '@test/utils.js'
 import { hasRawReference, setRawReference } from './utils.js'
-import '@blackglory/jest-matchers'
-import 'jest-extended'
 
 beforeEach(initializeDatabases)
 afterEach(clearDatabases)
@@ -28,8 +26,8 @@ describe('removeReferencesByNamespace(namespace: string): void', () => {
       const result = DAO.removeReferencesByNamespace(namespace1)
 
       expect(result).toBeUndefined()
-      expect(hasRawReference(namespace1, id, fileHash)).toBeFalse()
-      expect(hasRawReference(namespace2, id, fileHash)).toBeTrue()
+      expect(hasRawReference(namespace1, id, fileHash)).toBe(false)
+      expect(hasRawReference(namespace2, id, fileHash)).toBe(true)
     })
   })
 
@@ -42,7 +40,7 @@ describe('removeReferencesByNamespace(namespace: string): void', () => {
       const result = DAO.removeReferencesByNamespace(namespace)
 
       expect(result).toBeUndefined()
-      expect(hasRawReference(namespace, id, fileHash)).toBeFalse()
+      expect(hasRawReference(namespace, id, fileHash)).toBe(false)
     })
   })
 })

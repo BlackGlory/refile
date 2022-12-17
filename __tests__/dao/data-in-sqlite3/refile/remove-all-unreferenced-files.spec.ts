@@ -1,8 +1,6 @@
 import * as DAO from '@dao/data-in-sqlite3/refile/remove-all-unreferenced-files.js'
 import { initializeDatabases, clearDatabases } from '@test/utils.js'
 import { setRawFile, hasRawFile, setRawReference } from './utils.js'
-import '@blackglory/jest-matchers'
-import 'jest-extended'
 
 beforeEach(initializeDatabases)
 afterEach(clearDatabases)
@@ -17,7 +15,7 @@ describe('removeAllUnreferencedFiles(): string[]', () => {
       const result = DAO.removeAllUnreferencedFiles()
 
       expect(result).toEqual([location])
-      expect(hasRawFile(hash)).toBeFalse()
+      expect(hasRawFile(hash)).toBe(false)
     })
   })
 
@@ -35,7 +33,7 @@ describe('removeAllUnreferencedFiles(): string[]', () => {
       const result = DAO.removeAllUnreferencedFiles()
 
       expect(result).toEqual([])
-      expect(hasRawFile(hash)).toBeTrue()
+      expect(hasRawFile(hash)).toBe(true)
     })
   })
 })

@@ -1,8 +1,6 @@
 import * as DAO from '@dao/data-in-sqlite3/refile/remove-reference.js'
 import { initializeDatabases, clearDatabases } from '@test/utils.js'
 import { hasRawReference, setRawReference } from './utils.js'
-import '@blackglory/jest-matchers'
-import 'jest-extended'
 
 beforeEach(initializeDatabases)
 afterEach(clearDatabases)
@@ -22,7 +20,7 @@ describe('removeReference(namespace: string, id: string, fileHash: string): void
       const result = DAO.removeReference(namespace, id, fileHash)
 
       expect(result).toBeUndefined()
-      expect(hasRawReference(namespace, id, fileHash)).toBeFalse()
+      expect(hasRawReference(namespace, id, fileHash)).toBe(false)
     })
   })
 
@@ -35,7 +33,7 @@ describe('removeReference(namespace: string, id: string, fileHash: string): void
       const result = DAO.removeReference(namespace, id, fileHash)
 
       expect(result).toBeUndefined()
-      expect(hasRawReference(namespace, id, fileHash)).toBeFalse()
+      expect(hasRawReference(namespace, id, fileHash)).toBe(false)
     })
   })
 })

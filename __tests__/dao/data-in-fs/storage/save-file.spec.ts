@@ -1,6 +1,5 @@
 import { PassThrough } from 'stream'
 import * as DAO from '@dao/data-in-fs/storage/save-file.js'
-import '@blackglory/jest-matchers'
 import { pathExists, remove } from 'extra-filesystem'
 import { getErrorPromise } from 'return-style'
 import { getFilename } from './utils.js'
@@ -19,12 +18,10 @@ describe('saveFile(steram: Node.ReadableStream): Promise<string>', () => {
       stream.write(CONTENT)
       stream.end()
 
-      const result = DAO.saveFile(stream)
-      const proResult = await result
+      const result = await DAO.saveFile(stream)
       const exist = await pathExists(getFilename(CONTENT_LOCATION))
 
-      expect(result).toBePromise()
-      expect(proResult).toBe(CONTENT_LOCATION)
+      expect(result).toBe(CONTENT_LOCATION)
       expect(exist).toBeTruthy()
     })
   })
@@ -36,11 +33,9 @@ describe('saveFile(steram: Node.ReadableStream): Promise<string>', () => {
       stream.write(CONTENT)
       setTimeout(() => stream.destroy(error), 1000)
 
-      const result = DAO.saveFile(stream)
-      const err = await getErrorPromise(result)
+      const err = await getErrorPromise(DAO.saveFile(stream))
       const exist = await pathExists(getFilename(CONTENT_LOCATION))
 
-      expect(result).toBePromise()
       expect(err).toBe(error)
       expect(exist).toBeFalsy()
     })

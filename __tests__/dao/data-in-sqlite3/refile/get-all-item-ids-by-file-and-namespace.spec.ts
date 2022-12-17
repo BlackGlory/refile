@@ -2,8 +2,6 @@ import * as DAO from '@dao/data-in-sqlite3/refile/get-all-item-ids-by-file-and-n
 import { initializeDatabases, clearDatabases } from '@test/utils.js'
 import { setRawReference } from './utils.js'
 import { toArray } from 'iterable-operator'
-import '@blackglory/jest-matchers'
-import 'jest-extended'
 
 beforeEach(initializeDatabases)
 afterEach(clearDatabases)
@@ -31,10 +29,9 @@ describe('getAllItemIdsByFileAndNamespace(fileHash: string, namespace: string): 
     , file_hash: hash
     })
 
-    const result = DAO.getAllItemIdsByFileAndNamespace(hash, namespace1)
-    const proResult = toArray(result)
+    const iter = DAO.getAllItemIdsByFileAndNamespace(hash, namespace1)
+    const result = toArray(iter)
 
-    expect(result).toBeIterable()
-    expect(proResult).toEqual([itemId1, itemId2])
+    expect(result).toEqual([itemId1, itemId2])
   })
 })

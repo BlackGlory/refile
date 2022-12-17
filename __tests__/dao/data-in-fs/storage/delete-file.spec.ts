@@ -1,5 +1,4 @@
 import * as DAO from '@dao/data-in-fs/storage/delete-file.js'
-import '@blackglory/jest-matchers'
 import { promises as fs } from 'fs'
 import * as path from 'path'
 import { pathExists, ensureDir } from 'extra-filesystem'
@@ -14,12 +13,10 @@ describe('deleteFile(location: string): Promise<void>', () => {
     await ensureDir(path.dirname(filename))
     await fs.writeFile(filename, CONTENT)
 
-    const result = DAO.deleteFile(CONTENT_LOCATION)
-    const proResult = await result
+    const result = await DAO.deleteFile(CONTENT_LOCATION)
     const exist = await pathExists(filename)
 
-    expect(result).toBePromise()
-    expect(proResult).toBeUndefined()
+    expect(result).toBeUndefined()
     expect(exist).toBeFalsy()
   })
 })

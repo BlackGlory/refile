@@ -1,6 +1,5 @@
 import { RefileDAO } from '@dao/data-in-sqlite3/refile/index.js'
 import { startService, stopService, getAddress } from '@test/utils.js'
-import { matchers } from 'jest-json-schema'
 import { put } from 'extra-request'
 import { url, pathname, formDataField } from 'extra-request/transformers'
 import * as path from 'path'
@@ -18,8 +17,6 @@ interface HashInfo {
   hash: string
   hashList: string[]
 }
-
-expect.extend(matchers)
 
 let tmpDirPath: string
 

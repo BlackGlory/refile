@@ -1,8 +1,6 @@
 import * as DAO from '@dao/data-in-sqlite3/refile/set-reference.js'
 import { initializeDatabases, clearDatabases } from '@test/utils.js'
 import { hasRawReference, setRawReference } from './utils.js'
-import '@blackglory/jest-matchers'
-import 'jest-extended'
 
 beforeEach(initializeDatabases)
 afterEach(clearDatabases)
@@ -22,7 +20,7 @@ describe('setReference(namespace: string, id: string, fileHash: string): void', 
       const result = DAO.setReference(namespace, id, fileHash)
 
       expect(result).toBeUndefined()
-      expect(hasRawReference(namespace, id, fileHash)).toBeTrue()
+      expect(hasRawReference(namespace, id, fileHash)).toBe(true)
     })
   })
 
@@ -35,7 +33,7 @@ describe('setReference(namespace: string, id: string, fileHash: string): void', 
       const result = DAO.setReference(namespace, id, fileHash)
 
       expect(result).toBeUndefined()
-      expect(hasRawReference(namespace, id, fileHash)).toBeTrue()
+      expect(hasRawReference(namespace, id, fileHash)).toBe(true)
     })
   })
 })

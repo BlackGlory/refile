@@ -1,8 +1,6 @@
 import * as DAO from '@dao/data-in-sqlite3/refile/remove-references-by-file.js'
 import { initializeDatabases, clearDatabases } from '@test/utils.js'
 import { hasRawReference, setRawReference } from './utils.js'
-import '@blackglory/jest-matchers'
-import 'jest-extended'
 
 beforeEach(initializeDatabases)
 afterEach(clearDatabases)
@@ -39,10 +37,10 @@ describe('removeReferencesByFile(fileHash: string): void', () => {
       const result = DAO.removeReferencesByFile(fileHash)
 
       expect(result).toBeUndefined()
-      expect(hasRawReference(namespace1, itemId1, fileHash)).toBeFalse()
-      expect(hasRawReference(namespace1, itemId2, fileHash)).toBeFalse()
-      expect(hasRawReference(namespace2, itemId1, fileHash)).toBeFalse()
-      expect(hasRawReference(namespace2, itemId2, fileHash)).toBeFalse()
+      expect(hasRawReference(namespace1, itemId1, fileHash)).toBe(false)
+      expect(hasRawReference(namespace1, itemId2, fileHash)).toBe(false)
+      expect(hasRawReference(namespace2, itemId1, fileHash)).toBe(false)
+      expect(hasRawReference(namespace2, itemId2, fileHash)).toBe(false)
     })
   })
 
@@ -55,7 +53,7 @@ describe('removeReferencesByFile(fileHash: string): void', () => {
       const result = DAO.removeReferencesByFile(fileHash)
 
       expect(result).toBeUndefined()
-      expect(hasRawReference(namespace, id, fileHash)).toBeFalse()
+      expect(hasRawReference(namespace, id, fileHash)).toBe(false)
     })
   })
 })

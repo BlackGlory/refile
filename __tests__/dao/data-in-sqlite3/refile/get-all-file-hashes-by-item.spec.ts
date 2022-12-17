@@ -2,8 +2,6 @@ import * as DAO from '@dao/data-in-sqlite3/refile/get-all-file-hashes-by-item.js
 import { initializeDatabases, clearDatabases } from '@test/utils.js'
 import { setRawReference } from './utils.js'
 import { toArray } from 'iterable-operator'
-import '@blackglory/jest-matchers'
-import 'jest-extended'
 
 beforeEach(initializeDatabases)
 afterEach(clearDatabases)
@@ -34,10 +32,9 @@ describe('getAllFileHashesByItem(namespace: string, id: string): string[]', () =
     , file_hash: 'hash4'
     })
 
-    const result = DAO.getAllFileHashes(namespace1, id)
-    const proResult = toArray(result)
+    const iter = DAO.getAllFileHashes(namespace1, id)
+    const result = toArray(iter)
 
-    expect(result).toBeIterable()
-    expect(proResult).toEqual(['hash1', 'hash2'])
+    expect(result).toEqual(['hash1', 'hash2'])
   })
 })

@@ -1,8 +1,6 @@
 import * as DAO from '@dao/data-in-sqlite3/refile/get-file-location.js'
 import { initializeDatabases, clearDatabases } from '@test/utils.js'
 import { setRawFile } from './utils.js'
-import '@blackglory/jest-matchers'
-import 'jest-extended'
 
 beforeEach(initializeDatabases)
 afterEach(clearDatabases)

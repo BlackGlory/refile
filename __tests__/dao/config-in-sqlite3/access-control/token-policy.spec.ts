@@ -1,7 +1,6 @@
 import * as DAO from '@dao/config-in-sqlite3/access-control/token-policy.js'
 import { initializeDatabases, clearDatabases } from '@test/utils.js'
 import { getRawTokenPolicy, hasRawTokenPolicy, setRawTokenPolicy } from './utils.js'
-import 'jest-extended'
 
 beforeEach(initializeDatabases)
 afterEach(clearDatabases)
@@ -99,7 +98,7 @@ describe('TokenPolicy', () => {
         const result = DAO.unsetWriteTokenRequired(namespace)
 
         expect(result).toBeUndefined()
-        expect(hasRawTokenPolicy(namespace)).toBeFalse()
+        expect(hasRawTokenPolicy(namespace)).toBe(false)
       })
     })
   })
@@ -144,7 +143,7 @@ describe('TokenPolicy', () => {
         const result = DAO.unsetReadTokenRequired(namespace)
 
         expect(result).toBeUndefined()
-        expect(hasRawTokenPolicy(namespace)).toBeFalse()
+        expect(hasRawTokenPolicy(namespace)).toBe(false)
       })
     })
   })
@@ -189,7 +188,7 @@ describe('TokenPolicy', () => {
         const result = DAO.unsetDeleteTokenRequired(namespace)
 
         expect(result).toBeUndefined()
-        expect(hasRawTokenPolicy(namespace)).toBeFalse()
+        expect(hasRawTokenPolicy(namespace)).toBe(false)
       })
     })
   })

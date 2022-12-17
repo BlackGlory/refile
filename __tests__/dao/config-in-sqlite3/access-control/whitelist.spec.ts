@@ -1,7 +1,6 @@
 import * as DAO from '@dao/config-in-sqlite3/access-control/whitelist.js'
 import { initializeDatabases, clearDatabases } from '@test/utils.js'
 import { hasRawWhitelist, setRawWhitelist } from './utils.js'
-import 'jest-extended'
 
 beforeEach(initializeDatabases)
 afterEach(clearDatabases)
@@ -26,7 +25,7 @@ describe('whitelist', () => {
 
         const result = DAO.inWhitelist(namespace)
 
-        expect(result).toBeTrue()
+        expect(result).toBe(true)
       })
     })
 
@@ -36,7 +35,7 @@ describe('whitelist', () => {
 
         const result = DAO.inWhitelist(namespace)
 
-        expect(result).toBeFalse()
+        expect(result).toBe(false)
       })
     })
   })
@@ -50,7 +49,7 @@ describe('whitelist', () => {
         const result = DAO.addWhitelistItem(namespace)
 
         expect(result).toBeUndefined()
-        expect(hasRawWhitelist(namespace)).toBeTrue()
+        expect(hasRawWhitelist(namespace)).toBe(true)
       })
     })
 
@@ -61,7 +60,7 @@ describe('whitelist', () => {
         const result = DAO.addWhitelistItem(namespace)
 
         expect(result).toBeUndefined()
-        expect(hasRawWhitelist(namespace)).toBeTrue()
+        expect(hasRawWhitelist(namespace)).toBe(true)
       })
     })
   })
@@ -75,7 +74,7 @@ describe('whitelist', () => {
         const result = DAO.removeWhitelistItem(namespace)
 
         expect(result).toBeUndefined()
-        expect(hasRawWhitelist(namespace)).toBeFalse()
+        expect(hasRawWhitelist(namespace)).toBe(false)
       })
     })
 
@@ -86,7 +85,7 @@ describe('whitelist', () => {
         const result = DAO.removeWhitelistItem(namespace)
 
         expect(result).toBeUndefined()
-        expect(hasRawWhitelist(namespace)).toBeFalse()
+        expect(hasRawWhitelist(namespace)).toBe(false)
       })
     })
   })
