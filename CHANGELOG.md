@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.7.0](https://github.com/BlackGlory/refile/compare/v0.6.1...v0.7.0) (2022-12-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* The `Accept-Version` header is semver now
+
+* upgrade dependencies ([b4115a5](https://github.com/BlackGlory/refile/commit/b4115a5f9782639a33dbf5fb784bf6b644810ba4))
+
 ### [0.6.1](https://github.com/BlackGlory/refile/compare/v0.6.0...v0.6.1) (2022-12-08)
 
 ## [0.6.0](https://github.com/BlackGlory/refile/compare/v0.5.11...v0.6.0) (2022-12-01)
