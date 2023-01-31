@@ -53,7 +53,6 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
             .status(400)
             .header('Connection', 'close')
             .send("The file's references is zero")
-          return
         }
 
         if (err instanceof Core.Refile.IncorrectHashList) {

@@ -5,27 +5,28 @@ import { getFileHash } from './utils/get-file-hash.js'
 import { createTempName, ensureDir } from 'extra-filesystem'
 import { pipeline } from 'stream/promises'
 import { remove, move } from 'extra-filesystem'
-import * as path from 'path'
+import path from 'path'
 
-export function saveFile(stream: NodeJS.ReadableStream): Promise<string> {
-  return new Promise(async (resolve, reject) => {
-    const tempFilename = await createTempName()
+export async function saveFile(
+  createReadableStream: () => NodeJS.ReadableStream
+): Promise<string> {
+  const tempFilename = await createTempName()
 
-    try {
-      await pipeline(
-        stream
-      , createWriteStream(tempFilename)
-      )
-    } catch (err) {
-      await remove(tempFilename)
-      return reject(err)
-    }
+  try {
+    await pipeline(
+      createReadableStream()
+    , createWriteStream(tempFilename)
+    )
+  } catch (err) {
+    await remove(tempFilename)
+    throw err
+  }
 
-    const hash = await getFileHash(tempFilename)
-    const location = createLocation(hash)
-    const filename = createFilename(location)
-    await ensureDir(path.dirname(filename))
-    await move(tempFilename, filename)
-    resolve(location)
-  })
+  const hash = await getFileHash(tempFilename)
+  const location = createLocation(hash)
+  const filename = createFilename(location)
+  await ensureDir(path.dirname(filename))
+  await move(tempFilename, filename)
+
+  return location
 }

@@ -45,7 +45,7 @@
     "@commitlint/config-conventional": "^17.4.2",
     "@types/better-sqlite3": "^7.6.3",
     "@types/jest": "^29.4.0",
-    "@types/node": "16",
+    "@types/node": "18",
     "@typescript-eslint/eslint-plugin": "^5.49.0",
     "@typescript-eslint/parser": "^5.49.0",
     "ajv": "^8.12.0",
@@ -92,7 +92,7 @@
     "migration-files": "^0.4.0",
     "return-style": "^2.0.3",
     "semver": "^7.3.8",
-    "split-hash": "^0.2.1",
+    "split-hash": "^0.2.2",
     "value-getter": "^0.3.0",
     "you-died": "^0.4.3"
   }

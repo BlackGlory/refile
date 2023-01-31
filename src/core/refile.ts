@@ -1,8 +1,9 @@
 import { RefileDAO, StorageDAO } from '@dao/index.js'
 import { each } from 'extra-promise'
 import * as crypto from 'crypto'
-import { SplitHashValidator, NotMatchedError } from 'split-hash/nodejs'
+import { NotMatchedError, SplitHashValidator } from 'split-hash/nodejs'
 import { CustomError } from '@blackglory/errors'
+import { go, isntNull } from '@blackglory/prelude'
 
 export class FileAlreadyExists extends CustomError {}
 export class ReferencesIsZero extends CustomError {}
@@ -15,7 +16,7 @@ export class IncorrectFileHash extends CustomError {}
  * @throws {IncorrectHashList}
  * @throws {IncorrectFileHash}
  */
-export function uploadFile(
+export async function uploadFile(
   hash: string
 , hashList: string[]
 , stream: NodeJS.ReadableStream
@@ -23,30 +24,25 @@ export function uploadFile(
   const KiB = 1024
   const HASH_BLOCK_SIZE = 512 * KiB
 
-  return new Promise(async (resolve, reject) => {
-    try {
-      const info = await getFileInfo(hash)
-      if (info.location !== null) throw new FileAlreadyExists()
-      if (info.references === 0) throw new ReferencesIsZero()
-      if (mergeHash(hashList) !== hash) throw new IncorrectHashList()
+  const info = await getFileInfo(hash)
+  if (isntNull(info.location)) throw new FileAlreadyExists()
+  if (info.references === 0) throw new ReferencesIsZero()
+  if (mergeHash(hashList) !== hash) throw new IncorrectHashList()
 
-      // Note: there are stream/promises since Node.js v15.0.0
-      const validatedStream = stream
-        .pipe(createHashValidator(hashList))
-        .on('error', err => {
-          if (err instanceof NotMatchedError) {
-            reject(new IncorrectFileHash())
-          } else {
-            reject(err)
-          }
-        })
-      const location = await StorageDAO.saveFile(validatedStream)
-      await RefileDAO.setFile(hash, location)
-      resolve()
-    } catch (e) {
-      reject(e)
+  const location = await go(async () => {
+    try {
+      return await StorageDAO.saveFile(
+        () => stream.pipe(createHashValidator(hashList))
+      )
+    } catch (err) {
+      if (err instanceof NotMatchedError) {
+        throw new IncorrectFileHash()
+      } else {
+        throw err
+      }
     }
   })
+  await RefileDAO.setFile(hash, location)
 
   function createHashValidator(hashList: string[]) {
     return new SplitHashValidator(hashList, HASH_BLOCK_SIZE, createHash)

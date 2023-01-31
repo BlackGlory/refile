@@ -14,11 +14,14 @@ afterEach(async () => {
 describe('saveFile(steram: Node.ReadableStream): Promise<string>', () => {
   describe('stream finish', () => {
     it('returns resolved promise', async () => {
-      const stream = new PassThrough()
-      stream.write(CONTENT)
-      stream.end()
+      function createStream(): PassThrough {
+        const stream = new PassThrough()
+        stream.write(CONTENT)
+        stream.end()
+        return stream
+      }
 
-      const result = await DAO.saveFile(stream)
+      const result = await DAO.saveFile(createStream)
       const exist = await pathExists(getFilename(CONTENT_LOCATION))
 
       expect(result).toBe(CONTENT_LOCATION)
@@ -29,11 +32,14 @@ describe('saveFile(steram: Node.ReadableStream): Promise<string>', () => {
   describe('stream error', () => {
     it('returns rejected promise', async () => {
       const error = new Error('custom error')
-      const stream = new PassThrough()
-      stream.write(CONTENT)
-      setTimeout(() => stream.destroy(error), 1000)
+      function createStream(): PassThrough {
+        const stream = new PassThrough()
+        stream.write(CONTENT)
+        setTimeout(() => stream.destroy(error), 1000)
+        return stream
+      }
 
-      const err = await getErrorPromise(DAO.saveFile(stream))
+      const err = await getErrorPromise(DAO.saveFile(createStream))
       const exist = await pathExists(getFilename(CONTENT_LOCATION))
 
       expect(err).toBe(error)
