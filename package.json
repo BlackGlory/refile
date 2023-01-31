@@ -43,8 +43,6 @@
     "@blackglory/log": "^2.0.0",
     "@commitlint/cli": "^17.4.2",
     "@commitlint/config-conventional": "^17.4.2",
-    "@types/accepts": "^1.3.5",
-    "@types/app-root-path": "^1.2.4",
     "@types/better-sqlite3": "^7.6.3",
     "@types/jest": "^29.4.0",
     "@types/node": "16",
