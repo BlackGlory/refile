@@ -36,7 +36,9 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
 
       await Core.Whitelist.add(namespace)
 
-      return reply.status(204).send()
+      return reply
+        .status(204)
+        .send()
     }
   )
 
@@ -55,7 +57,9 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
 
       await Core.Whitelist.remove(namespace)
 
-      return reply.status(204).send()
+      return reply
+        .status(204)
+        .send()
     }
   )
 }

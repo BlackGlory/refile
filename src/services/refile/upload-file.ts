@@ -34,7 +34,9 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
 
       try {
         await Core.Refile.uploadFile(hash, hashList, data.file)
-        reply.status(201).send()
+        return reply
+          .status(201)
+          .send()
       } catch (err) {
         // This is a bad idea, but it works
         await consume(data.file)

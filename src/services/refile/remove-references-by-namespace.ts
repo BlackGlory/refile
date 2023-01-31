@@ -36,7 +36,9 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
 
       await Core.Refile.removeReferencesByNamespace(namespace)
 
-      return reply.status(204).send()
+      return reply
+        .status(204)
+        .send()
     }
   )
 }

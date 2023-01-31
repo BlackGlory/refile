@@ -77,7 +77,9 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
 
       await Core.TBAC.Token.setWriteToken(namespace, token)
 
-      return reply.status(204).send()
+      return reply
+        .status(204)
+        .send()
     }
   )
 
@@ -102,7 +104,9 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
 
       await Core.TBAC.Token.unsetWriteToken(namespace, token)
 
-      return reply.status(204).send()
+      return reply
+        .status(204)
+        .send()
     }
   )
 
@@ -128,7 +132,9 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
 
       await Core.TBAC.Token.setReadToken(namespace, token)
 
-      return reply.status(204).send()
+      return reply
+        .status(204)
+        .send()
     }
   )
 
@@ -153,7 +159,9 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
 
       await Core.TBAC.Token.unsetReadToken(namespace, token)
 
-      return reply.status(204).send()
+      return reply
+        .status(204)
+        .send()
     }
   )
 
@@ -179,7 +187,9 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
 
       await Core.TBAC.Token.setDeleteToken(namespace, token)
 
-      return reply.status(204).send()
+      return reply
+        .status(204)
+        .send()
     }
   )
 
@@ -204,7 +214,9 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
 
       await Core.TBAC.Token.unsetDeleteToken(namespace, token)
 
-      return reply.status(204).send()
+      return reply
+        .status(204)
+        .send()
     }
   )
 }

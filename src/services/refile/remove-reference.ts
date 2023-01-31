@@ -41,7 +41,9 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
 
       await Core.Refile.removeReference(namespace, itemId, fileHash)
 
-      return reply.status(204).send()
+      return reply
+        .status(204)
+        .send()
     }
   )
 }

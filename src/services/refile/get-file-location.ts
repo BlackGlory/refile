@@ -24,7 +24,9 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
       const location = await Core.Refile.getFileLocation(hash)
       if (isNull(location)) return reply.status(404).send()
 
-      return reply.status(200).send(location)
+      return reply
+        .status(200)
+        .send(location)
     }
   )
 }

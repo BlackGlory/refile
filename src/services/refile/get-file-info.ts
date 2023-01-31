@@ -25,7 +25,9 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
 
       const info = await Core.Refile.getFileInfo(hash)
 
-      return reply.status(200).send(info)
+      return reply
+        .status(200)
+        .send(info)
     }
   )
 }
