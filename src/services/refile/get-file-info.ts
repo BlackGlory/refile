@@ -24,7 +24,7 @@ export const routes: FastifyPluginAsync<{ api: IAPI }> = async (server, { api })
   , async (req, reply) => {
       const { hash } = req.params
 
-      const info = await api.Refile.getFileInfo(hash)
+      const info = api.Refile.getFileInfo(hash)
 
       return reply
         .status(200)

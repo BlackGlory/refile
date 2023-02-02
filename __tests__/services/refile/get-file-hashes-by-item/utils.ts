@@ -1,7 +1,11 @@
 import { RefileDAO } from '@dao/index.js'
 
-export async function prepareFiles(namespace: string, itemId: string, fileHashes: string[]) {
+export function prepareFiles(
+  namespace: string
+, itemId: string
+, fileHashes: string[]
+): void {
   for (const fileHash of fileHashes) {
-    await RefileDAO.setReference(namespace, itemId, fileHash)
+    RefileDAO.setReference(namespace, itemId, fileHash)
   }
 }

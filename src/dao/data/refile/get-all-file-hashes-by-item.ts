@@ -11,7 +11,7 @@ export const getAllFileHashes = withLazyStatic(function (
       FROM refile_reference
      WHERE namespace = $namespace
        AND id = $id;
-  `), [getDatabase()]).iterate({ namespace, id })
+  `), [getDatabase()]).iterate({ namespace, id }) as Iterable<{ file_hash: string }>
 
   return map(iter, row => row['file_hash'])
 })

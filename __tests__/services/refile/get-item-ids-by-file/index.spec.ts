@@ -13,7 +13,7 @@ describe('no access control', () => {
     const hash = 'f'.repeat(64)
     const namespace = 'namespace'
     const itemIds = ['item-id']
-    await prepareItems(namespace, hash, itemIds)
+    prepareItems(namespace, hash, itemIds)
 
     const res = await fetch(get(
       url(getAddress())

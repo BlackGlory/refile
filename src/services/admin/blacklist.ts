@@ -16,7 +16,7 @@ export const routes: FastifyPluginAsync<{ api: IAPI }> = async (server, { api })
       }
     }
   , async (req, reply) => {
-      const result = await api.Blacklist.getAll()
+      const result = api.Blacklist.getAll()
 
       return reply.send(result)
     }
@@ -35,7 +35,7 @@ export const routes: FastifyPluginAsync<{ api: IAPI }> = async (server, { api })
   , async (req, reply) => {
       const namespace = req.params.namespace
 
-      await api.Blacklist.add(namespace)
+      api.Blacklist.add(namespace)
 
       return reply
         .status(204)
@@ -56,7 +56,7 @@ export const routes: FastifyPluginAsync<{ api: IAPI }> = async (server, { api })
   , async (req, reply) => {
       const namespace = req.params.namespace
 
-      await api.Blacklist.remove(namespace)
+      api.Blacklist.remove(namespace)
 
       return reply
         .status(204)

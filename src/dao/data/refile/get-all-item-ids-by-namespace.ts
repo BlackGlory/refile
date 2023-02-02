@@ -9,7 +9,7 @@ export const getAllItemIdsByNamespace = withLazyStatic(function (
     SELECT DISTINCT id
       FROM refile_reference
      WHERE namespace = $namespace;
-  `), [getDatabase()]).iterate({ namespace })
+  `), [getDatabase()]).iterate({ namespace }) as IterableIterator<{ id: string }>
 
   return map(iter, row => row['id'])
 })

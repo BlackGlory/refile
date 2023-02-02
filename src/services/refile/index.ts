@@ -14,16 +14,16 @@ import { routes as collectGarbageRoutes } from './collect-garbage.js'
 import { IAPI } from '@api/contract.js'
 
 export const routes: FastifyPluginAsync<{ api: IAPI }> = async (server, { api }) => {
-  server.register(uploadFileRoutes, { api })
-  server.register(getFileInfoRoutes, { api })
-  server.register(getFileLocationRoutes, { api })
-  server.register(getAllNamespacesRoutes, { api })
-  server.register(getAllItemIdsRoutes, { api })
-  server.register(getItemIdsByFileRoutes, { api })
-  server.register(getFileHashesByItemRoutes, { api })
-  server.register(setReferenceRoutes, { api })
-  server.register(removeReferenceRoutes, { api })
-  server.register(removeReferencesByItemRoutes , { api })
-  server.register(removeReferencesByNamespaceRoutes, { api })
-  server.register(collectGarbageRoutes, { api })
+  await server.register(uploadFileRoutes, { api })
+  await server.register(getFileInfoRoutes, { api })
+  await server.register(getFileLocationRoutes, { api })
+  await server.register(getAllNamespacesRoutes, { api })
+  await server.register(getAllItemIdsRoutes, { api })
+  await server.register(getItemIdsByFileRoutes, { api })
+  await server.register(getFileHashesByItemRoutes, { api })
+  await server.register(setReferenceRoutes, { api })
+  await server.register(removeReferenceRoutes, { api })
+  await server.register(removeReferencesByItemRoutes , { api })
+  await server.register(removeReferencesByNamespaceRoutes, { api })
+  await server.register(collectGarbageRoutes, { api })
 }

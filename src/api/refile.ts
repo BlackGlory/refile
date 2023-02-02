@@ -25,7 +25,7 @@ export async function uploadFile(
   const KiB = 1024
   const HASH_BLOCK_SIZE = 512 * KiB
 
-  const info = await getFileInfo(hash)
+  const info = getFileInfo(hash)
   if (isntNull(info.location)) throw new FileAlreadyExists()
   if (info.references === 0) throw new ReferencesIsZero()
   if (mergeHash(hashList) !== hash) throw new IncorrectHashList()

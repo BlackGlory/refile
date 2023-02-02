@@ -40,7 +40,7 @@ describe('file does not exist', () => {
   describe('upload success', () => {
     it('201', async () => {
       const { hash, hashList } = await getHashInfo(FIXTURE_FILENAME)
-      await RefileDAO.setReference('namespace', 'id', hash)
+      RefileDAO.setReference('namespace', 'id', hash)
 
       const req = put(
         url(getAddress())
@@ -57,7 +57,7 @@ describe('file does not exist', () => {
   describe('bad hash list', () => {
     it('409', async () => {
       const { hash, hashList } = await getHashInfo(FIXTURE_FILENAME)
-      await RefileDAO.setReference('namespace', 'id', hash)
+      RefileDAO.setReference('namespace', 'id', hash)
 
       const req = put(
         url(getAddress())
@@ -74,7 +74,7 @@ describe('file does not exist', () => {
   describe('bad file', () => {
     it('409', async () => {
       const { hash, hashList } = await getHashInfo(FIXTURE_FILENAME)
-      await RefileDAO.setReference('namespace', 'id', hash)
+      RefileDAO.setReference('namespace', 'id', hash)
 
       const req = put(
         url(getAddress())
@@ -92,8 +92,8 @@ describe('file does not exist', () => {
 describe('file exists', () => {
   it('204', async () => {
     const { hash, hashList } = await getHashInfo(FIXTURE_FILENAME)
-    await RefileDAO.setReference('namespace', 'id', hash)
-    await RefileDAO.setFile(hash, 'location')
+    RefileDAO.setReference('namespace', 'id', hash)
+    RefileDAO.setFile(hash, 'location')
 
     const req = put(
       url(getAddress())

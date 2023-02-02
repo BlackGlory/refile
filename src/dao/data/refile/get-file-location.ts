@@ -6,7 +6,7 @@ export const getFileLocation = withLazyStatic(function (hash: string): string | 
     SELECT location
       FROM refile_file
      WHERE hash = $hash;
-  `), [getDatabase()]).get({ hash })
+  `), [getDatabase()]).get({ hash }) as { location: string | null } | undefined
 
   if (row) {
     return row['location']

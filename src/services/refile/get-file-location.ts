@@ -22,7 +22,7 @@ export const routes: FastifyPluginAsync<{ api: IAPI }> = async (server, { api })
   , async (req, reply) => {
       const { hash } = req.params
 
-      const location = await api.Refile.getFileLocation(hash)
+      const location = api.Refile.getFileLocation(hash)
       if (isNull(location)) return reply.status(404).send()
 
       return reply

@@ -13,7 +13,7 @@ describe('no access control', () => {
     const namespace = 'namespace'
     const itemId = 'item-id'
     const fileHashes = ['hash']
-    await prepareFiles(namespace, itemId, fileHashes)
+    prepareFiles(namespace, itemId, fileHashes)
 
     const res = await fetch(get(
       url(getAddress())

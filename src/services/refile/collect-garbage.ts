@@ -12,7 +12,7 @@ export const routes: FastifyPluginAsync<{ api: IAPI }> = async (server, { api })
       }
     }
   , async (req, reply) => {
-      await api.Refile.collectGarbage()
+      api.Refile.collectGarbage()
 
       return reply
         .status(204)

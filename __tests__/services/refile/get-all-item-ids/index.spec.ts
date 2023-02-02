@@ -12,7 +12,7 @@ describe('no access control', () => {
   it('200', async () => {
     const namespace = 'namespace'
     const itemIds = ['item-id']
-    await prepareItems(namespace, itemIds)
+    prepareItems(namespace, itemIds)
 
     const res = await fetch(get(
       url(getAddress())

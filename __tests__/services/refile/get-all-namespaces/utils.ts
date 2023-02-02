@@ -1,9 +1,9 @@
 import { RefileDAO } from '@dao/index.js'
 
-export async function prepareNamespaces(namespaces: string[]) {
+export function prepareNamespaces(namespaces: string[]): void {
   const itemId = 'item-id'
   const fileHash = 'hash'
   for (const namespace of namespaces) {
-    await RefileDAO.setReference(namespace, itemId, fileHash)
+    RefileDAO.setReference(namespace, itemId, fileHash)
   }
 }

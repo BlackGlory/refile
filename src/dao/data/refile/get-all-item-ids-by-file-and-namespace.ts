@@ -11,7 +11,7 @@ export const getAllItemIdsByFileAndNamespace = withLazyStatic(function (
       FROM refile_reference
      WHERE file_hash = $fileHash
        AND namespace = $namespace;
-  `), [getDatabase()]).iterate({ namespace, fileHash })
+  `), [getDatabase()]).iterate({ namespace, fileHash }) as Iterable<{ id: string }>
 
   return map(iter, row => row['id'])
 })

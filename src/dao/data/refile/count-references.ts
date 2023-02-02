@@ -6,7 +6,7 @@ export const countReferences = withLazyStatic(function (fileHash: string): numbe
     SELECT COUNT(*) AS count
       FROM refile_reference
      WHERE file_hash = $fileHash;
-  `), [getDatabase()]).get({ fileHash })
+  `), [getDatabase()]).get({ fileHash }) as { count: number }
 
   return row['count']
 })

@@ -29,11 +29,11 @@ function isEnabled(): boolean {
 /**
  * @throws {Unauthorized}
  */
-async function checkWritePermission(namespace: string, token?: string): Promise<void> {
+function checkWritePermission(namespace: string, token?: string): void {
   if (!isEnabled()) return
 
   const writeTokenRequired =
-    (await TokenPolicy.get(namespace)).writeTokenRequired ??
+    TokenPolicy.get(namespace).writeTokenRequired ??
     WRITE_TOKEN_REQUIRED()
 
   if (writeTokenRequired) {
@@ -47,11 +47,11 @@ async function checkWritePermission(namespace: string, token?: string): Promise<
 /**
  * @throws {Unauthorized}
  */
-async function checkReadPermission(namespace: string, token?: string): Promise<void> {
+function checkReadPermission(namespace: string, token?: string): void {
   if (!isEnabled()) return
 
   const readTokenRequired =
-    (await TokenPolicy.get(namespace)).readTokenRequired ??
+    TokenPolicy.get(namespace).readTokenRequired ??
     READ_TOKEN_REQUIRED()
 
   if (readTokenRequired) {
@@ -65,11 +65,11 @@ async function checkReadPermission(namespace: string, token?: string): Promise<v
 /**
  * @throws {Unauthorized}
  */
-async function checkDeletePermission(namespace: string, token?: string) {
+function checkDeletePermission(namespace: string, token?: string): void {
   if (!isEnabled()) return
 
   const deleteTokenRequired =
-    (await TokenPolicy.get(namespace)).deleteTokenRequired ??
+    TokenPolicy.get(namespace).deleteTokenRequired ??
     DELETE_TOKEN_REQUIRED()
 
   if (deleteTokenRequired) {

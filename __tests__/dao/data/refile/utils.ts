@@ -20,12 +20,12 @@ export function setRawFile(file: IRawFile): IRawFile {
   return file
 }
 
-export function getRawFile(hash: string): IRawFile | null {
+export function getRawFile(hash: string): IRawFile | undefined {
   const row = getDatabase().prepare(`
     SELECT *
       FROM refile_file
      WHERE hash = $hash;
-  `).get({ hash })
+  `).get({ hash }) as IRawFile | undefined
   return row
 }
 
@@ -46,12 +46,12 @@ export function hasRawReference(namespace: string, id: string, fileHash: string)
   return !!getRawReference(namespace, id, fileHash)
 }
 
-export function getRawReference(namespace: string, id: string, fileHash: string): IRawReference | null {
+export function getRawReference(namespace: string, id: string, fileHash: string): IRawReference | undefined {
   return getDatabase().prepare(`
     SELECT *
       FROM refile_reference
      WHERE namespace = $namespace
        AND id = $id
        AND file_hash = $fileHash;
-  `).get({ namespace, id, fileHash })
+  `).get({ namespace, id, fileHash }) as IRawReference | undefined
 }

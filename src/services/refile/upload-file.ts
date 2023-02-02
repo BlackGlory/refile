@@ -6,7 +6,7 @@ import { isArray } from '@blackglory/prelude'
 import { IAPI } from '@api/contract.js'
 
 export const routes: FastifyPluginAsync<{ api: IAPI }> = async (server, { api }) => {
-  server.register(multipart, {
+  await server.register(multipart, {
     limits: {
       files: 1
     }
