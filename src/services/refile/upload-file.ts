@@ -3,8 +3,9 @@ import { hashSchema } from '@src/schema.js'
 import multipart, { Multipart, MultipartValue, MultipartFields } from '@fastify/multipart'
 import { pass } from '@blackglory/prelude'
 import { isArray } from '@blackglory/prelude'
+import { IAPI } from '@api/contract.js'
 
-export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes(server, { Core }) {
+export const routes: FastifyPluginAsync<{ api: IAPI }> = async (server, { api }) => {
   server.register(multipart, {
     limits: {
       files: 1
@@ -33,7 +34,7 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
       const hashList = getHashList(data.fields)
 
       try {
-        await Core.Refile.uploadFile(hash, hashList, data.file)
+        await api.Refile.uploadFile(hash, hashList, data.file)
         return reply
           .status(201)
           .send()
@@ -41,28 +42,28 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
         // This is a bad idea, but it works
         await consume(data.file)
 
-        if (err instanceof Core.Refile.FileAlreadyExists) {
+        if (err instanceof api.Refile.FileAlreadyExists) {
           return reply
             .status(204)
             .header('Connection', 'close')
             .send()
         }
 
-        if (err instanceof Core.Refile.ReferencesIsZero) {
+        if (err instanceof api.Refile.ReferencesIsZero) {
           return reply
             .status(400)
             .header('Connection', 'close')
             .send("The file's references is zero")
         }
 
-        if (err instanceof Core.Refile.IncorrectHashList) {
+        if (err instanceof api.Refile.IncorrectHashList) {
           return reply
             .status(409)
             .header('Connection', 'close')
             .send('The hash list is incorrect')
         }
 
-        if (err instanceof Core.Refile.IncorrectFileHash) {
+        if (err instanceof api.Refile.IncorrectFileHash) {
           return reply
             .status(409)
             .header('Connection', 'close')

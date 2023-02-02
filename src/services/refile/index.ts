@@ -11,18 +11,19 @@ import { routes as removeReferenceRoutes } from './remove-reference.js'
 import { routes as removeReferencesByItemRoutes } from './remove-references-by-item.js'
 import { routes as removeReferencesByNamespaceRoutes } from './remove-references-by-namespace.js'
 import { routes as collectGarbageRoutes } from './collect-garbage.js'
+import { IAPI } from '@api/contract.js'
 
-export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes(server, { Core }) {
-  server.register(uploadFileRoutes, { Core })
-  server.register(getFileInfoRoutes, { Core })
-  server.register(getFileLocationRoutes, { Core })
-  server.register(getAllNamespacesRoutes, { Core })
-  server.register(getAllItemIdsRoutes, { Core })
-  server.register(getItemIdsByFileRoutes, { Core })
-  server.register(getFileHashesByItemRoutes, { Core })
-  server.register(setReferenceRoutes, { Core })
-  server.register(removeReferenceRoutes, { Core })
-  server.register(removeReferencesByItemRoutes , { Core })
-  server.register(removeReferencesByNamespaceRoutes, { Core })
-  server.register(collectGarbageRoutes, { Core })
+export const routes: FastifyPluginAsync<{ api: IAPI }> = async (server, { api }) => {
+  server.register(uploadFileRoutes, { api })
+  server.register(getFileInfoRoutes, { api })
+  server.register(getFileLocationRoutes, { api })
+  server.register(getAllNamespacesRoutes, { api })
+  server.register(getAllItemIdsRoutes, { api })
+  server.register(getItemIdsByFileRoutes, { api })
+  server.register(getFileHashesByItemRoutes, { api })
+  server.register(setReferenceRoutes, { api })
+  server.register(removeReferenceRoutes, { api })
+  server.register(removeReferencesByItemRoutes , { api })
+  server.register(removeReferencesByNamespaceRoutes, { api })
+  server.register(collectGarbageRoutes, { api })
 }

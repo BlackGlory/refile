@@ -1,4 +1,4 @@
-import * as DAO from '@dao/data-in-sqlite3/refile/set-file.js'
+import { RefileDAO } from '@dao/data/refile/index.js'
 import { startService, stopService, getAddress } from '@test/utils.js'
 import { fetch } from 'extra-fetch'
 import { get } from 'extra-request'
@@ -12,7 +12,7 @@ describe('no access control', () => {
     it('200', async () => {
       const hash = 'f'.repeat(64)
       const location = 'location'
-      DAO.setFile(hash, location)
+      RefileDAO.setFile(hash, location)
 
       const res = await fetch(get(
         url(getAddress())

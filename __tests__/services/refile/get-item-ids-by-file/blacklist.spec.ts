@@ -14,7 +14,7 @@ describe('blacklist', () => {
         process.env.REFILE_LIST_BASED_ACCESS_CONTROL = 'blacklist'
         const namespace = 'namespace'
         const hash = 'f'.repeat(64)
-        await AccessControlDAO.addBlacklistItem(namespace)
+        AccessControlDAO.Blacklist.addBlacklistItem(namespace)
 
         const res = await fetch(get(
           url(getAddress())
@@ -46,7 +46,7 @@ describe('blacklist', () => {
       it('200', async () => {
         const namespace = 'namespace'
         const hash = 'f'.repeat(64)
-        await AccessControlDAO.addBlacklistItem(namespace)
+        AccessControlDAO.Blacklist.addBlacklistItem(namespace)
 
         const res = await fetch(get(
           url(getAddress())

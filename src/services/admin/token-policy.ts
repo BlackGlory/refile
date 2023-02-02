@@ -1,7 +1,8 @@
 import { FastifyPluginAsync } from 'fastify'
 import { namespaceSchema } from '@src/schema.js'
+import { IAPI } from '@api/contract.js'
 
-export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes(server, { Core }) {
+export const routes: FastifyPluginAsync<{ api: IAPI }> = async (server, { api }) => {
   server.get(
     '/refile-with-token-policies'
   , {
@@ -15,7 +16,7 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
       }
     }
   , async (req, reply) => {
-      const result = await Core.TBAC.TokenPolicy.getAllNamespaces()
+      const result = await api.TBAC.TokenPolicy.getAllNamespaces()
 
       return reply.send(result)
     }
@@ -40,7 +41,7 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
   , async (req, reply) => {
       const namespace = req.params.namespace
 
-      const result = await Core.TBAC.TokenPolicy.get(namespace)
+      const result = await api.TBAC.TokenPolicy.get(namespace)
 
       return reply.send(result)
     }
@@ -64,7 +65,7 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
       const namespace = req.params.namespace
       const val = req.body
 
-      await Core.TBAC.TokenPolicy.setWriteTokenRequired(namespace, val)
+      await api.TBAC.TokenPolicy.setWriteTokenRequired(namespace, val)
 
       return reply
         .status(204)
@@ -87,7 +88,7 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
   , async (req, reply) => {
       const namespace = req.params.namespace
 
-      await Core.TBAC.TokenPolicy.unsetWriteTokenRequired(namespace)
+      await api.TBAC.TokenPolicy.unsetWriteTokenRequired(namespace)
 
       return reply
         .status(204)
@@ -113,7 +114,7 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
       const namespace = req.params.namespace
       const val = req.body
 
-      await Core.TBAC.TokenPolicy.setReadTokenRequired(namespace, val)
+      await api.TBAC.TokenPolicy.setReadTokenRequired(namespace, val)
 
       return reply
         .status(204)
@@ -136,7 +137,7 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
   , async (req, reply) => {
       const namespace = req.params.namespace
 
-      await Core.TBAC.TokenPolicy.unsetReadTokenRequired(namespace)
+      await api.TBAC.TokenPolicy.unsetReadTokenRequired(namespace)
 
       return reply
         .status(204)
@@ -162,7 +163,7 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
       const namespace = req.params.namespace
       const val = req.body
 
-      await Core.TBAC.TokenPolicy.setDeleteTokenRequired(namespace, val)
+      await api.TBAC.TokenPolicy.setDeleteTokenRequired(namespace, val)
 
       return reply
         .status(204)
@@ -185,7 +186,7 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
   , async (req, reply) => {
       const namespace = req.params.namespace
 
-      await Core.TBAC.TokenPolicy.unsetDeleteTokenRequired(namespace)
+      await api.TBAC.TokenPolicy.unsetDeleteTokenRequired(namespace)
 
       return reply
         .status(204)

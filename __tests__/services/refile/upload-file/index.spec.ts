@@ -1,4 +1,4 @@
-import { RefileDAO } from '@dao/data-in-sqlite3/refile/index.js'
+import { RefileDAO } from '@dao/data/refile/index.js'
 import { startService, stopService, getAddress } from '@test/utils.js'
 import { put } from 'extra-request'
 import { url, pathname, formDataField } from 'extra-request/transformers'

@@ -1,7 +1,8 @@
 import { FastifyPluginAsync } from 'fastify'
 import { hashSchema, tokenSchema } from '@src/schema.js'
+import { IAPI } from '@api/contract.js'
 
-export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes(server, { Core }) {
+export const routes: FastifyPluginAsync<{ api: IAPI }> = async (server, { api }) => {
   server.get<{
     Params: { hash: string }
     Querystring: { token?: string }
@@ -23,7 +24,7 @@ export const routes: FastifyPluginAsync<{ Core: ICore }> = async function routes
   , async (req, reply) => {
       const { hash } = req.params
 
-      const info = await Core.Refile.getFileInfo(hash)
+      const info = await api.Refile.getFileInfo(hash)
 
       return reply
         .status(200)
