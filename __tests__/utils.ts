@@ -1,5 +1,4 @@
-import * as ConfigInSqlite3 from '@dao/config/database.js'
-import * as DataInSqlite3 from '@dao/data/database.js'
+import * as Data from '@dao/database.js'
 import { resetCache } from '@env/cache.js'
 import { buildServer } from '@src/server.js'
 import Ajv from 'ajv'
@@ -26,16 +25,12 @@ export async function stopService() {
 }
 
 export async function initializeDatabases() {
-  ConfigInSqlite3.openDatabase()
-  await ConfigInSqlite3.prepareDatabase()
-
-  DataInSqlite3.openDatabase()
-  await DataInSqlite3.prepareDatabase()
+  Data.openDatabase()
+  await Data.prepareDatabase()
 }
 
 export function clearDatabases() {
-  ConfigInSqlite3.closeDatabase()
-  DataInSqlite3.closeDatabase()
+  Data.closeDatabase()
 }
 
 export function resetEnvironment() {
@@ -44,14 +39,6 @@ export function resetEnvironment() {
   // see also: https://nodejs.org/api/process.html#process_process_env
   delete process.env.REFILE_DATA
   delete process.env.REFILE_ADMIN_PASSWORD
-  delete process.env.REFILE_LIST_BASED_ACCESS_CONTROL
-  delete process.env.REFILE_TOKEN_BASED_ACCESS_CONTROL
-  delete process.env.REFILE_WRITE_TOKEN_REQUIRED
-  delete process.env.REFILE_READ_TOKEN_REQUIRED
-  delete process.env.REFILE_DELETE_TOKEN_REQUIRED
-  delete process.env.REFILE_JSON_VALIDATION
-  delete process.env.REFILE_DEFAULT_JSON_SCHEMA
-  delete process.env.REFILE_JSON_PAYLOAD_ONLY
 
   // reset memoize
   resetCache()

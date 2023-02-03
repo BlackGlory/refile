@@ -1,6 +1,5 @@
 import { fastify } from 'fastify'
 import cors from '@fastify/cors'
-import { routes as admin } from '@services/admin/index.js'
 import { routes as refile } from '@services/refile/index.js'
 import { routes as robots } from '@services/robots/index.js'
 import { routes as health } from '@services/health/index.js'
@@ -42,7 +41,6 @@ export async function buildServer() {
   })
 
   await server.register(cors, { origin: true })
-  await server.register(admin, { api })
   await server.register(refile, { api })
   await server.register(robots)
   await server.register(health)

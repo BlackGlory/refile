@@ -1,5 +1,5 @@
 import { FastifyPluginAsync } from 'fastify'
-import { namespaceSchema, hashSchema, tokenSchema } from '@src/schema.js'
+import { namespaceSchema, hashSchema } from '@src/schema.js'
 import { stringifyJSONStream, stringifyNDJSONStream } from 'extra-generator'
 import accepts from '@fastify/accepts'
 import { Readable } from 'stream'
@@ -13,7 +13,6 @@ export const routes: FastifyPluginAsync<{ api: IAPI }> = async (server, { api })
       namespace: string
       fileHash: string
     }
-    Querystring: { token?: string }
   }>(
     '/refile/files/:fileHash/namespaces/:namespace/items'
   , {
@@ -22,23 +21,10 @@ export const routes: FastifyPluginAsync<{ api: IAPI }> = async (server, { api })
           namespace: namespaceSchema
         , fileHash: hashSchema
         }
-      , querystring: { token: tokenSchema }
       }
     }
   , async (req, reply) => {
       const { namespace, fileHash } = req.params
-      const { token } = req.query
-
-      try {
-        api.Blacklist.check(namespace)
-        api.Whitelist.check(namespace)
-        api.TBAC.checkReadPermission(namespace, token)
-      } catch (e) {
-        if (e instanceof api.Blacklist.Forbidden) return reply.status(403).send()
-        if (e instanceof api.Whitelist.Forbidden) return reply.status(403).send()
-        if (e instanceof api.TBAC.Unauthorized) return reply.status(401).send()
-        throw e
-      }
 
       const result = api.Refile.getItemIdsByFile(namespace, fileHash)
 

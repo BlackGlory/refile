@@ -1,4 +1,4 @@
-import { RefileDAO } from '@dao/data/refile/index.js'
+import { RefileDAO } from '@dao/refile/index.js'
 import { startService, stopService, getAddress } from '@test/utils.js'
 import { fetch } from 'extra-fetch'
 import { get } from 'extra-request'

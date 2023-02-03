@@ -68,46 +68,6 @@ export const ADMIN_PASSWORD: Getter<string | undefined> =
     .memoize(getCache)
     .get()
 
-export const LIST_BASED_ACCESS_CONTROL: Getter<ListBasedAccessControl> =
-  env('REFILE_LIST_BASED_ACCESS_CONTROL')
-    .convert(val => {
-      switch (val) {
-        case 'whitelist': return ListBasedAccessControl.Whitelist
-        case 'blacklist': return ListBasedAccessControl.Blacklist
-        default: return ListBasedAccessControl.Disable
-      }
-    })
-    .memoize(getCache)
-    .get()
-
-export const TOKEN_BASED_ACCESS_CONTROL: Getter<boolean> =
-  env('REFILE_TOKEN_BASED_ACCESS_CONTROL')
-    .convert(toBool)
-    .default(false)
-    .memoize(getCache)
-    .get()
-
-export const READ_TOKEN_REQUIRED: Getter<boolean> =
-  env('REFILE_READ_TOKEN_REQUIRED')
-    .convert(toBool)
-    .default(false)
-    .memoize(getCache)
-    .get()
-
-export const WRITE_TOKEN_REQUIRED: Getter<boolean> =
-  env('REFILE_WRITE_TOKEN_REQUIRED')
-    .convert(toBool)
-    .default(false)
-    .memoize(getCache)
-    .get()
-
-export const DELETE_TOKEN_REQUIRED: Getter<boolean> =
-  env('REFILE_DELETE_TOKEN_REQUIRED')
-    .convert(toBool)
-    .default(false)
-    .memoize(getCache)
-    .get()
-
 export const SET_PAYLOAD_LIMIT: Getter<number> =
   env('REFILE_SET_PAYLOAD_LIMIT')
     .convert(toInteger)

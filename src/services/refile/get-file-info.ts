@@ -1,17 +1,15 @@
 import { FastifyPluginAsync } from 'fastify'
-import { hashSchema, tokenSchema } from '@src/schema.js'
+import { hashSchema } from '@src/schema.js'
 import { IAPI } from '@api/contract.js'
 
 export const routes: FastifyPluginAsync<{ api: IAPI }> = async (server, { api }) => {
   server.get<{
     Params: { hash: string }
-    Querystring: { token?: string }
   }>(
     '/refile/files/:hash'
   , {
       schema: {
         params: { hash: hashSchema }
-      , querystring: { token: tokenSchema }
       , response: {
           200: {
             hash: { type: 'string' }
