@@ -1,8 +1,8 @@
 import { FastifyPluginAsync } from 'fastify'
 import { hashSchema } from '@src/schema.js'
-import { IAPI } from '@api/contract.js'
+import { IAPI } from '@src/contract.js'
 
-export const routes: FastifyPluginAsync<{ api: IAPI }> = async (server, { api }) => {
+export const routes: FastifyPluginAsync<{ API: IAPI }> = async (server, { API }) => {
   server.get<{
     Params: { hash: string }
   }>(
@@ -22,7 +22,7 @@ export const routes: FastifyPluginAsync<{ api: IAPI }> = async (server, { api })
   , async (req, reply) => {
       const { hash } = req.params
 
-      const info = api.Refile.getFileInfo(hash)
+      const info = API.getFileInfo(hash)
 
       return reply
         .status(200)

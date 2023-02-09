@@ -1,8 +1,8 @@
 import { FastifyPluginAsync } from 'fastify'
 import { namespaceSchema, idSchema, hashSchema } from '@src/schema.js'
-import { IAPI } from '@api/contract.js'
+import { IAPI } from '@src/contract.js'
 
-export const routes: FastifyPluginAsync<{ api: IAPI }> = async (server, { api }) => {
+export const routes: FastifyPluginAsync<{ API: IAPI }> = async (server, { API }) => {
   server.put<{
     Params: {
       namespace: string
@@ -26,7 +26,7 @@ export const routes: FastifyPluginAsync<{ api: IAPI }> = async (server, { api })
   , async (req, reply) => {
       const { namespace, itemId, fileHash } = req.params
 
-      api.Refile.setReference(namespace, itemId, fileHash)
+      API.setReference(namespace, itemId, fileHash)
 
       return reply
         .status(204)

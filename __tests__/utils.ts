@@ -1,10 +1,8 @@
-import * as Data from '@dao/database.js'
+import { closeDatabase, openDatabase, prepareDatabase } from '@src/database.js'
 import { resetCache } from '@env/cache.js'
 import { buildServer } from '@src/server.js'
-import Ajv from 'ajv'
 import { UnpackedPromise } from 'hotypes'
 
-const ajv = new Ajv.default()
 let server: UnpackedPromise<ReturnType<typeof buildServer>>
 let address: string
 
@@ -25,12 +23,12 @@ export async function stopService() {
 }
 
 export async function initializeDatabases() {
-  Data.openDatabase()
-  await Data.prepareDatabase()
+  openDatabase()
+  await prepareDatabase()
 }
 
 export function clearDatabases() {
-  Data.closeDatabase()
+  closeDatabase()
 }
 
 export function resetEnvironment() {
@@ -38,14 +36,7 @@ export function resetEnvironment() {
   // use `delete` to delete a property from `process.env`.
   // see also: https://nodejs.org/api/process.html#process_process_env
   delete process.env.REFILE_DATA
-  delete process.env.REFILE_ADMIN_PASSWORD
 
   // reset memoize
   resetCache()
-}
-
-export function expectMatchSchema(data: unknown, schema: object): void {
-  if (!ajv.validate(schema, data)) {
-    throw new Error(ajv.errorsText())
-  }
 }

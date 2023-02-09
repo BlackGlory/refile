@@ -1,4 +1,5 @@
-import { RefileDAO } from '@dao/refile/index.js'
+import { setReference } from '@dao/database/set-reference.js'
+import { setFile } from '@dao/database/set-file.js'
 import { startService, stopService, getAddress } from '@test/utils.js'
 import { put } from 'extra-request'
 import { url, pathname, formDataField } from 'extra-request/transformers'
@@ -36,11 +37,11 @@ const HASH_BLOCK_SIZE = 512 * KiB
 const FIXTURE_FILENAME = path.join(__dirname, 'fixtures', 'file.txt')
 const BAD_FIXTURE_FILENAME = path.join(__dirname, 'fixtures', 'bad.txt')
 
-describe('file does not exist', () => {
-  describe('upload success', () => {
-    it('201', async () => {
+describe('uploadFile', () => {
+  describe('file does not exist', () => {
+    test('upload success', async () => {
       const { hash, hashList } = await getHashInfo(FIXTURE_FILENAME)
-      RefileDAO.setReference('namespace', 'id', hash)
+      setReference('namespace', 'id', hash)
 
       const req = put(
         url(getAddress())
@@ -52,12 +53,10 @@ describe('file does not exist', () => {
       const res = await fetch(req)
       expect(res.status).toBe(201)
     })
-  })
 
-  describe('bad hash list', () => {
-    it('409', async () => {
+    test('bad hash list', async () => {
       const { hash, hashList } = await getHashInfo(FIXTURE_FILENAME)
-      RefileDAO.setReference('namespace', 'id', hash)
+      setReference('namespace', 'id', hash)
 
       const req = put(
         url(getAddress())
@@ -69,12 +68,10 @@ describe('file does not exist', () => {
       const res = await fetch(req)
       expect(res.status).toBe(409)
     })
-  })
 
-  describe('bad file', () => {
-    it('409', async () => {
+    test('bad file', async () => {
       const { hash, hashList } = await getHashInfo(FIXTURE_FILENAME)
-      RefileDAO.setReference('namespace', 'id', hash)
+      setReference('namespace', 'id', hash)
 
       const req = put(
         url(getAddress())
@@ -87,13 +84,11 @@ describe('file does not exist', () => {
       expect(res.status).toBe(409)
     })
   })
-})
 
-describe('file exists', () => {
-  it('204', async () => {
+  test('file exists', async () => {
     const { hash, hashList } = await getHashInfo(FIXTURE_FILENAME)
-    RefileDAO.setReference('namespace', 'id', hash)
-    RefileDAO.setFile(hash, 'location')
+    setReference('namespace', 'id', hash)
+    setFile(hash, 'location')
 
     const req = put(
       url(getAddress())

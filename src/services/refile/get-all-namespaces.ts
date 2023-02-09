@@ -2,15 +2,15 @@ import { FastifyPluginAsync } from 'fastify'
 import { stringifyJSONStream, stringifyNDJSONStream} from 'extra-generator'
 import accepts from '@fastify/accepts'
 import { Readable } from 'stream'
-import { IAPI } from '@api/contract.js'
+import { IAPI } from '@src/contract.js'
 
-export const routes: FastifyPluginAsync<{ api: IAPI }> = async (server, { api }) => {
+export const routes: FastifyPluginAsync<{ API: IAPI }> = async (server, { API }) => {
   await server.register(accepts)
 
   server.get(
     '/refile/namespaces'
   , (req, reply) => {
-      const result = api.Refile.getAllNamespaces()
+      const result = API.getAllNamespaces()
 
       // eslint-disable-next-line
       const accept = req

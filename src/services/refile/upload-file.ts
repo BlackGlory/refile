@@ -1,11 +1,11 @@
 import { FastifyPluginAsync } from 'fastify'
 import { hashSchema } from '@src/schema.js'
 import multipart, { Multipart, MultipartValue, MultipartFields } from '@fastify/multipart'
-import { pass } from '@blackglory/prelude'
-import { isArray } from '@blackglory/prelude'
-import { IAPI } from '@api/contract.js'
+import { pass, isArray } from '@blackglory/prelude'
+import { IAPI } from '@src/contract.js'
+import { FileAlreadyExists, IncorrectFileHash, IncorrectHashList, ReferencesIsZero } from '@src/errors.js'
 
-export const routes: FastifyPluginAsync<{ api: IAPI }> = async (server, { api }) => {
+export const routes: FastifyPluginAsync<{ API: IAPI }> = async (server, { API }) => {
   await server.register(multipart, {
     limits: {
       files: 1
@@ -34,7 +34,7 @@ export const routes: FastifyPluginAsync<{ api: IAPI }> = async (server, { api })
       const hashList = getHashList(data.fields)
 
       try {
-        await api.Refile.uploadFile(hash, hashList, data.file)
+        await API.uploadFile(hash, hashList, data.file)
         return reply
           .status(201)
           .send()
@@ -42,28 +42,28 @@ export const routes: FastifyPluginAsync<{ api: IAPI }> = async (server, { api })
         // This is a bad idea, but it works
         await consume(data.file)
 
-        if (err instanceof api.Refile.FileAlreadyExists) {
+        if (err instanceof FileAlreadyExists) {
           return reply
             .status(204)
             .header('Connection', 'close')
             .send()
         }
 
-        if (err instanceof api.Refile.ReferencesIsZero) {
+        if (err instanceof ReferencesIsZero) {
           return reply
             .status(400)
             .header('Connection', 'close')
             .send("The file's references is zero")
         }
 
-        if (err instanceof api.Refile.IncorrectHashList) {
+        if (err instanceof IncorrectHashList) {
           return reply
             .status(409)
             .header('Connection', 'close')
             .send('The hash list is incorrect')
         }
 
-        if (err instanceof api.Refile.IncorrectFileHash) {
+        if (err instanceof IncorrectFileHash) {
           return reply
             .status(409)
             .header('Connection', 'close')

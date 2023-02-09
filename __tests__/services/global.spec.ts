@@ -2,7 +2,7 @@ import { startService, stopService, getAddress } from '@test/utils.js'
 import { fetch } from 'extra-fetch'
 import { url, header, pathname } from 'extra-request/transformers'
 import { get } from 'extra-request'
-import { getAppRoot } from '@src/utils.js'
+import { getAppRoot } from '@utils/get-app-root.js'
 import { readJSONFile } from 'extra-filesystem'
 import path from 'path'
 

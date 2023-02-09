@@ -1,5 +1,5 @@
 import { PassThrough } from 'stream'
-import { StorageDAO } from '@dao/storage/index.js'
+import { saveFile } from '@dao/storage/save-file.js'
 import { pathExists, remove } from 'extra-filesystem'
 import { getErrorPromise } from 'return-style'
 import { getFilename } from './utils.js'
@@ -21,11 +21,11 @@ describe('saveFile(steram: Node.ReadableStream): Promise<string>', () => {
         return stream
       }
 
-      const result = await StorageDAO.saveFile(createStream)
-      const exist = await pathExists(getFilename(CONTENT_LOCATION))
+      const result = await saveFile(createStream)
 
+      const fileExist = await pathExists(getFilename(CONTENT_LOCATION))
       expect(result).toBe(CONTENT_LOCATION)
-      expect(exist).toBeTruthy()
+      expect(fileExist).toBeTruthy()
     })
   })
 
@@ -39,11 +39,11 @@ describe('saveFile(steram: Node.ReadableStream): Promise<string>', () => {
         return stream
       }
 
-      const err = await getErrorPromise(StorageDAO.saveFile(createStream))
-      const exist = await pathExists(getFilename(CONTENT_LOCATION))
+      const err = await getErrorPromise(saveFile(createStream))
 
+      const fileExist = await pathExists(getFilename(CONTENT_LOCATION))
       expect(err).toBe(error)
-      expect(exist).toBeFalsy()
+      expect(fileExist).toBeFalsy()
     })
   })
 })

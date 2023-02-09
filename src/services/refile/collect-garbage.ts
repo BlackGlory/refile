@@ -1,7 +1,7 @@
 import { FastifyPluginAsync } from 'fastify'
-import { IAPI } from '@api/contract.js'
+import { IAPI } from '@src/contract.js'
 
-export const routes: FastifyPluginAsync<{ api: IAPI }> = async (server, { api }) => {
+export const routes: FastifyPluginAsync<{ API: IAPI }> = async (server, { API }) => {
   server.post(
     '/refile/gc'
   , {
@@ -12,7 +12,7 @@ export const routes: FastifyPluginAsync<{ api: IAPI }> = async (server, { api })
       }
     }
   , async (req, reply) => {
-      api.Refile.collectGarbage()
+      await API.collectGarbage()
 
       return reply
         .status(204)

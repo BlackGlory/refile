@@ -3,9 +3,9 @@ import { namespaceSchema } from '@src/schema.js'
 import { stringifyJSONStream, stringifyNDJSONStream } from 'extra-generator'
 import accepts from '@fastify/accepts'
 import { Readable } from 'stream'
-import { IAPI } from '@api/contract.js'
+import { IAPI } from '@src/contract.js'
 
-export const routes: FastifyPluginAsync<{ api: IAPI }> = async (server, { api }) => {
+export const routes: FastifyPluginAsync<{ API: IAPI }> = async (server, { API }) => {
   await server.register(accepts)
 
   server.get<{
@@ -20,7 +20,7 @@ export const routes: FastifyPluginAsync<{ api: IAPI }> = async (server, { api })
   , async (req, reply) => {
       const { namespace } = req.params
 
-      const result = api.Refile.getAllItemIds(namespace)
+      const result = API.getAllItemIds(namespace)
 
       // eslint-disable-next-line
       const accept = req

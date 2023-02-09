@@ -7,6 +7,9 @@ import { pipeline } from 'stream/promises'
 import { remove, move } from 'extra-filesystem'
 import path from 'path'
 
+/**
+ * @param createReadableStream 传入闭包是为了保证能由saveFile捕捉到可读流中的错误.
+ */
 export async function saveFile(
   createReadableStream: () => NodeJS.ReadableStream
 ): Promise<string> {
