@@ -14,7 +14,7 @@ test('getAllNamespaces', async () => {
 
   const res = await fetch(get(
     url(getAddress())
-  , pathname('/refile/namespaces')
+  , pathname('/namespaces')
   ))
 
   expect(res.status).toBe(200)

@@ -3,7 +3,7 @@ import { IAPI } from '@src/contract.js'
 
 export const routes: FastifyPluginAsync<{ API: IAPI }> = async (server, { API }) => {
   server.post(
-    '/refile/gc'
+    '/collect-garbage'
   , {
       schema: {
         response: {

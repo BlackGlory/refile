@@ -12,7 +12,7 @@ test('removeReferenceByItemId', async () => {
 
   const res = await fetch(del(
     url(getAddress())
-  , pathname(`/refile/namespaces/${namespace}/items/${id}`)
+  , pathname(`/namespaces/${namespace}/items/${id}`)
   ))
 
   expect(res.status).toBe(204)

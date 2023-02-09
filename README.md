@@ -8,13 +8,13 @@ Refile的文件管理是基于内容寻址和引用计数进行的, 通过Refile
 docker run \
   --detach \
   --publish 8080:8080 \
-  blackglory/refile
+  blackglory
 ```
 
 ## Install
 ### 从源代码运行
 ```sh
-git clone https://github.com/BlackGlory/refile
+git clone https://github.com/BlackGlory
 cd log
 yarn install
 yarn build
@@ -24,7 +24,7 @@ yarn --silent start
 
 ### 从源代码构建
 ```sh
-git clone https://github.com/BlackGlory/refile
+git clone https://github.com/BlackGlory
 cd refile
 yarn install
 yarn docker:build
@@ -37,7 +37,7 @@ version: '3.8'
 
 services:
   refile:
-    image: 'blackglory/refile'
+    image: 'blackglory'
     restart: always
     volumes:
       - 'refile-database:/database'
@@ -54,7 +54,7 @@ volumes:
 所有API中的namespace和id都需要满足此正则表达式: `^[a-zA-Z0-9\.\-_]{0,255}$`
 
 ### upload file
-`PUT /refile/files/<hash>`
+`PUT /files/<hash>`
 
 上传文件.
 
@@ -79,7 +79,7 @@ volumes:
 上传的文件的hash校验错误时, 返回HTTP状态码409.
 
 ### get file info
-`GET /refile/files/<hash>`
+`GET /files/<hash>`
 
 获取与资源相关的信息.
 
@@ -95,17 +95,17 @@ volumes:
 #### Example
 ##### curl
 ```sh
-curl "http://localhost:8080/refile/files/$hash"
+curl "http://localhost:8080/files/$hash"
 ```
 
 ##### JavaScript
 ```js
-await fetch(`http://localhost:8080/refile/files/${hash}`)
+await fetch(`http://localhost:8080/files/${hash}`)
   .then(res => res.json())
 ```
 
 ### get file location
-`GET /refile/files/<hash>/location`
+`GET /files/<hash>/location`
 
 通过hash获取文件的location.
 它与get file info的功能重合, 但性能更好.
@@ -116,17 +116,17 @@ await fetch(`http://localhost:8080/refile/files/${hash}`)
 #### Example
 ##### curl
 ```sh
-curl "http://localhost:8080/refile/files/$hash/location"
+curl "http://localhost:8080/files/$hash/location"
 ```
 
 ##### JavaScript
 ```js
-await fetch(`http://localhost:8080/refile/files/${hash}/location`)
+await fetch(`http://localhost:8080/files/${hash}/location`)
   .then(res => res.text())
 ```
 
 ### set reference
-`PUT /refile/namespaces/<namespace>/items/<id>/files/<hash>`
+`PUT /namespaces/<namespace>/items/<id>/files/<hash>`
 
 设置文件hash与引用的关系.
 
@@ -135,16 +135,16 @@ await fetch(`http://localhost:8080/refile/files/${hash}/location`)
 ```sh
 curl \
   --request PUT \
-  "http://localhost:8080/refile/namespaces/$namespace/items/$id/files/$hash"
+  "http://localhost:8080/namespaces/$namespace/items/$id/files/$hash"
 ```
 
 ##### JavaScript
 ```js
-await fetch(`http://localhost:8080/refile/namespaces/${namespace}/items/${id}/files/${hash}`)
+await fetch(`http://localhost:8080/namespaces/${namespace}/items/${id}/files/${hash}`)
 ```
 
 ### remove reference
-`DELETE /refile/namespaces/<namespace>/items/<id>/files/<hash>`
+`DELETE /namespaces/<namespace>/items/<id>/files/<hash>`
 
 移除文件hash与引用的关系.
 
@@ -153,18 +153,18 @@ await fetch(`http://localhost:8080/refile/namespaces/${namespace}/items/${id}/fi
 ```sh
 curl \
   --request DELETE \
-  "http://localhost:8080/refile/namespaces/$namespace/items/$id/files/$hash"
+  "http://localhost:8080/namespaces/$namespace/items/$id/files/$hash"
 ```
 
 ##### JavaScript
 ```js
-await fetch(`http://localhost:8080/refile/namespaces/${namespace}/items/${id}/files/${hash}`, {
+await fetch(`http://localhost:8080/namespaces/${namespace}/items/${id}/files/${hash}`, {
   method: 'DELETE'
 })
 ```
 
 ### remove references by item id
-`DELETE /refile/namespaces/<namespace>/items/<id>`
+`DELETE /namespaces/<namespace>/items/<id>`
 
 移除特定项目的全部引用.
 
@@ -173,18 +173,18 @@ await fetch(`http://localhost:8080/refile/namespaces/${namespace}/items/${id}/fi
 ```sh
 curl \
   --request DELETE \
-  "http://localhost:8080/refile/namespaces/$namespace/items/$id"
+  "http://localhost:8080/namespaces/$namespace/items/$id"
 ```
 
 ##### JavaScript
 ```js
-await fetch(`http://localhost:8080/refile/namespaces/${namespace}/items/${id}`, {
+await fetch(`http://localhost:8080/namespaces/${namespace}/items/${id}`, {
   method: 'DELETE'
 })
 ```
 
 ### remove references by namespace
-`DELETE /refile/namespaces/<namespace>`
+`DELETE /namespaces/<namespace>`
 
 删除特定命名空间下的全部引用.
 
@@ -193,18 +193,18 @@ await fetch(`http://localhost:8080/refile/namespaces/${namespace}/items/${id}`, 
 ```sh
 curl \
   --request DELETE \
-  "http://localhost:8080/refile/namespaces/$namespace"
+  "http://localhost:8080/namespaces/$namespace"
 ```
 
 ##### JavaScript
 ```js
-await fetch(`http://localhost:8080/refile/namespaces/${namespace}`, {
+await fetch(`http://localhost:8080/namespaces/${namespace}`, {
   method: 'DELETE'
 })
 ```
 
 ### get all namespaces
-`GET /refile/namespaces`
+`GET /namespaces`
 
 获取所有命名空间.
 
@@ -220,17 +220,17 @@ string[]
 #### Example
 ##### curl
 ```sh
-curl 'http://localhost:8080/refile/namespaces'
+curl 'http://localhost:8080/namespaces'
 ```
 
 ##### JavaScript
 ```js
-await fetch('http://localhost:8080/refile/namespaces')
+await fetch('http://localhost:8080/namespaces')
   .then(res => res.json())
 ```
 
 ### get all item ids
-`GET /refile/namespaces/<namespace>/items`
+`GET /namespaces/<namespace>/items`
 
 获取特定命名空间下的所有项目id列表.
 
@@ -246,17 +246,17 @@ string[]
 #### Example
 ##### curl
 ```sh
-curl "http://localhost:8080/refile/namespaces/$namespace/items"
+curl "http://localhost:8080/namespaces/$namespace/items"
 ```
 
 ##### JavaScript
 ```js
-await fetch(`http://localhost:8080/refile/namespaces/${namespace}/items`)
+await fetch(`http://localhost:8080/namespaces/${namespace}/items`)
   .then(res => res.json())
 ```
 
 ### get file hashes by item id
-`GET /refile/namespaces/<namespace>/items/<id>/files`
+`GET /namespaces/<namespace>/items/<id>/files`
 
 获取与特定引用相关联的文件hash列表.
 
@@ -272,17 +272,17 @@ string[]
 #### Example
 ##### curl
 ```sh
-curl "http://localhost:8080/refile/namespaces/$namespace/items/$id/files"
+curl "http://localhost:8080/namespaces/$namespace/items/$id/files"
 ```
 
 ##### JavaScript
 ```js
-await fetch(`http://localhost:8080/refile/namespace/${namespace}/items/${id}/files`)
+await fetch(`http://localhost:8080/namespace/${namespace}/items/${id}/files`)
   .then(res => res.json())
 ```
 
 ### get item ids by file hash
-`GET /refile/files/<hash>/namespaces/<namespace>/items`
+`GET /files/<hash>/namespaces/<namespace>/items`
 
 获取特定命名空间下与特定文件相关的项目id列表.
 
@@ -298,29 +298,29 @@ string[]
 #### Example
 ##### curl
 ```sh
-curl "http://localhost:8080/refile/files/$hash/namespaces/$namespace/items"
+curl "http://localhost:8080/files/$hash/namespaces/$namespace/items"
 ```
 
 ##### JavaScript
 ```js
-await fetch(`http://localhost:8080/refile/files/${hash}/namespaces/${namespace}/items`)
+await fetch(`http://localhost:8080/files/${hash}/namespaces/${namespace}/items`)
   .then(res => res.json())
 ```
 
 ### collect garbage
-`POST /refile/gc`
+`POST /collect-garbage`
 
 执行垃圾回收, 将引用数为0的文件从存储中删除.
 
 #### Example
 ##### curl
 ```sh
-curl 'http://localhost:8080/refile/gc'
+curl 'http://localhost:8080/collect-garbage'
 ```
        
 ##### JavaScript
 ```js
-await fetch('http://localhost:8080/refile/gc', {
+await fetch('http://localhost:8080/collect-garbage', {
   method: 'POST'
 })
 ```
@@ -331,4 +331,4 @@ await fetch('http://localhost:8080/refile/gc', {
 默认值为`localhost`和`8080`.
 
 ## 客户端
-- JavaScript/TypeScript(Node.js, Browser): <https://github.com/BlackGlory/refile-js>
+- JavaScript/TypeScript(Node.js, Browser): <https://github.com/BlackGlory-js>

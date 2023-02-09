@@ -11,7 +11,7 @@ test('removeReferencesByNamespace', async () => {
 
   const res = await fetch(del(
     url(getAddress())
-  , pathname(`/refile/namespaces/${namespace}`)
+  , pathname(`/namespaces/${namespace}`)
   ))
 
   expect(res.status).toBe(204)

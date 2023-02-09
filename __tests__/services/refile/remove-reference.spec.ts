@@ -13,7 +13,7 @@ test('removeReference', async () => {
 
   const res = await fetch(del(
     url(getAddress())
-  , pathname(`/refile/namespaces/${namespace}/items/${id}/files/${hash}`)
+  , pathname(`/namespaces/${namespace}/items/${id}/files/${hash}`)
   ))
 
   expect(res.status).toBe(204)

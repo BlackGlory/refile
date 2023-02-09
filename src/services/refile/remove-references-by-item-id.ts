@@ -9,7 +9,7 @@ export const routes: FastifyPluginAsync<{ API: IAPI }> = async (server, { API })
       itemId: string
     }
   }>(
-    '/refile/namespaces/:namespace/items/:itemId'
+    '/namespaces/:namespace/items/:itemId'
   , {
       schema: {
         params: {

@@ -8,7 +8,7 @@ export const routes: FastifyPluginAsync<{ API: IAPI }> = async (server, { API })
   await server.register(accepts)
 
   server.get(
-    '/refile/namespaces'
+    '/namespaces'
   , (req, reply) => {
       const result = API.getAllNamespaces()
 

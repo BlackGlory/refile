@@ -12,7 +12,7 @@ test('getFileInfo', async () => {
 
   const res = await fetch(get(
     url(getAddress())
-  , pathname(`/refile/files/${hash}`)
+  , pathname(`/files/${hash}`)
   ))
 
   expect(res.status).toBe(200)

@@ -15,7 +15,7 @@ describe('getFileLocation', () => {
 
     const res = await fetch(get(
       url(getAddress())
-    , pathname(`/refile/files/${hash}/location`)
+    , pathname(`/files/${hash}/location`)
     ))
 
     expect(res.status).toBe(200)
@@ -27,7 +27,7 @@ describe('getFileLocation', () => {
 
     const res = await fetch(get(
       url(getAddress())
-    , pathname(`/refile/files/${hash}/location`)
+    , pathname(`/files/${hash}/location`)
     ))
 
     expect(res.status).toBe(404)

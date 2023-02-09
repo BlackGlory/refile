@@ -15,7 +15,7 @@ test('getAllItemIds', async () => {
 
   const res = await fetch(get(
     url(getAddress())
-  , pathname(`/refile/namespaces/${namespace}/items`)
+  , pathname(`/namespaces/${namespace}/items`)
   ))
 
   expect(res.status).toBe(200)

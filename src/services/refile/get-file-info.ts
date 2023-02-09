@@ -6,7 +6,7 @@ export const routes: FastifyPluginAsync<{ API: IAPI }> = async (server, { API })
   server.get<{
     Params: { hash: string }
   }>(
-    '/refile/files/:hash'
+    '/files/:hash'
   , {
       schema: {
         params: { hash: hashSchema }

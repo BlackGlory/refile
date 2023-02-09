@@ -9,7 +9,7 @@ afterEach(stopService)
 test('collectGarbage', async () => {
   const res = await fetch(post(
     url(getAddress())
-  , pathname('/refile/gc')
+  , pathname('/collect-garbage')
   ))
 
   expect(res.status).toBe(204)

@@ -14,7 +14,7 @@ export const routes: FastifyPluginAsync<{ API: IAPI }> = async (server, { API })
       fileHash: string
     }
   }>(
-    '/refile/files/:fileHash/namespaces/:namespace/items'
+    '/files/:fileHash/namespaces/:namespace/items'
   , {
       schema: {
         params: {

@@ -13,7 +13,7 @@ test('setReference', async () => {
 
   const res = await fetch(put(
     url(getAddress())
-  , pathname(`/refile/namespaces/${namespace}/items/${id}/files/${hash}`)
+  , pathname(`/namespaces/${namespace}/items/${id}/files/${hash}`)
   ))
 
   expect(res.status).toBe(204)

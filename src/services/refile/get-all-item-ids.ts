@@ -11,7 +11,7 @@ export const routes: FastifyPluginAsync<{ API: IAPI }> = async (server, { API })
   server.get<{
     Params: { namespace: string }
   }>(
-    '/refile/namespaces/:namespace/items'
+    '/namespaces/:namespace/items'
   , {
       schema: {
         params: { namespace: namespaceSchema }

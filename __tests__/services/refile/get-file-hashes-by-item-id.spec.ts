@@ -16,7 +16,7 @@ test('getFileHashesByItemId', async () => {
 
   const res = await fetch(get(
     url(getAddress())
-  , pathname(`/refile/namespaces/${namespace}/items/${itemId}/files`)
+  , pathname(`/namespaces/${namespace}/items/${itemId}/files`)
   ))
 
   expect(res.status).toBe(200)

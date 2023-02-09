@@ -45,7 +45,7 @@ describe('uploadFile', () => {
 
       const req = put(
         url(getAddress())
-      , pathname(`/refile/files/${hash}`)
+      , pathname(`/files/${hash}`)
       , formDataField('hash', hashList)
       , formDataField('file', await getFile(FIXTURE_FILENAME))
       )
@@ -60,7 +60,7 @@ describe('uploadFile', () => {
 
       const req = put(
         url(getAddress())
-      , pathname(`/refile/files/${hash}`)
+      , pathname(`/files/${hash}`)
       , formDataField('hash', [...hashList, 'bad'])
       , formDataField('file', await getFile(FIXTURE_FILENAME))
       )
@@ -75,7 +75,7 @@ describe('uploadFile', () => {
 
       const req = put(
         url(getAddress())
-      , pathname(`/refile/files/${hash}`)
+      , pathname(`/files/${hash}`)
       , formDataField('hash', hashList)
       , formDataField('file', await getFile(BAD_FIXTURE_FILENAME))
       )
@@ -92,7 +92,7 @@ describe('uploadFile', () => {
 
     const req = put(
       url(getAddress())
-    , pathname(`/refile/files/${hash}`)
+    , pathname(`/files/${hash}`)
     , formDataField('hash', hashList)
     , formDataField('file', await getFile(FIXTURE_FILENAME))
     )
