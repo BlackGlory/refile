@@ -308,9 +308,3 @@ await fetch('http://localhost:8080/refile/gc', {
   method: 'POST'
 })
 #+END_SRC
-
-** 限制Payload大小
-设置环境变量 =REFILE_PAYLOAD_LIMIT= 可限制服务接受的单个请求的Payload字节数, 默认值为1048576(1MB).
-
-设置环境变量 =REFILE_SET_PAYLOAD_LIMIT= 可限制set接受的单个请求的Payload字节数,
-默认值继承自 =REFILE_PAYLOAD_LIMIT=.

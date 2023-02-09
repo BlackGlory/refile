@@ -3,7 +3,7 @@ import cors from '@fastify/cors'
 import { routes as refile } from '@services/refile/index.js'
 import { routes as robots } from '@services/robots/index.js'
 import { routes as health } from '@services/health/index.js'
-import { PAYLOAD_LIMIT, NODE_ENV, NodeEnv } from '@env/index.js'
+import { NODE_ENV, NodeEnv } from '@env/index.js'
 import { API } from '@apis/index.js'
 import { readJSONFile } from 'extra-filesystem'
 import { isntUndefined, isString } from '@blackglory/prelude'
@@ -14,12 +14,16 @@ import semver from 'semver'
 type LoggerLevel = 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'fatal'
 
 export async function buildServer() {
+  const KiB = 1024
+  const MiB = 1024 * KiB
+  const GiB = 1024 * MiB
+
   const pkg = await readJSONFile<{ version: string }>(getPackageFilename())
 
   const server = fastify({
     logger: getLoggerOptions()
   , maxParamLength: 600
-  , bodyLimit: PAYLOAD_LIMIT()
+  , bodyLimit: GiB
   , forceCloseConnections: true
   })
 

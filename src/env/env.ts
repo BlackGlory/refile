@@ -55,26 +55,6 @@ export const PORT: Getter<number> =
     .memoize(getCache)
     .get()
 
-export const PAYLOAD_LIMIT: Getter<number> =
-  env('REFILE_PAYLOAD_LIMIT')
-    .convert(toInteger)
-    .default(1048576)
-    .assert(shouldBePositive)
-    .memoize(getCache)
-    .get()
-
-export const ADMIN_PASSWORD: Getter<string | undefined> =
-  env('REFILE_ADMIN_PASSWORD')
-    .memoize(getCache)
-    .get()
-
-export const SET_PAYLOAD_LIMIT: Getter<number> =
-  env('REFILE_SET_PAYLOAD_LIMIT')
-    .convert(toInteger)
-    .default(PAYLOAD_LIMIT())
-    .memoize(getCache)
-    .get()
-
 function env(name: string): ValueGetter<string | undefined> {
   return new ValueGetter(name, () => process.env[name])
 }
