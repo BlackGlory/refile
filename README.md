@@ -331,4 +331,4 @@ await fetch('http://localhost:8080/collect-garbage', {
 默认值为`localhost`和`8080`.
 
 ## 客户端
-- JavaScript/TypeScript(Node.js, Browser): <https://github.com/BlackGlory-js>
+- JavaScript/TypeScript(Node.js, Browser): <https://github.com/BlackGlory/refile-js>
