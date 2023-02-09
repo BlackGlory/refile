@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.8.0](https://github.com/BlackGlory/refile/compare/v0.7.3...v0.8.0) (2023-02-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* Removed payload limit
+* Removed access control
+
+* remove access control ([8f190e4](https://github.com/BlackGlory/refile/commit/8f190e4daa0d64d8282c80aeac03bea46ad28d2e))
+* remove payload limit ([b402dd3](https://github.com/BlackGlory/refile/commit/b402dd3195ec4c39046af0b4292cb4892963798d))
+
 ### [0.7.3](https://github.com/BlackGlory/refile/compare/v0.7.2...v0.7.3) (2023-02-02)
 
 ### [0.7.2](https://github.com/BlackGlory/refile/compare/v0.7.1...v0.7.2) (2023-01-31)
