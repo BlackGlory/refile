@@ -3,7 +3,7 @@ import { NotMatchedError, SplitHashValidator } from 'split-hash/nodejs'
 import { go, isntNull } from '@blackglory/prelude'
 import { setFile } from '@dao/database/set-file.js'
 import { saveFile } from '@dao/storage/save-file.js'
-import { FileAlreadyExists, IncorrectFileHash, IncorrectHashList, ReferencesIsZero } from '@src/errors.js'
+import { FileAlreadyExists, IncorrectFileHash, IncorrectHashList, ReferencesIsZero } from '@src/contract.js'
 import { getFileInfo } from './get-file-info.js'
 
 const KiB = 1024

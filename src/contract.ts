@@ -1,3 +1,5 @@
+import { CustomError } from '@blackglory/errors'
+
 export interface IFileInfo {
   hash: string
   location: string | null
@@ -33,3 +35,8 @@ export interface IAPI {
   removeReferencesByItemId(namespace: string, itemId: string): void
   removeReferencesByNamespace(namespace: string): void
 }
+
+export class FileAlreadyExists extends CustomError {}
+export class ReferencesIsZero extends CustomError {}
+export class IncorrectHashList extends CustomError {}
+export class IncorrectFileHash extends CustomError {}

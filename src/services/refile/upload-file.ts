@@ -2,8 +2,7 @@ import { FastifyPluginAsync } from 'fastify'
 import { hashSchema } from '@src/schema.js'
 import multipart, { Multipart, MultipartValue, MultipartFields } from '@fastify/multipart'
 import { pass, isArray } from '@blackglory/prelude'
-import { IAPI } from '@src/contract.js'
-import { FileAlreadyExists, IncorrectFileHash, IncorrectHashList, ReferencesIsZero } from '@src/errors.js'
+import { IAPI, FileAlreadyExists, IncorrectFileHash, IncorrectHashList, ReferencesIsZero } from '@src/contract.js'
 
 export const routes: FastifyPluginAsync<{ API: IAPI }> = async (server, { API }) => {
   await server.register(multipart, {
