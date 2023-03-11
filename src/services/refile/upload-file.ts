@@ -2,7 +2,7 @@ import { FastifyPluginAsync } from 'fastify'
 import { hashSchema } from '@src/schema.js'
 import multipart, { Multipart, MultipartValue, MultipartFields } from '@fastify/multipart'
 import { pass, isArray } from '@blackglory/prelude'
-import { IAPI, FileAlreadyExists, IncorrectFileHash, IncorrectHashList, ReferencesIsZero } from '@src/contract.js'
+import { IAPI, FileAlreadyExists, IncorrectFileHash, IncorrectHashList, NoReferences } from '@src/contract.js'
 
 export const routes: FastifyPluginAsync<{ API: IAPI }> = async (server, { API }) => {
   await server.register(multipart, {
@@ -48,11 +48,11 @@ export const routes: FastifyPluginAsync<{ API: IAPI }> = async (server, { API })
             .send()
         }
 
-        if (err instanceof ReferencesIsZero) {
+        if (err instanceof NoReferences) {
           return reply
             .status(400)
             .header('Connection', 'close')
-            .send("The file's references is zero")
+            .send('The file is not referenced')
         }
 
         if (err instanceof IncorrectHashList) {

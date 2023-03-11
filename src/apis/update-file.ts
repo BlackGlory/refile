@@ -3,7 +3,7 @@ import { NotMatchedError, SplitHashValidator } from 'split-hash/nodejs'
 import { go, isntNull } from '@blackglory/prelude'
 import { setFile } from '@dao/database/set-file.js'
 import { saveFile } from '@dao/storage/save-file.js'
-import { FileAlreadyExists, IncorrectFileHash, IncorrectHashList, ReferencesIsZero } from '@src/contract.js'
+import { FileAlreadyExists, IncorrectFileHash, IncorrectHashList, NoReferences } from '@src/contract.js'
 import { getFileInfo } from './get-file-info.js'
 
 const KiB = 1024
@@ -11,7 +11,7 @@ const HASH_BLOCK_SIZE = 512 * KiB
 
 /**
  * @throws {FileAlreadyExists}
- * @throws {ReferencesIsZero}
+ * @throws {NoReferences}
  * @throws {IncorrectHashList}
  * @throws {IncorrectFileHash}
  */
@@ -22,7 +22,7 @@ export async function uploadFile(
 ): Promise<void> {
   const info = getFileInfo(hash)
   if (isntNull(info.location)) throw new FileAlreadyExists()
-  if (info.references === 0) throw new ReferencesIsZero()
+  if (info.references === 0) throw new NoReferences()
   if (mergeHash(hashList) !== hash) throw new IncorrectHashList()
 
   const location = await go(async () => {

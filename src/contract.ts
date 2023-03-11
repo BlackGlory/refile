@@ -20,7 +20,7 @@ export interface IAPI {
 
   /**
    * @throws {FileAlreadyExists}
-   * @throws {ReferencesIsZero}
+   * @throws {NoReferences}
    * @throws {IncorrectHashList}
    * @throws {IncorrectFileHash}
    */
@@ -37,6 +37,6 @@ export interface IAPI {
 }
 
 export class FileAlreadyExists extends CustomError {}
-export class ReferencesIsZero extends CustomError {}
+export class NoReferences extends CustomError {}
 export class IncorrectHashList extends CustomError {}
 export class IncorrectFileHash extends CustomError {}
