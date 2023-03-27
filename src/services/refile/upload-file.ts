@@ -1,7 +1,7 @@
 import { FastifyPluginAsync } from 'fastify'
 import { hashSchema } from '@src/schema.js'
 import multipart, { Multipart, MultipartValue, MultipartFields } from '@fastify/multipart'
-import { pass, isArray } from '@blackglory/prelude'
+import { isArray } from '@blackglory/prelude'
 import { IAPI, FileAlreadyExists, IncorrectFileHash, IncorrectHashList, NoReferences } from '@src/contract.js'
 
 export const routes: FastifyPluginAsync<{ API: IAPI }> = async (server, { API }) => {
@@ -38,9 +38,6 @@ export const routes: FastifyPluginAsync<{ API: IAPI }> = async (server, { API })
           .status(201)
           .send()
       } catch (err) {
-        // This is a bad idea, but it works
-        await consume(data.file)
-
         if (err instanceof FileAlreadyExists) {
           return reply
             .status(204)
@@ -73,12 +70,6 @@ export const routes: FastifyPluginAsync<{ API: IAPI }> = async (server, { API })
       }
     }
   )
-}
-
-async function consume(stream: NodeJS.ReadableStream): Promise<void> {
-  for await (const _ of stream) {
-    pass()
-  }
 }
 
 function getHashList(fields: MultipartFields): string[] {
