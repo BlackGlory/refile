@@ -5,6 +5,8 @@ import { setFile } from '@dao/database/set-file.js'
 import { saveFile } from '@dao/storage/save-file.js'
 import { FileAlreadyExists, IncorrectFileHash, IncorrectHashList, NoReferences } from '@src/contract.js'
 import { getFileInfo } from './get-file-info.js'
+import { pipeline } from 'stream'
+import { pass } from '@blackglory/prelude'
 
 const KiB = 1024
 const HASH_BLOCK_SIZE = 512 * KiB
@@ -28,7 +30,11 @@ export async function uploadFile(
   const location = await go(async () => {
     try {
       return await saveFile(
-        () => stream.pipe(createHashValidator(hashList))
+        () => pipeline(
+          stream
+        , createHashValidator(hashList)
+        , pass
+        )
       )
     } catch (err) {
       if (err instanceof NotMatchedError) {
