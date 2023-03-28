@@ -1,7 +1,6 @@
 import { getAllItemIdsByFileHashAndNamespace } from '@dao/database/get-all-item-ids-by-file-hash-and-namespace.js'
 import { initializeDatabases, clearDatabases } from '@test/utils.js'
 import { setRawReference } from './utils.js'
-import { toArray } from 'iterable-operator'
 
 beforeEach(initializeDatabases)
 afterEach(clearDatabases)
@@ -28,8 +27,7 @@ test('getAllItemIdsByFileHashAndNamespace', () => {
   , file_hash: hash
   })
 
-  const iter = getAllItemIdsByFileHashAndNamespace(hash, namespace1)
-  const result = toArray(iter)
+  const result = getAllItemIdsByFileHashAndNamespace(hash, namespace1)
 
-  expect(result).toEqual([itemId1, itemId2])
+  expect(result).toStrictEqual([itemId1, itemId2])
 })

@@ -1,13 +1,12 @@
 import { getDatabase } from '@src/database.js'
-import { map } from 'iterable-operator'
 import { withLazyStatic, lazyStatic } from 'extra-lazy'
 
-export const getAllNamespaces = withLazyStatic((): Iterable<string> => {
-  const iter = lazyStatic(() => getDatabase().prepare(`
+export const getAllNamespaces = withLazyStatic((): string[] => {
+  const rows = lazyStatic(() => getDatabase().prepare(`
     SELECT DISTINCT namespace
       FROM refile_reference;
   `), [getDatabase()])
-    .iterate() as IterableIterator<{ namespace: string }>
+    .all() as Array<{ namespace: string }>
 
-  return map(iter, row => row['namespace'])
+  return rows.map(row => row['namespace'])
 })

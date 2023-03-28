@@ -1,5 +1,5 @@
 import * as crypto from 'crypto'
-import { NotMatchedError, SplitHashValidator } from 'split-hash/nodejs'
+import { NotMatchedError, ProgressiveHashFactory, SplitHashValidator } from 'split-hash/nodejs'
 import { go, isntNull } from '@blackglory/prelude'
 import { setFile } from '@dao/database/set-file.js'
 import { saveFile } from '@dao/storage/save-file.js'
@@ -57,7 +57,7 @@ function mergeHash(strArr: string[]): string {
   return hash.digest('hex')
 }
 
-function createHash() {
+function createHash(): ReturnType<ProgressiveHashFactory<string>> {
   const hash = crypto.createHash('sha256')
   return {
     update(buffer: Buffer) {

@@ -1,10 +1,11 @@
 import { FastifyPluginAsync } from 'fastify'
 import { hashSchema } from '@src/schema.js'
-import { IAPI } from '@src/contract.js'
+import { IAPI, IFileInfo } from '@src/contract.js'
 
 export const routes: FastifyPluginAsync<{ API: IAPI }> = async (server, { API }) => {
   server.get<{
     Params: { hash: string }
+    Reply: IFileInfo
   }>(
     '/files/:hash'
   , {

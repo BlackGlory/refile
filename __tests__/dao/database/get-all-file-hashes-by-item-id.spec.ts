@@ -1,7 +1,6 @@
 import { getAllFileHashesByItemId } from '@dao/database/get-all-file-hashes-by-item-id.js'
 import { initializeDatabases, clearDatabases } from '@test/utils.js'
 import { setRawReference } from './utils.js'
-import { toArray } from 'iterable-operator'
 
 beforeEach(initializeDatabases)
 afterEach(clearDatabases)
@@ -31,8 +30,7 @@ test('getAllFileHashesByItemId', () => {
   , file_hash: 'hash4'
   })
 
-  const iter = getAllFileHashesByItemId(namespace1, id)
-  const result = toArray(iter)
+  const result = getAllFileHashesByItemId(namespace1, id)
 
-  expect(result).toEqual(['hash1', 'hash2'])
+  expect(result).toStrictEqual(['hash1', 'hash2'])
 })

@@ -12,11 +12,11 @@ export interface IAPI {
   getFileInfo(fileHash: string): IFileInfo
   getFileLocation(fileHash: string): string | null
 
-  getAllNamespaces(): Iterable<string>
-  getAllItemIds(namespace: string): Iterable<string>
+  getAllNamespaces(): string[]
+  getAllItemIds(namespace: string): string[]
 
-  getItemIdsByFileHash(namespace: string, fileHash: string): Iterable<string>
-  getFileHashesByItemId(namespace: string, itemId: string): Iterable<string>
+  getItemIdsByFileHash(namespace: string, fileHash: string): string[]
+  getFileHashesByItemId(namespace: string, itemId: string): string[]
 
   /**
    * @throws {FileAlreadyExists}

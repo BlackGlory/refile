@@ -1,7 +1,6 @@
 import { getAllNamespaces } from '@dao/database/get-all-namespaces.js'
 import { initializeDatabases, clearDatabases } from '@test/utils.js'
 import { setRawReference } from './utils.js'
-import { toArray } from 'iterable-operator'
 
 beforeEach(initializeDatabases)
 afterEach(clearDatabases)
@@ -22,8 +21,7 @@ test('getAllNamespaces', () => {
   , file_hash: hash
   })
 
-  const iter = getAllNamespaces()
-  const result = toArray(iter)
+  const result = getAllNamespaces()
 
-  expect(result).toEqual([namespace1, namespace2])
+  expect(result).toStrictEqual([namespace1, namespace2])
 })

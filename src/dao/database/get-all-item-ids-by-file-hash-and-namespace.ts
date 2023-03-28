@@ -1,18 +1,17 @@
 import { getDatabase } from '@src/database.js'
-import { map } from 'iterable-operator'
 import { withLazyStatic, lazyStatic } from 'extra-lazy'
 
 export const getAllItemIdsByFileHashAndNamespace = withLazyStatic((
   fileHash: string
 , namespace: string
-): Iterable<string> => {
-  const iter = lazyStatic(() => getDatabase().prepare(`
+): string[] => {
+  const rows = lazyStatic(() => getDatabase().prepare(`
     SELECT id
       FROM refile_reference
      WHERE file_hash = $fileHash
        AND namespace = $namespace;
   `), [getDatabase()])
-    .iterate({ namespace, fileHash }) as Iterable<{ id: string }>
+    .all({ namespace, fileHash }) as Array<{ id: string }>
 
-  return map(iter, row => row['id'])
+  return rows.map(row => row['id'])
 })

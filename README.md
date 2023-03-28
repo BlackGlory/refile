@@ -213,10 +213,6 @@ await fetch(`http://localhost:8080/namespaces/${namespace}`, {
 string[]
 ```
 
-如果设置了请求头`Accept: application/x-ndjson`, 则会以[ndjson]格式返回.
-
-[ndjson]: https://github.com/ndjson/ndjson-spec
-
 #### Example
 ##### curl
 ```sh
@@ -238,10 +234,6 @@ await fetch('http://localhost:8080/namespaces')
 ```ts
 string[]
 ```
-
-如果设置了请求头`Accept: application/x-ndjson`, 则会以[ndjson]格式返回.
-
-[ndjson]: https://github.com/ndjson/ndjson-spec
 
 #### Example
 ##### curl
@@ -265,10 +257,6 @@ await fetch(`http://localhost:8080/namespaces/${namespace}/items`)
 string[]
 ```
 
-如果设置了请求头`Accept: application/x-ndjson`, 则会以[ndjson]格式返回.
-
-[ndjson]: https://github.com/ndjson/ndjson-spec
-
 #### Example
 ##### curl
 ```sh
@@ -290,10 +278,6 @@ await fetch(`http://localhost:8080/namespace/${namespace}/items/${id}/files`)
 ```ts
 string[]
 ```
-
-如果设置了请求头`Accept: application/x-ndjson`, 则会以[ndjson]格式返回.
-
-[ndjson]: https://github.com/ndjson/ndjson-spec
 
 #### Example
 ##### curl
