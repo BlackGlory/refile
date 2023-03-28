@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.10.0](https://github.com/BlackGlory/refile/compare/v0.9.2...v0.10.0) (2023-03-28)
+
+
+### ⚠ BREAKING CHANGES
+
+* Removed NDJSON support
+
+* remove NDJSON support ([ec484f6](https://github.com/BlackGlory/refile/commit/ec484f6b22104d768103bbcaa963b125cd5a85c8))
+
 ### [0.9.2](https://github.com/BlackGlory/refile/compare/v0.9.1...v0.9.2) (2023-03-27)
 
 ### [0.9.1](https://github.com/BlackGlory/refile/compare/v0.9.0...v0.9.1) (2023-03-11)
