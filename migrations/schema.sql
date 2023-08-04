@@ -13,7 +13,7 @@ CREATE TABLE refile_reference (
   namespace VARCHAR(255) NOT NULL
 , id        VARCHAR(255) NOT NULL
 , file_hash VARCHAR(64)  NOT NULL
-, UNIQUE (namespace, item_id, file_hash)
+, UNIQUE (namespace, id, file_hash)
 );
 
 -- 优化 countReferences
