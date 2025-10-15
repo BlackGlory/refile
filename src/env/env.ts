@@ -1,7 +1,5 @@
 import { ValueGetter } from 'value-getter'
-import { isNumber } from '@blackglory/prelude'
 import { Getter } from '@blackglory/prelude'
-import { assert } from '@blackglory/errors'
 import { getCache } from '@env/cache.js'
 import * as path from 'path'
 import { getAppRoot } from '@utils/get-app-root.js'
@@ -59,7 +57,6 @@ function env(name: string): ValueGetter<string | undefined> {
   return new ValueGetter(name, () => process.env[name])
 }
 
-function toInteger(val: string | number | undefined ): number | undefined {
-  if (isNumber(val)) return val
+function toInteger(val: string | undefined): number | undefined {
   if (val) return Number.parseInt(val, 10)
 }
