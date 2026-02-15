@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.10.1](https://github.com/BlackGlory/refile/compare/v0.10.0...v0.10.1) (2026-02-15)
+
+
+### Features
+
+* **http:** reject `text/plain` request body ([8afe5dd](https://github.com/BlackGlory/refile/commit/8afe5dd0d42be875ababc5ed23fb4928d73db2f5))
+
 ## [0.10.0](https://github.com/BlackGlory/refile/compare/v0.9.2...v0.10.0) (2023-03-28)
 
 
