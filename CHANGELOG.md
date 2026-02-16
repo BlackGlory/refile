@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.10.2](https://github.com/BlackGlory/refile/compare/v0.10.1...v0.10.2) (2026-02-16)
+
+
+### Features
+
+* **server:** improve robustness ([f3dc4a2](https://github.com/BlackGlory/refile/commit/f3dc4a22f7072e5934c555566718c483d2126d14))
+
 ### [0.10.1](https://github.com/BlackGlory/refile/compare/v0.10.0...v0.10.1) (2026-02-15)
 
 
