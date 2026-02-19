@@ -1,7 +1,7 @@
 import { FastifyPluginAsync } from 'fastify'
 import { hashSchema } from '@src/schema.js'
 import multipart, { Multipart, MultipartValue, MultipartFields } from '@fastify/multipart'
-import { isArray } from '@blackglory/prelude'
+import { isArray, isString } from '@blackglory/prelude'
 import { IAPI, FileAlreadyExists, IncorrectFileHash, IncorrectHashList, NoReferences } from '@src/contract.js'
 
 export const routes: FastifyPluginAsync<{ API: IAPI }> = async (server, { API }) => {
@@ -74,20 +74,26 @@ export const routes: FastifyPluginAsync<{ API: IAPI }> = async (server, { API })
 
 function getHashList(fields: MultipartFields): string[] {
   if (fields['hash']) {
-    const hash = fields.hash
-    if (isArray(hash)) {
-      if (hash.every(isMultipartValue)) {
-        return hash.map(x => x.value)
+    const hashField = fields.hash
+    if (isArray(hashField)) {
+      if (hashField.every(isMultipartValue)) {
+        const values = hashField.map(x => x.value)
+        // 不确定验证为字符串是否必要, 因为multipart只能原生封装字符串和二进制.
+        // 此处的验证只是考虑到MultipartValue支持泛型且默认为unknown.
+        if (values.every(isString)) return values
       }
     } else {
-      if (isMultipartValue(hash)) {
-        return [hash.value]
+      if (isMultipartValue(hashField)) {
+        const value = hashField.value
+        // 不确定验证为字符串是否必要, 因为multipart只能原生封装字符串和二进制.
+        // 此处的验证只是考虑到MultipartValue支持泛型且默认为unknown.
+        if (isString(value)) return [value]
       }
     }
   }
   return []
 }
 
-function isMultipartValue(val: Multipart | Multipart[]): val is MultipartValue<string> {
+function isMultipartValue(val: Multipart | Multipart[]): val is MultipartValue {
   return 'value' in val
 }
