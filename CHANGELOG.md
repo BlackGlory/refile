@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.10.3](https://github.com/BlackGlory/refile/compare/v0.10.2...v0.10.3) (2026-02-19)
+
+
+### Features
+
+* **upload-file:** add multipart field validators ([04d88b3](https://github.com/BlackGlory/refile/commit/04d88b30a61c7b1daaa0ed54b289d54b496096c6))
+
 ### [0.10.2](https://github.com/BlackGlory/refile/compare/v0.10.1...v0.10.2) (2026-02-16)
 
 
