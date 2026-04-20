@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.10.4](https://github.com/BlackGlory/refile/compare/v0.10.3...v0.10.4) (2026-04-20)
+
+
+### Features
+
+* relax the regex associated with namespaces and item ids ([9f5a68d](https://github.com/BlackGlory/refile/commit/9f5a68dc8a9d25139dcfba19369f55234365d16e))
+
 ### [0.10.3](https://github.com/BlackGlory/refile/compare/v0.10.2...v0.10.3) (2026-02-19)
 
 
