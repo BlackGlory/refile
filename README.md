@@ -51,7 +51,7 @@ volumes:
 ```
 
 ## API
-所有API中的namespace和id都需要满足此正则表达式: `^[a-zA-Z0-9\.\-_]{0,255}$`
+所有API中的namespace和id都需要满足此正则表达式: `^.{0,255}$`.
 
 ### upload file
 `PUT /files/<hash>`
